@@ -1,5 +1,11 @@
 <?php
 
+/**
+ *
+ *
+ *
+ * 
+ */
 class dRequest {
 
 	private $settings = array();
