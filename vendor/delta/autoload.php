@@ -3,6 +3,12 @@
 dAutoloader::Register();
 dRequest::getInstance();
 
+/**
+ *
+ *
+ *
+ * 
+ */
 class dAutoloader {
 
 	const DELTA_ROOT = __DIR__;

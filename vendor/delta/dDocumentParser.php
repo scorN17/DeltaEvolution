@@ -1,5 +1,11 @@
 <?php
 
+/**
+ *
+ *
+ *
+ * 
+ */
 class dDocumentParser extends DocumentParser {
 	use user_u; 
 	use user_uOrders;
