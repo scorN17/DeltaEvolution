@@ -6,17 +6,17 @@
  *
  * 
  */
-class dRequest {
+class Rst {
 
 	private $settings = array();
 	private static $_instance = null;
-	private $POST = array();
-	private static $GET = array();
+	private $P = array();
+	private static $G = array();
 
 	private function __construct() {
-		$this->POST = $_POST;
-		//$this->GET = $_GET;
-		self::$GET = $_GET;
+		$this->P = $_POST;
+		//$this->G = $_GET;
+		self::$G = $_GET;
 	}
 
 
@@ -39,18 +39,18 @@ class dRequest {
 
 
 	public static function POST() {
-		return ($this->POST);
+		return ($this->P);
 	}
 
 
 	public static function GET() {
-		return (self::$GET);
+		return (self::$G);
 	}
 
 	public static function fieldGET($feild = false) {
 		if (! $feild ) return false;
-		if (array_key_exists($feild , self::$GET) ) {
-			return  self::$GET[$feild];
+		if (array_key_exists($feild , self::$G) ) {
+			return  self::$G[$feild];
 		}
 		return false; 
 	}
@@ -58,8 +58,8 @@ class dRequest {
 
 	public static function fieldPOST($feild = false) {
 		if (! $feild ) return false;
-		if (array_key_exists($feild , self::$POST) ) {
-			return self::$POST[$feild];
+		if (array_key_exists($feild , self::$P) ) {
+			return self::$P[$feild];
 		}
 		return false; 
 	}

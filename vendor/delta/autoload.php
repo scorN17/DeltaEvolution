@@ -1,7 +1,7 @@
 <?php
 
 dAutoloader::Register();
-dRequest::getInstance();
+Rst::getInstance();
 
 /**
  *
