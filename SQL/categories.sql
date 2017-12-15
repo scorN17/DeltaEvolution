@@ -6,12 +6,14 @@ CREATE TABLE IF NOT EXISTS `delta__categories_tree` (
   INDEX `idx_parent` (`parent` ASC));
 
 
+
 ALTER TABLE `delta__categories_tree` 
 ADD CONSTRAINT `fk_cat_to_parent`
   FOREIGN KEY (`parent`)
   REFERENCES `deltaEvo`.`delta__categories_tree` (`id_category`)
   ON DELETE CASCADE
   ON UPDATE NO ACTION;
+
 
 
 
