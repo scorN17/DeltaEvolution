@@ -1,6 +1,3 @@
-USE `deltaEvo`;
-
-
 DROP TABLE IF EXISTS `delta__users`;
 CREATE TABLE `delta__users` (
   `id_user` INT NOT NULL AUTO_INCREMENT,
