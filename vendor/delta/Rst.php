@@ -8,7 +8,8 @@
  */
 class Rst {
 
-	private $settings = array();
+
+    private $settings = array();
 	private static $_instance = null;
 	private $P = array();
 	private static $G = array();
