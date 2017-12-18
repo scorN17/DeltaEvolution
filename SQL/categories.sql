@@ -7,14 +7,6 @@ CREATE TABLE IF NOT EXISTS `delta__categories_tree` (
 
 
 
-ALTER TABLE `delta__categories_tree` 
-ADD CONSTRAINT `fk_cat_to_parent`
-  FOREIGN KEY (`parent`)
-  REFERENCES `deltaEvo`.`delta__categories_tree` (`id_category`)
-  ON DELETE CASCADE
-  ON UPDATE NO ACTION;
-
-
 
 
 DROP TABLE IF EXISTS `delta__categories_props`;
@@ -31,10 +23,10 @@ CREATE TABLE IF NOT EXISTS `delta__categories_props` (
   INDEX `fk_id_cat_to_main_idx` (`id_category` ASC),
   UNIQUE INDEX `position_UNIQUE` (`position` ASC),
   CONSTRAINT `fk_id_cat_to_main`
-    FOREIGN KEY (`id_category`)
-    REFERENCES `deltaEvo`.`delta__categories_tree` (`id_category`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION);
+	FOREIGN KEY (`id_category`)
+	REFERENCES `deltaEvo`.`delta__categories_tree` (`id_category`)
+	ON DELETE CASCADE
+	ON UPDATE NO ACTION);
 
 
 
@@ -56,14 +48,44 @@ ALTER TABLE `delta__categories_description`
 ALTER TABLE `delta__categories_description` 
 ADD INDEX `fk_id_to_main_idx` (`id_category` ASC),
 ADD INDEX `fk_id_lang_descr_to_main_idx` (`id_language` ASC);
-ALTER TABLE `deltaEvo`.`delta__categories_description` 
+ALTER TABLE `delta__categories_description` 
 ADD CONSTRAINT `fk_id_cat_descr_to_main`
   FOREIGN KEY (`id_category`)
-  REFERENCES `deltaEvo`.`delta__categories_tree` (`id_category`)
+  REFERENCES `delta__categories_tree` (`id_category`)
   ON DELETE CASCADE
   ON UPDATE NO ACTION,
 ADD CONSTRAINT `fk_id_lang_descr_to_main`
   FOREIGN KEY (`id_language`)
-  REFERENCES `deltaEvo`.`delta__language` (`id_language`)
+  REFERENCES `delta__language` (`id_language`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
+
+
+
+
+
+
+
+CREATE 
+	OR REPLACE ALGORITHM = UNDEFINED 
+	DEFINER = `root`@`%` 
+	SQL SECURITY DEFINER
+VIEW `v_categories` AS
+	SELECT 
+		`ct`.`id_category` AS `id_category`,
+		`ct`.`parent` AS `parent`,
+		`cp`.`alias` AS `alias`,
+		`cp`.`cover` AS `cover`,
+		`cp`.`visible` AS `visible`,
+		`cp`.`searcable` AS `searcable`,
+		`cp`.`visible_child` AS `visible_child`,
+		`cp`.`created` AS `created`,
+		`cp`.`counter` AS `counter`,
+		`cd`.`name` AS `name`,
+		`cd`.`description` AS `description`
+	FROM
+		(`delta__categories_tree` `ct`
+		  JOIN `delta__categories_props` `cp` ON ((`ct`.`id_category` = `cp`.`id_category`))
+		  JOIN `delta__categories_description` `cd` ON ((`ct`.`id_category` = `cd`.`id_category`))
+		);
+
