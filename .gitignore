@@ -1,6 +1,7 @@
 # and any files in the cache directory
 /assets/*
 /manager/*
+/.idea/*
 
 # except do not ignore .gitignore
 !.gitignore
