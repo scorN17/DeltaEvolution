@@ -30,6 +30,7 @@ class dDocumentParser extends DocumentParser {
 	*/
 
 	public $urlXParams = false; //scorn
+	public $dAliasPath = false;
 
 
 
