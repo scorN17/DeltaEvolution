@@ -10,7 +10,6 @@ SET @OLD_SQL_MODE = @@SQL_MODE, SQL_MODE = 'TRADITIONAL,ALLOW_INVALID_DATES';
 -- -----------------------------------------------------
 -- Schema deltaevo
 -- -----------------------------------------------------
-USE `deltaevo`;
 
 -- -----------------------------------------------------
 -- Table `deltaevo`.`delta__language`
@@ -131,7 +130,7 @@ CREATE TABLE IF NOT EXISTS `deltaevo`.`delta__product_options` (
   `id_product`      INT                      NOT NULL,
   `visible`         SET ('1', '0')           NULL DEFAULT '1',
   `searchable`      SET ('1', '0')           NULL DEFAULT '1',
-  `deleted`         SET ('1', '0')           NULL DEFAULT 0,
+  `deleted`         SET ('1', '0')           NULL DEFAULT '0',
   `state_stock`     SET ('0', '1', '2', '3') NULL DEFAULT '1',
   `counter_visible` INT                      NULL DEFAULT 0,
   `create_date`     VARCHAR(20)              NULL,
@@ -179,23 +178,23 @@ CREATE TABLE IF NOT EXISTS `deltaevo`.`delta__vendor_to_product` (
 -- -----------------------------------------------------
 -- Table `deltaevo`.`delta__product_to_directory`
 -- -----------------------------------------------------
+
+
+
 CREATE TABLE IF NOT EXISTS `deltaevo`.`delta__product_to_directory` (
-  `id_product` INT NULL,
-  `id_sc`      INT NULL,
+  `id_product` INT NOT NULL,
+  `id_sc`      INT(10) NOT NULL,
   INDEX `to_product_idx` (`id_product` ASC),
   INDEX `to_directory_idx` (`id_sc` ASC),
   CONSTRAINT `to_product_prod_to_dir`
   FOREIGN KEY (`id_product`)
   REFERENCES `deltaevo`.`delta__product` (`id_product`)
     ON DELETE CASCADE
-    ON UPDATE NO ACTION,
-  CONSTRAINT `to_directory_prod_to_dir`
-  FOREIGN KEY (`id_sc`)
-  REFERENCES `deltaevo`.`delta_site_content` (`id`)
-    ON DELETE CASCADE
     ON UPDATE NO ACTION
 )
   ENGINE = InnoDB;
+
+
 
 -- -----------------------------------------------------
 -- Table `deltaevo`.`delta__props_group`
@@ -355,6 +354,31 @@ CREATE OR REPLACE ALGORITHM = UNDEFINED
     `ua`.`apartment`        AS `apartment`
   FROM (`deltaevo`.`delta__users` `u`
     JOIN `deltaevo`.`delta__users_address` `ua` ON ((`u`.`id_user` = `ua`.`id_user`)));
+
+
+
+
+
+-- -----------------------------------------------------
+-- View `deltaevo`.`v_product_dir_and_option`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `deltaevo`.`v_product_dir_and_option`;
+USE `deltaevo`;
+CREATE OR REPLACE ALGORITHM = UNDEFINED
+  DEFINER =`root`@`%`
+  SQL SECURITY DEFINER VIEW `deltaevo`.`v_product_dir_and_option` AS
+  SELECT
+    `pd`.`id_product`       AS `id_product`,
+    `pd`.`id_sc`            AS `id_sc`,
+    `po`.`visible`          AS `visible`,
+    `po`.`searchable`       AS `searchable`,
+    `po`.`deleted`          AS `deleted`,
+    `po`.`state_stock`      AS `state_stock`,
+    `po`.`counter_visible`  AS `counter_visible`,
+    `po`.`create_date`      AS `create_date`,
+    `po`.`update_date`      AS `update_date`
+  FROM (`deltaevo`.`delta__product_to_directory` `pd`
+    JOIN `deltaevo`.`delta__product_options` `po` ON ((`pd`.`id_product` = `po`.`id_product`)));
 
 SET SQL_MODE = @OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS;

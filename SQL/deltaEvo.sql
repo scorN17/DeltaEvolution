@@ -1,11 +1,9 @@
-USE `deltaEvo`;
-
 -- phpMyAdmin SQL Dump
 -- version 4.4.15.7
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Дек 14 2017 г., 16:26
+-- Время создания: Янв 04 2018 г., 19:06
 -- Версия сервера: 5.5.50-log
 -- Версия PHP: 7.0.8
 
@@ -29,12 +27,12 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `delta_active_users` (
-  `sid`         VARCHAR(32) NOT NULL DEFAULT '',
-  `internalKey` INT(9)      NOT NULL DEFAULT '0',
-  `username`    VARCHAR(50) NOT NULL DEFAULT '',
-  `lasthit`     INT(20)     NOT NULL DEFAULT '0',
-  `action`      VARCHAR(10) NOT NULL DEFAULT '',
-  `id`          INT(10)              DEFAULT NULL
+  `sid` varchar(32) NOT NULL DEFAULT '',
+  `internalKey` int(9) NOT NULL DEFAULT '0',
+  `username` varchar(50) NOT NULL DEFAULT '',
+  `lasthit` int(20) NOT NULL DEFAULT '0',
+  `action` varchar(10) NOT NULL DEFAULT '',
+  `id` int(10) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Contains data about last user action.';
 
 --
@@ -42,7 +40,8 @@ CREATE TABLE IF NOT EXISTS `delta_active_users` (
 --
 
 INSERT INTO `delta_active_users` (`sid`, `internalKey`, `username`, `lasthit`, `action`, `id`) VALUES
-('5pnv2e0pjis7ek63fl28lg2ce3', 1, 'admin', 1513257383, '76', NULL);
+('5pnv2e0pjis7ek63fl28lg2ce3', 1, 'admin', 1513257383, '76', NULL),
+('2fvhk6eel8ueheppooidluvom3', 1, 'admin', 1515081521, '102', 11);
 
 -- --------------------------------------------------------
 
@@ -51,13 +50,20 @@ INSERT INTO `delta_active_users` (`sid`, `internalKey`, `username`, `lasthit`, `
 --
 
 CREATE TABLE IF NOT EXISTS `delta_active_user_locks` (
-  `id`          INT(10)     NOT NULL,
-  `sid`         VARCHAR(32) NOT NULL DEFAULT '',
-  `internalKey` INT(9)      NOT NULL DEFAULT '0',
-  `elementType` INT(1)      NOT NULL DEFAULT '0',
-  `elementId`   INT(10)     NOT NULL DEFAULT '0',
-  `lasthit`     INT(20)     NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Contains data about locked elements.';
+  `id` int(10) NOT NULL,
+  `sid` varchar(32) NOT NULL DEFAULT '',
+  `internalKey` int(9) NOT NULL DEFAULT '0',
+  `elementType` int(1) NOT NULL DEFAULT '0',
+  `elementId` int(10) NOT NULL DEFAULT '0',
+  `lasthit` int(20) NOT NULL DEFAULT '0'
+) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COMMENT='Contains data about locked elements.';
+
+--
+-- Дамп данных таблицы `delta_active_user_locks`
+--
+
+INSERT INTO `delta_active_user_locks` (`id`, `sid`, `internalKey`, `elementType`, `elementId`, `lasthit`) VALUES
+(24, '2fvhk6eel8ueheppooidluvom3', 1, 5, 11, 1515081521);
 
 -- --------------------------------------------------------
 
@@ -66,10 +72,10 @@ CREATE TABLE IF NOT EXISTS `delta_active_user_locks` (
 --
 
 CREATE TABLE IF NOT EXISTS `delta_active_user_sessions` (
-  `sid`         VARCHAR(32) NOT NULL DEFAULT '',
-  `internalKey` INT(9)      NOT NULL DEFAULT '0',
-  `lasthit`     INT(20)     NOT NULL DEFAULT '0',
-  `ip`          VARCHAR(50) NOT NULL DEFAULT ''
+  `sid` varchar(32) NOT NULL DEFAULT '',
+  `internalKey` int(9) NOT NULL DEFAULT '0',
+  `lasthit` int(20) NOT NULL DEFAULT '0',
+  `ip` varchar(50) NOT NULL DEFAULT ''
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Contains data about valid user sessions.';
 
 --
@@ -77,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `delta_active_user_sessions` (
 --
 
 INSERT INTO `delta_active_user_sessions` (`sid`, `internalKey`, `lasthit`, `ip`) VALUES
-('5pnv2e0pjis7ek63fl28lg2ce3', 1, 1513257985, '127.0.0.1');
+('2fvhk6eel8ueheppooidluvom3', 1, 1515081893, '127.0.0.1');
 
 -- --------------------------------------------------------
 
@@ -86,9 +92,9 @@ INSERT INTO `delta_active_user_sessions` (`sid`, `internalKey`, `lasthit`, `ip`)
 --
 
 CREATE TABLE IF NOT EXISTS `delta_categories` (
-  `id`       INT(11)         NOT NULL,
-  `category` VARCHAR(45)     NOT NULL DEFAULT '',
-  `rank`     INT(5) UNSIGNED NOT NULL DEFAULT '0'
+  `id` int(11) NOT NULL,
+  `category` varchar(45) NOT NULL DEFAULT '',
+  `rank` int(5) unsigned NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='Categories to be used snippets,tv,chunks, etc';
 
 --
@@ -108,12 +114,10 @@ INSERT INTO `delta_categories` (`id`, `category`, `rank`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `delta_documentgroup_names` (
-  `id`               INT(10)      NOT NULL,
-  `name`             VARCHAR(245) NOT NULL DEFAULT '',
-  `private_memgroup` TINYINT(4)            DEFAULT '0'
-  COMMENT 'determine whether the document group is private to manager users',
-  `private_webgroup` TINYINT(4)            DEFAULT '0'
-  COMMENT 'determines whether the document is private to web users'
+  `id` int(10) NOT NULL,
+  `name` varchar(245) NOT NULL DEFAULT '',
+  `private_memgroup` tinyint(4) DEFAULT '0' COMMENT 'determine whether the document group is private to manager users',
+  `private_webgroup` tinyint(4) DEFAULT '0' COMMENT 'determines whether the document is private to web users'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Contains data used for access permissions.';
 
 -- --------------------------------------------------------
@@ -123,9 +127,9 @@ CREATE TABLE IF NOT EXISTS `delta_documentgroup_names` (
 --
 
 CREATE TABLE IF NOT EXISTS `delta_document_groups` (
-  `id`             INT(10) NOT NULL,
+  `id` int(10) NOT NULL,
   `document_group` int(10) NOT NULL DEFAULT '0',
-  `document`       INT(10) NOT NULL DEFAULT '0'
+  `document` int(10) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Contains data used for access permissions.';
 
 -- --------------------------------------------------------
@@ -135,18 +139,22 @@ CREATE TABLE IF NOT EXISTS `delta_document_groups` (
 --
 
 CREATE TABLE IF NOT EXISTS `delta_event_log` (
-  `id`          INT(11)     NOT NULL,
-  `eventid`     INT(11)              DEFAULT '0',
-  `createdon`   INT(11)     NOT NULL DEFAULT '0',
-  `type`        TINYINT(4)  NOT NULL DEFAULT '1'
-  COMMENT '1- information, 2 - warning, 3- error',
-  `user`        INT(11)     NOT NULL DEFAULT '0'
-  COMMENT 'link to user table',
-  `usertype`    TINYINT(4)  NOT NULL DEFAULT '0'
-  COMMENT '0 - manager, 1 - web',
-  `source`      VARCHAR(50) NOT NULL DEFAULT '',
+  `id` int(11) NOT NULL,
+  `eventid` int(11) DEFAULT '0',
+  `createdon` int(11) NOT NULL DEFAULT '0',
+  `type` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1- information, 2 - warning, 3- error',
+  `user` int(11) NOT NULL DEFAULT '0' COMMENT 'link to user table',
+  `usertype` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0 - manager, 1 - web',
+  `source` varchar(50) NOT NULL DEFAULT '',
   `description` text
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Stores event and error logs';
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Stores event and error logs';
+
+--
+-- Дамп данных таблицы `delta_event_log`
+--
+
+INSERT INTO `delta_event_log` (`id`, `eventid`, `createdon`, `type`, `user`, `usertype`, `source`, `description`) VALUES
+(1, 0, 1515080010, 3, 0, 1, 'Parser / Incorrect number of templates returned fr', '<h2 style="color:red">&laquo; Evo Parse Error &raquo;</h2><h3 style="color:red">Incorrect number of templates returned from database</h3>\n<table class="grid">\n</table>\n<br />\n<table class="grid">\n	<thead>\n	<tr class="">\n		<th width="100px" >Basic info</th>\n		<th></th>\n	</tr>\n	</thead>\n	<tr class="gridItem">\n		<td>REQUEST_URI</td>\n		<td>http://evolution/catalog.html</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>Resource</td>\n		<td>[3] <a href="http://evolution/catalog.html" target="_blank">Каталог</a></td>\n	</tr>\n	<tr class="gridItem">\n		<td>Referer</td>\n		<td>http://evolution/manager/</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>User Agent</td>\n		<td>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36</td>\n	</tr>\n	<tr class="gridItem">\n		<td>IP</td>\n		<td>127.0.0.1</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>Current time</td>\n		<td>2018-01-04 18:33:30</td>\n	</tr>\n</table>\n<br />\n<table class="grid">\n	<thead>\n	<tr class="">\n		<th width="100px" >Benchmarks</th>\n		<th></th>\n	</tr>\n	</thead>\n	<tr class="gridItem">\n		<td>MySQL</td>\n		<td>0.0063 s (5 Requests)</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>PHP</td>\n		<td>0.0340 s</td>\n	</tr>\n	<tr class="gridItem">\n		<td>Total</td>\n		<td>0.0404 s</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>Memory</td>\n		<td>1.6412734985352 mb</td>\n	</tr>\n</table>\n<br />\n<table class="grid">\n	<thead>\n	<tr class="">\n		<th>Backtrace</th>\n	</tr>\n	</thead>\n	<tr class="gridItem">\n		<td><strong>DocumentParser->executeParser</strong>()<br />index.php on line 134</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td><strong>DocumentParser->prepareResponse</strong>()<br />manager/includes/document.parser.class.inc.php on line 2737</td>\n	</tr>\n	<tr class="gridItem">\n		<td><strong>DocumentParser->_getTemplateCodeFromDB</strong>(4)<br />manager/includes/document.parser.class.inc.php on line 2832</td>\n	</tr>\n</table>\n');
 
 -- --------------------------------------------------------
 
@@ -155,15 +163,15 @@ CREATE TABLE IF NOT EXISTS `delta_event_log` (
 --
 
 CREATE TABLE IF NOT EXISTS `delta_manager_log` (
-  `id`          INT(10)      NOT NULL,
-  `timestamp`   INT(20)      NOT NULL DEFAULT '0',
-  `internalKey` INT(10)      NOT NULL DEFAULT '0',
-  `username`    VARCHAR(255)          DEFAULT NULL,
-  `action`      INT(10)      NOT NULL DEFAULT '0',
-  `itemid`      VARCHAR(10)           DEFAULT '0',
-  `itemname`    VARCHAR(255)          DEFAULT NULL,
-  `message`     VARCHAR(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COMMENT='Contains a record of user interaction.';
+  `id` int(10) NOT NULL,
+  `timestamp` int(20) NOT NULL DEFAULT '0',
+  `internalKey` int(10) NOT NULL DEFAULT '0',
+  `username` varchar(255) DEFAULT NULL,
+  `action` int(10) NOT NULL DEFAULT '0',
+  `itemid` varchar(10) DEFAULT '0',
+  `itemname` varchar(255) DEFAULT NULL,
+  `message` varchar(255) NOT NULL DEFAULT ''
+) ENGINE=MyISAM AUTO_INCREMENT=56 DEFAULT CHARSET=utf8 COMMENT='Contains a record of user interaction.';
 
 --
 -- Дамп данных таблицы `delta_manager_log`
@@ -185,7 +193,46 @@ INSERT INTO `delta_manager_log` (`id`, `timestamp`, `internalKey`, `username`, `
 (13, 1513257368, 1, 'admin', 102, '2', 'ElementsInTree', 'Edit plugin'),
 (14, 1513257371, 1, 'admin', 103, '2', 'ElementsInTree', 'Saving plugin'),
 (15, 1513257371, 1, 'admin', 76, '-', '-', 'Element management'),
-(16, 1513257383, 1, 'admin', 76, '-', '-', 'Element management');
+(16, 1513257383, 1, 'admin', 76, '-', '-', 'Element management'),
+(17, 1515077403, 1, 'admin', 102, '11', '-', 'Edit plugin'),
+(18, 1515077410, 1, 'admin', 102, '11', '-', 'Edit plugin'),
+(19, 1515077411, 1, 'admin', 101, '-', 'Новый плагин', 'Create new plugin'),
+(20, 1515077425, 1, 'admin', 103, '-', 'test', 'Saving plugin'),
+(21, 1515077425, 1, 'admin', 102, '11', 'test', 'Edit plugin'),
+(22, 1515077952, 1, 'admin', 102, '11', 'test', 'Edit plugin'),
+(23, 1515077975, 1, 'admin', 103, '11', 'test', 'Saving plugin'),
+(24, 1515077975, 1, 'admin', 102, '11', 'test', 'Edit plugin'),
+(25, 1515078243, 1, 'admin', 103, '11', 'test', 'Saving plugin'),
+(26, 1515078243, 1, 'admin', 102, '11', 'test', 'Edit plugin'),
+(27, 1515078342, 1, 'admin', 103, '11', 'test', 'Saving plugin'),
+(28, 1515078342, 1, 'admin', 102, '11', 'test', 'Edit plugin'),
+(29, 1515078399, 1, 'admin', 103, '11', 'test', 'Saving plugin'),
+(30, 1515078399, 1, 'admin', 102, '11', 'test', 'Edit plugin'),
+(31, 1515078425, 1, 'admin', 103, '11', 'test', 'Saving plugin'),
+(32, 1515078425, 1, 'admin', 102, '11', 'test', 'Edit plugin'),
+(33, 1515078919, 1, 'admin', 103, '11', 'test', 'Saving plugin'),
+(34, 1515078919, 1, 'admin', 102, '11', 'test', 'Edit plugin'),
+(35, 1515079929, 1, 'admin', 103, '11', 'test', 'Saving plugin'),
+(36, 1515079929, 1, 'admin', 102, '11', 'test', 'Edit plugin'),
+(37, 1515079963, 1, 'admin', 103, '11', 'test', 'Saving plugin'),
+(38, 1515079963, 1, 'admin', 102, '11', 'test', 'Edit plugin'),
+(39, 1515080021, 1, 'admin', 19, '-', 'Новый шаблон', 'Creating a new template'),
+(40, 1515080028, 1, 'admin', 20, '-', 'Каталог', 'Saving template'),
+(41, 1515080028, 1, 'admin', 16, '4', 'Каталог', 'Editing template'),
+(42, 1515080042, 1, 'admin', 27, '3', 'Каталог', 'Editing resource'),
+(43, 1515080044, 1, 'admin', 5, '3', 'Каталог', 'Saving resource'),
+(44, 1515080044, 1, 'admin', 27, '3', 'Каталог', 'Editing resource'),
+(45, 1515080048, 1, 'admin', 27, '4', 'Компьютеры и периферия', 'Editing resource'),
+(46, 1515080049, 1, 'admin', 5, '4', 'Компьютеры и периферия', 'Saving resource'),
+(47, 1515080049, 1, 'admin', 27, '4', 'Компьютеры и периферия', 'Editing resource'),
+(48, 1515080051, 1, 'admin', 26, '-', '-', 'Refreshing site'),
+(49, 1515080054, 1, 'admin', 27, '4', 'Компьютеры и периферия', 'Editing resource'),
+(50, 1515080080, 1, 'admin', 17, '-', '-', 'Editing settings'),
+(51, 1515080089, 1, 'admin', 30, '-', '-', 'Saving settings'),
+(52, 1515080688, 1, 'admin', 27, '5', 'Комплектующие для ПК', 'Editing resource'),
+(53, 1515081516, 1, 'admin', 102, '11', 'test', 'Edit plugin'),
+(54, 1515081521, 1, 'admin', 103, '11', 'test', 'Saving plugin'),
+(55, 1515081521, 1, 'admin', 102, '11', 'test', 'Edit plugin');
 
 -- --------------------------------------------------------
 
@@ -194,7 +241,7 @@ INSERT INTO `delta_manager_log` (`id`, `timestamp`, `internalKey`, `username`, `
 --
 
 CREATE TABLE IF NOT EXISTS `delta_manager_users` (
-  `id`       INT(10)      NOT NULL,
+  `id` int(10) NOT NULL,
   `username` varchar(100) NOT NULL DEFAULT '',
   `password` varchar(100) NOT NULL DEFAULT ''
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Contains login information for backend users.';
@@ -213,8 +260,8 @@ INSERT INTO `delta_manager_users` (`id`, `username`, `password`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `delta_membergroup_access` (
-  `id`            INT(10) NOT NULL,
-  `membergroup`   INT(10) NOT NULL DEFAULT '0',
+  `id` int(10) NOT NULL,
+  `membergroup` int(10) NOT NULL DEFAULT '0',
   `documentgroup` int(10) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Contains data used for access permissions.';
 
@@ -225,7 +272,7 @@ CREATE TABLE IF NOT EXISTS `delta_membergroup_access` (
 --
 
 CREATE TABLE IF NOT EXISTS `delta_membergroup_names` (
-  `id`   INT(10)      NOT NULL,
+  `id` int(10) NOT NULL,
   `name` varchar(245) NOT NULL DEFAULT ''
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Contains data used for access permissions.';
 
@@ -236,9 +283,9 @@ CREATE TABLE IF NOT EXISTS `delta_membergroup_names` (
 --
 
 CREATE TABLE IF NOT EXISTS `delta_member_groups` (
-  `id`         INT(10) NOT NULL,
+  `id` int(10) NOT NULL,
   `user_group` int(10) NOT NULL DEFAULT '0',
-  `member`     INT(10) NOT NULL DEFAULT '0'
+  `member` int(10) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Contains data used for access permissions.';
 
 -- --------------------------------------------------------
@@ -248,51 +295,43 @@ CREATE TABLE IF NOT EXISTS `delta_member_groups` (
 --
 
 CREATE TABLE IF NOT EXISTS `delta_site_content` (
-  `id`              INT(10)      NOT NULL,
-  `type`            VARCHAR(20)  NOT NULL DEFAULT 'document',
-  `contentType`     VARCHAR(50)  NOT NULL DEFAULT 'text/html',
-  `pagetitle`       VARCHAR(255) NOT NULL DEFAULT '',
-  `longtitle`       VARCHAR(255) NOT NULL DEFAULT '',
-  `description`     VARCHAR(255) NOT NULL DEFAULT '',
-  `alias`           VARCHAR(245)          DEFAULT '',
+  `id` int(10) NOT NULL,
+  `type` varchar(20) NOT NULL DEFAULT 'document',
+  `contentType` varchar(50) NOT NULL DEFAULT 'text/html',
+  `pagetitle` varchar(255) NOT NULL DEFAULT '',
+  `longtitle` varchar(255) NOT NULL DEFAULT '',
+  `description` varchar(255) NOT NULL DEFAULT '',
+  `alias` varchar(245) DEFAULT '',
   `link_attributes` varchar(255) NOT NULL DEFAULT '' COMMENT 'Link attriubtes',
-  `published`       INT(1)       NOT NULL DEFAULT '0',
-  `pub_date`        INT(20)      NOT NULL DEFAULT '0',
-  `unpub_date`      INT(20)      NOT NULL DEFAULT '0',
-  `parent`          INT(10)      NOT NULL DEFAULT '0',
-  `isfolder`        INT(1)       NOT NULL DEFAULT '0',
-  `introtext`       TEXT COMMENT 'Used to provide quick summary of the document',
-  `content`         MEDIUMTEXT,
-  `richtext`        TINYINT(1)   NOT NULL DEFAULT '1',
-  `template`        INT(10)      NOT NULL DEFAULT '0',
-  `menuindex`       INT(10)      NOT NULL DEFAULT '0',
-  `searchable`      INT(1)       NOT NULL DEFAULT '1',
-  `cacheable`       INT(1)       NOT NULL DEFAULT '1',
-  `createdby`       INT(10)      NOT NULL DEFAULT '0',
-  `createdon`       INT(20)      NOT NULL DEFAULT '0',
-  `editedby`        INT(10)      NOT NULL DEFAULT '0',
-  `editedon`        INT(20)      NOT NULL DEFAULT '0',
-  `deleted`         INT(1)       NOT NULL DEFAULT '0',
-  `deletedon`       INT(20)      NOT NULL DEFAULT '0',
-  `deletedby`       INT(10)      NOT NULL DEFAULT '0',
-  `publishedon`     INT(20)      NOT NULL DEFAULT '0'
-  COMMENT 'Date the document was published',
-  `publishedby`     INT(10)      NOT NULL DEFAULT '0'
-  COMMENT 'ID of user who published the document',
-  `menutitle`       VARCHAR(255) NOT NULL DEFAULT ''
-  COMMENT 'Menu title',
-  `donthit`         TINYINT(1)   NOT NULL DEFAULT '0'
-  COMMENT 'Disable page hit count',
-  `privateweb`      TINYINT(1)   NOT NULL DEFAULT '0'
-  COMMENT 'Private web document',
-  `privatemgr`      TINYINT(1)   NOT NULL DEFAULT '0'
-  COMMENT 'Private manager document',
-  `content_dispo`   TINYINT(1)   NOT NULL DEFAULT '0'
-  COMMENT '0-inline, 1-attachment',
-  `hidemenu`        TINYINT(1)   NOT NULL DEFAULT '0'
-  COMMENT 'Hide document from menu',
-  `alias_visible`   INT(2)       NOT NULL DEFAULT '1'
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Contains the site document tree.';
+  `published` int(1) NOT NULL DEFAULT '0',
+  `pub_date` int(20) NOT NULL DEFAULT '0',
+  `unpub_date` int(20) NOT NULL DEFAULT '0',
+  `parent` int(10) NOT NULL DEFAULT '0',
+  `isfolder` int(1) NOT NULL DEFAULT '0',
+  `introtext` text COMMENT 'Used to provide quick summary of the document',
+  `content` mediumtext,
+  `richtext` tinyint(1) NOT NULL DEFAULT '1',
+  `template` int(10) NOT NULL DEFAULT '0',
+  `menuindex` int(10) NOT NULL DEFAULT '0',
+  `searchable` int(1) NOT NULL DEFAULT '1',
+  `cacheable` int(1) NOT NULL DEFAULT '1',
+  `createdby` int(10) NOT NULL DEFAULT '0',
+  `createdon` int(20) NOT NULL DEFAULT '0',
+  `editedby` int(10) NOT NULL DEFAULT '0',
+  `editedon` int(20) NOT NULL DEFAULT '0',
+  `deleted` int(1) NOT NULL DEFAULT '0',
+  `deletedon` int(20) NOT NULL DEFAULT '0',
+  `deletedby` int(10) NOT NULL DEFAULT '0',
+  `publishedon` int(20) NOT NULL DEFAULT '0' COMMENT 'Date the document was published',
+  `publishedby` int(10) NOT NULL DEFAULT '0' COMMENT 'ID of user who published the document',
+  `menutitle` varchar(255) NOT NULL DEFAULT '' COMMENT 'Menu title',
+  `donthit` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Disable page hit count',
+  `privateweb` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Private web document',
+  `privatemgr` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Private manager document',
+  `content_dispo` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0-inline, 1-attachment',
+  `hidemenu` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Hide document from menu',
+  `alias_visible` int(2) NOT NULL DEFAULT '1'
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='Contains the site document tree.';
 
 --
 -- Дамп данных таблицы `delta_site_content`
@@ -300,7 +339,20 @@ CREATE TABLE IF NOT EXISTS `delta_site_content` (
 
 INSERT INTO `delta_site_content` (`id`, `type`, `contentType`, `pagetitle`, `longtitle`, `description`, `alias`, `link_attributes`, `published`, `pub_date`, `unpub_date`, `parent`, `isfolder`, `introtext`, `content`, `richtext`, `template`, `menuindex`, `searchable`, `cacheable`, `createdby`, `createdon`, `editedby`, `editedon`, `deleted`, `deletedon`, `deletedby`, `publishedon`, `publishedby`, `menutitle`, `donthit`, `privateweb`, `privatemgr`, `content_dispo`, `hidemenu`, `alias_visible`) VALUES
 (1, 'document', 'text/html', 'Evolution CMS Install Success', 'Welcome to the EVO Content Management System', '', 'minimal-base', '', 1, 0, 0, 0, 0, '', '<h3>Install Successful!</h3>\r\n<p>You have successfully installed Evolution CMS.</p>\r\n\r\n<h3>Getting Help</h3>\r\n<p>The <a href="http://evo.im/" target="_blank">EVO Community</a> provides a great starting point to learn all things Evolution CMS, or you can also <a href="http://evo.im/">see some great learning resources</a> (books, tutorials, blogs and screencasts).</p>\r\n<p>Welcome to EVO!</p>\r\n', 1, 3, 0, 1, 1, 1, 1130304721, 1, 1130304927, 0, 0, 0, 1130304721, 1, 'Base Install', 0, 0, 0, 0, 0, 1),
-(2, 'document', 'text/html', 'тест', '', '', 'test', '', 1, 0, 0, 0, 0, '', '', 1, 3, 1, 1, 1, 1, 1513257336, 1, 1513257345, 0, 0, 0, 1513257336, 1, '', 0, 0, 0, 0, 0, 1);
+(2, 'document', 'text/html', 'тест', '', '', 'test', '', 1, 0, 0, 0, 0, '', '', 1, 3, 1, 1, 1, 1, 1513257336, 1, 1513257345, 0, 0, 0, 1513257336, 1, '', 0, 0, 0, 0, 0, 1),
+(3, 'document', 'text/html', 'Каталог', '', '', 'catalog', '', 1, 0, 0, 0, 1, '', '', 1, 4, 2, 1, 1, 1, 1515066843, 1, 1515080044, 0, 0, 0, 1515066843, 1, '', 0, 0, 0, 0, 0, 1),
+(4, 'document', 'text/html', 'Компьютеры и периферия', '', '', 'kompyutery-i-periferiya', '', 1, 0, 0, 3, 1, '', '', 1, 4, 0, 1, 1, 1, 1515066852, 1, 1515080049, 0, 0, 0, 1515066852, 1, '', 0, 0, 0, 0, 0, 1),
+(5, 'document', 'text/html', 'Комплектующие для ПК', '', '', 'komplektuyushhie-dlya-pk', '', 1, 0, 0, 3, 1, '', '', 1, 4, 1, 1, 1, 1, 1515066875, 1, 1515069413, 0, 0, 0, 1515066875, 1, '', 0, 0, 0, 0, 0, 1),
+(6, 'document', 'text/html', 'Телевизоры и медиа', '', '', 'televizory-i-media', '', 1, 0, 0, 3, 1, '', '', 1, 4, 2, 1, 1, 1, 1515066901, 1, 1515066901, 0, 0, 0, 1515066901, 1, '', 0, 0, 0, 0, 0, 1),
+(7, 'document', 'text/html', 'Кабели', '', '', 'kabeli', '', 1, 0, 0, 4, 1, '', '', 1, 4, 0, 1, 1, 1, 1515066919, 1, 1515069236, 0, 0, 0, 1515066919, 1, '', 0, 0, 0, 0, 0, 1),
+(8, 'document', 'text/html', 'Компьютеры', '', '', 'kompyutery', '', 1, 0, 0, 4, 1, '', '', 1, 4, 1, 1, 1, 1, 1515066934, 1, 1515069336, 0, 0, 0, 1515066934, 1, '', 0, 0, 0, 0, 0, 1),
+(9, 'document', 'text/html', 'Мониторы', '', '', 'monitory', '', 1, 0, 0, 4, 1, '', '', 1, 4, 2, 1, 1, 1, 1515066945, 1, 1515069344, 0, 0, 0, 1515066945, 1, '', 0, 0, 0, 0, 0, 1),
+(10, 'document', 'text/html', 'Процессоры', '', '', 'processory', '', 1, 0, 0, 5, 1, '', '', 1, 4, 0, 1, 1, 1, 1515066969, 1, 1515067000, 0, 0, 0, 1515066969, 1, '', 0, 0, 0, 0, 0, 1),
+(11, 'document', 'text/html', 'Материнские платы', '', '', 'materinskie-platy', '', 1, 0, 0, 5, 1, '', '', 1, 4, 1, 1, 1, 1, 1515066981, 1, 1515066981, 0, 0, 0, 1515066981, 1, '', 0, 0, 0, 0, 0, 1),
+(12, 'document', 'text/html', 'Видеокарты', '', '', 'videokarty', '', 1, 0, 0, 5, 1, '', '', 1, 4, 2, 1, 1, 1, 1515066993, 1, 1515066993, 0, 0, 0, 1515066993, 1, '', 0, 0, 0, 0, 0, 1),
+(13, 'document', 'text/html', 'Телевизоры', '', '', 'televizory', '', 1, 0, 0, 6, 1, '', '', 1, 4, 0, 1, 1, 1, 1515067018, 1, 1515067018, 0, 0, 0, 1515067018, 1, '', 0, 0, 0, 0, 0, 1),
+(14, 'document', 'text/html', 'Проекторы', '', '', 'proektory', '', 1, 0, 0, 6, 1, '', '', 1, 4, 1, 1, 1, 1, 1515067030, 1, 1515067030, 0, 0, 0, 1515067030, 1, '', 0, 0, 0, 0, 0, 1),
+(15, 'document', 'text/html', 'Спутниковое оборудование', '', '', 'sputnikovoe-oborudovanie', '', 1, 0, 0, 6, 1, '', '', 1, 4, 2, 1, 1, 1, 1515067049, 1, 1515067049, 0, 0, 0, 1515067049, 1, '', 0, 0, 0, 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -309,22 +361,18 @@ INSERT INTO `delta_site_content` (`id`, `type`, `contentType`, `pagetitle`, `lon
 --
 
 CREATE TABLE IF NOT EXISTS `delta_site_htmlsnippets` (
-  `id`          INT(10)      NOT NULL,
-  `name`        VARCHAR(100) NOT NULL DEFAULT '',
+  `id` int(10) NOT NULL,
+  `name` varchar(100) NOT NULL DEFAULT '',
   `description` varchar(255) NOT NULL DEFAULT 'Chunk',
-  `editor_type` INT(11)      NOT NULL DEFAULT '0'
-  COMMENT '0-plain text,1-rich text,2-code editor',
-  `editor_name` VARCHAR(50)  NOT NULL DEFAULT 'none',
-  `category`    INT(11)      NOT NULL DEFAULT '0'
-  COMMENT 'category id',
-  `cache_type`  TINYINT(1)   NOT NULL DEFAULT '0'
-  COMMENT 'Cache option',
-  `snippet`     MEDIUMTEXT,
-  `locked`      TINYINT(4)   NOT NULL DEFAULT '0',
-  `createdon`   INT(11)      NOT NULL DEFAULT '0',
-  `editedon`    INT(11)      NOT NULL DEFAULT '0',
-  `disabled`    TINYINT(4)   NOT NULL DEFAULT '0'
-  COMMENT 'Disables the snippet'
+  `editor_type` int(11) NOT NULL DEFAULT '0' COMMENT '0-plain text,1-rich text,2-code editor',
+  `editor_name` varchar(50) NOT NULL DEFAULT 'none',
+  `category` int(11) NOT NULL DEFAULT '0' COMMENT 'category id',
+  `cache_type` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Cache option',
+  `snippet` mediumtext,
+  `locked` tinyint(4) NOT NULL DEFAULT '0',
+  `createdon` int(11) NOT NULL DEFAULT '0',
+  `editedon` int(11) NOT NULL DEFAULT '0',
+  `disabled` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'Disables the snippet'
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Contains the site chunks.';
 
 --
@@ -341,29 +389,23 @@ INSERT INTO `delta_site_htmlsnippets` (`id`, `name`, `description`, `editor_type
 --
 
 CREATE TABLE IF NOT EXISTS `delta_site_modules` (
-  `id`                  INT(11)      NOT NULL,
-  `name`                VARCHAR(50)  NOT NULL DEFAULT '',
-  `description`         VARCHAR(255) NOT NULL DEFAULT '0',
-  `editor_type`         INT(11)      NOT NULL DEFAULT '0'
-  COMMENT '0-plain text,1-rich text,2-code editor',
-  `disabled`            TINYINT(4)   NOT NULL DEFAULT '0',
-  `category`            INT(11)      NOT NULL DEFAULT '0'
-  COMMENT 'category id',
-  `wrap`                TINYINT(4)   NOT NULL DEFAULT '0',
-  `locked`              TINYINT(4)   NOT NULL DEFAULT '0',
-  `icon`                VARCHAR(255) NOT NULL DEFAULT ''
-  COMMENT 'url to module icon',
-  `enable_resource`     TINYINT(4)   NOT NULL DEFAULT '0'
-  COMMENT 'enables the resource file feature',
-  `resourcefile`        VARCHAR(255) NOT NULL DEFAULT ''
-  COMMENT 'a physical link to a resource file',
-  `createdon`           INT(11)      NOT NULL DEFAULT '0',
-  `editedon`            INT(11)      NOT NULL DEFAULT '0',
-  `guid`                VARCHAR(32)  NOT NULL DEFAULT ''
-  COMMENT 'globally unique identifier',
-  `enable_sharedparams` TINYINT(4)   NOT NULL DEFAULT '0',
-  `properties`          TEXT,
-  `modulecode`          MEDIUMTEXT COMMENT 'module boot up code'
+  `id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL DEFAULT '',
+  `description` varchar(255) NOT NULL DEFAULT '0',
+  `editor_type` int(11) NOT NULL DEFAULT '0' COMMENT '0-plain text,1-rich text,2-code editor',
+  `disabled` tinyint(4) NOT NULL DEFAULT '0',
+  `category` int(11) NOT NULL DEFAULT '0' COMMENT 'category id',
+  `wrap` tinyint(4) NOT NULL DEFAULT '0',
+  `locked` tinyint(4) NOT NULL DEFAULT '0',
+  `icon` varchar(255) NOT NULL DEFAULT '' COMMENT 'url to module icon',
+  `enable_resource` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'enables the resource file feature',
+  `resourcefile` varchar(255) NOT NULL DEFAULT '' COMMENT 'a physical link to a resource file',
+  `createdon` int(11) NOT NULL DEFAULT '0',
+  `editedon` int(11) NOT NULL DEFAULT '0',
+  `guid` varchar(32) NOT NULL DEFAULT '' COMMENT 'globally unique identifier',
+  `enable_sharedparams` tinyint(4) NOT NULL DEFAULT '0',
+  `properties` text,
+  `modulecode` mediumtext COMMENT 'module boot up code'
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Site Modules';
 
 --
@@ -381,9 +423,9 @@ INSERT INTO `delta_site_modules` (`id`, `name`, `description`, `editor_type`, `d
 --
 
 CREATE TABLE IF NOT EXISTS `delta_site_module_access` (
-  `id`        INT(10) UNSIGNED NOT NULL,
-  `module`    INT(11)          NOT NULL DEFAULT '0',
-  `usergroup` INT(11)          NOT NULL DEFAULT '0'
+  `id` int(10) unsigned NOT NULL,
+  `module` int(11) NOT NULL DEFAULT '0',
+  `usergroup` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Module users group access permission';
 
 -- --------------------------------------------------------
@@ -393,11 +435,10 @@ CREATE TABLE IF NOT EXISTS `delta_site_module_access` (
 --
 
 CREATE TABLE IF NOT EXISTS `delta_site_module_depobj` (
-  `id`       INT(11) NOT NULL,
-  `module`   INT(11) NOT NULL DEFAULT '0',
+  `id` int(11) NOT NULL,
+  `module` int(11) NOT NULL DEFAULT '0',
   `resource` int(11) NOT NULL DEFAULT '0',
-  `type`     INT(2)  NOT NULL DEFAULT '0'
-  COMMENT '10-chunks, 20-docs, 30-plugins, 40-snips, 50-tpls, 60-tvs'
+  `type` int(2) NOT NULL DEFAULT '0' COMMENT '10-chunks, 20-docs, 30-plugins, 40-snips, 50-tpls, 60-tvs'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Module Dependencies';
 
 -- --------------------------------------------------------
@@ -407,25 +448,20 @@ CREATE TABLE IF NOT EXISTS `delta_site_module_depobj` (
 --
 
 CREATE TABLE IF NOT EXISTS `delta_site_plugins` (
-  `id`          INT(10)      NOT NULL,
-  `name`        VARCHAR(50)  NOT NULL DEFAULT '',
+  `id` int(10) NOT NULL,
+  `name` varchar(50) NOT NULL DEFAULT '',
   `description` varchar(255) NOT NULL DEFAULT 'Plugin',
-  `editor_type` INT(11)      NOT NULL DEFAULT '0'
-  COMMENT '0-plain text,1-rich text,2-code editor',
-  `category`    INT(11)      NOT NULL DEFAULT '0'
-  COMMENT 'category id',
-  `cache_type`  TINYINT(1)   NOT NULL DEFAULT '0'
-  COMMENT 'Cache option',
-  `plugincode`  MEDIUMTEXT,
-  `locked`      TINYINT(4)   NOT NULL DEFAULT '0',
-  `properties`  TEXT COMMENT 'Default Properties',
-  `disabled`    TINYINT(4)   NOT NULL DEFAULT '0'
-  COMMENT 'Disables the plugin',
-  `moduleguid`  VARCHAR(32)  NOT NULL DEFAULT ''
-  COMMENT 'GUID of module from which to import shared parameters',
-  `createdon`   INT(11)      NOT NULL DEFAULT '0',
-  `editedon`    INT(11)      NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='Contains the site plugins.';
+  `editor_type` int(11) NOT NULL DEFAULT '0' COMMENT '0-plain text,1-rich text,2-code editor',
+  `category` int(11) NOT NULL DEFAULT '0' COMMENT 'category id',
+  `cache_type` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Cache option',
+  `plugincode` mediumtext,
+  `locked` tinyint(4) NOT NULL DEFAULT '0',
+  `properties` text COMMENT 'Default Properties',
+  `disabled` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'Disables the plugin',
+  `moduleguid` varchar(32) NOT NULL DEFAULT '' COMMENT 'GUID of module from which to import shared parameters',
+  `createdon` int(11) NOT NULL DEFAULT '0',
+  `editedon` int(11) NOT NULL DEFAULT '0'
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='Contains the site plugins.';
 
 --
 -- Дамп данных таблицы `delta_site_plugins`
@@ -441,7 +477,8 @@ INSERT INTO `delta_site_plugins` (`id`, `name`, `description`, `editor_type`, `c
 (7, 'TinyMCE4', '<strong>4.6.3</strong> Javascript WYSIWYG editor', 0, 2, 0, 'require MODX_BASE_PATH.''assets/plugins/tinymce4/plugin.tinymce.php'';', 0, '{"styleFormats":[{"label":"Custom Style Formats <b>RAW<\\/b><br\\/><br\\/><ul><li>leave empty to use below block\\/inline formats<\\/li><li>allows simple-format: <i>Title,cssClass|Title2,cssClass2<\\/i><\\/li><li>Also accepts full JSON-config as per TinyMCE4 docs \\/ configure \\/ content-formating \\/ style_formats<\\/li><\\/ul>","type":"textarea","value":"","default":"","desc":""}],"styleFormats_inline":[{"label":"Custom Style Formats <b>INLINE<\\/b><br\\/><br\\/><ul><li>will wrap selected text with span-tag + css-class<\\/li><li>simple-format only<\\/li><\\/ul>","type":"textarea","value":"InlineTitle,cssClass1|InlineTitle2,cssClass2","default":"InlineTitle,cssClass1|InlineTitle2,cssClass2","desc":""}],"styleFormats_block":[{"label":"Custom Style Formats <b>BLOCK<\\/b><br\\/><br\\/><ul><li>will add css-class to selected block-element<\\/li><li>simple-format only<\\/li><\\/ul>","type":"textarea","value":"BlockTitle,cssClass3|BlockTitle2,cssClass4","default":"BlockTitle,cssClass3|BlockTitle2,cssClass4","desc":""}],"customParams":[{"label":"Custom Parameters<br\\/><b>(Be careful or leave empty!)<\\/b>","type":"textarea","value":"","default":"","desc":""}],"entityEncoding":[{"label":"Entity Encoding","type":"list","value":"named","options":"named,numeric,raw","default":"named","desc":""}],"entities":[{"label":"Entities","type":"text","value":"","default":"","desc":""}],"pathOptions":[{"label":"Path Options","type":"list","value":"Site config","options":"Site config,Absolute path,Root relative,URL,No convert","default":"Site config","desc":""}],"resizing":[{"label":"Advanced Resizing","type":"list","value":"false","options":"true,false","default":"false","desc":""}],"disabledButtons":[{"label":"Disabled Buttons","type":"text","value":"","default":"","desc":""}],"webTheme":[{"label":"Web Theme","type":"test","value":"webuser","default":"webuser","desc":""}],"webPlugins":[{"label":"Web Plugins","type":"text","value":"","default":"","desc":""}],"webButtons1":[{"label":"Web Buttons 1","type":"text","value":"bold italic underline strikethrough removeformat alignleft aligncenter alignright","default":"bold italic underline strikethrough removeformat alignleft aligncenter alignright","desc":""}],"webButtons2":[{"label":"Web Buttons 2","type":"text","value":"link unlink image undo redo","default":"link unlink image undo redo","desc":""}],"webButtons3":[{"label":"Web Buttons 3","type":"text","value":"","default":"","desc":""}],"webButtons4":[{"label":"Web Buttons 4","type":"text","value":"","default":"","desc":""}],"webAlign":[{"label":"Web Toolbar Alignment","type":"list","value":"ltr","options":"ltr,rtl","default":"ltr","desc":""}],"width":[{"label":"Width","type":"text","value":"100%","default":"100%","desc":""}],"height":[{"label":"Height","type":"text","value":"400px","default":"400px","desc":""}],"introtextRte":[{"label":"<b>Introtext RTE<\\/b><br\\/>add richtext-features to \\"introtext\\"","type":"list","value":"disabled","options":"enabled,disabled","default":"disabled","desc":""}],"inlineMode":[{"label":"<b>Inline-Mode<\\/b>","type":"list","value":"disabled","options":"enabled,disabled","default":"disabled","desc":""}],"inlineTheme":[{"label":"<b>Inline-Mode<\\/b><br\\/>Theme","type":"text","value":"inline","default":"inline","desc":""}],"browser_spellcheck":[{"label":"<b>Browser Spellcheck<\\/b><br\\/>At least one dictionary must be installed inside your browser","type":"list","value":"disabled","options":"enabled,disabled","default":"disabled","desc":""}],"paste_as_text":[{"label":"<b>Force Paste as Text<\\/b>","type":"list","value":"disabled","options":"enabled,disabled","default":"disabled","desc":""}]}', 0, '', 0, 0),
 (8, 'TransAlias', '<strong>1.0.4</strong> Human readible URL translation supporting multiple languages and overrides', 0, 2, 0, 'require MODX_BASE_PATH.''assets/plugins/transalias/plugin.transalias.php'';', 0, '{"table_name":[{"label":"Trans table","type":"list","value":"russian","options":"common,russian,dutch,german,czech,utf8,utf8lowercase","default":"russian","desc":""}],"char_restrict":[{"label":"Restrict alias to","type":"list","value":"lowercase alphanumeric","options":"lowercase alphanumeric,alphanumeric,legal characters","default":"lowercase alphanumeric","desc":""}],"remove_periods":[{"label":"Remove Periods","type":"list","value":"No","options":"Yes,No","default":"No","desc":""}],"word_separator":[{"label":"Word Separator","type":"list","value":"dash","options":"dash,underscore,none","default":"dash","desc":""}],"override_tv":[{"label":"Override TV name","type":"string","value":"","default":"","desc":""}]}', 0, '', 0, 0),
 (9, 'Updater', '<strong>0.8.2</strong> show message about outdated CMS version', 0, 2, 0, 'require MODX_BASE_PATH.''assets/plugins/updater/plugin.updater.php'';\r\n\r\n\r\n', 0, '{"version":[{"label":"Version:","type":"text","value":"evolution-cms\\/evolution","default":"evolution-cms\\/evolution","desc":""}],"wdgVisibility":[{"label":"Show widget for:","type":"menu","value":"All","options":"All,AdminOnly,AdminExcluded,ThisRoleOnly,ThisUserOnly","default":"All","desc":""}],"ThisRole":[{"label":"Show only to this role id:","type":"string","value":"","default":"","desc":""}],"ThisUser":[{"label":"Show only to this username:","type":"string","value":"","default":"","desc":""}],"showButton":[{"label":"Show Update Button:","type":"menu","value":"AdminOnly","options":"show,hide,AdminOnly","default":"AdminOnly","desc":""}],"type":[{"label":"Type:","type":"menu","value":"tags","options":"tags,releases,commits","default":"tags","desc":""}]}', 0, '', 0, 0),
-(10, 'userHelper', '<strong>1.7.11</strong> addition to FormLister', 0, 3, 0, '\n/**\n * userHelper\n * \n * addition to FormLister\n * \n * @category    plugin\n * @version     1.7.11\n * @internal    @properties &logoutKey=Request key;text;logout &cookieName=Cookie Name;text;WebLoginPE &cookieLifetime=Cookie Lifetime, seconds;text;157680000 &maxFails=Max failed logins;text;3 &blockTime=Block for, seconds;text;3600\n * @internal    @events OnWebPageInit,OnPageNotFound,OnWebLogin\n * @internal    @modx_category Content\n * @internal    @disabled 1\n**/\n\nrequire MODX_BASE_PATH.''assets/snippets/FormLister/plugin.userHelper.php'';', 0, '{"logoutKey":[{"label":"Request key","type":"text","value":"logout","default":"logout","desc":""}],"cookieName":[{"label":"Cookie Name","type":"text","value":"WebLoginPE","default":"WebLoginPE","desc":""}],"cookieLifetime":[{"label":"Cookie Lifetime, seconds","type":"text","value":"157680000","default":"157680000","desc":""}],"maxFails":[{"label":"Max failed logins","type":"text","value":"3","default":"3","desc":""}],"blockTime":[{"label":"Block for, seconds","type":"text","value":"3600","default":"3600","desc":""}]}', 1, '', 0, 0);
+(10, 'userHelper', '<strong>1.7.11</strong> addition to FormLister', 0, 3, 0, '\n/**\n * userHelper\n * \n * addition to FormLister\n * \n * @category    plugin\n * @version     1.7.11\n * @internal    @properties &logoutKey=Request key;text;logout &cookieName=Cookie Name;text;WebLoginPE &cookieLifetime=Cookie Lifetime, seconds;text;157680000 &maxFails=Max failed logins;text;3 &blockTime=Block for, seconds;text;3600\n * @internal    @events OnWebPageInit,OnPageNotFound,OnWebLogin\n * @internal    @modx_category Content\n * @internal    @disabled 1\n**/\n\nrequire MODX_BASE_PATH.''assets/snippets/FormLister/plugin.userHelper.php'';', 0, '{"logoutKey":[{"label":"Request key","type":"text","value":"logout","default":"logout","desc":""}],"cookieName":[{"label":"Cookie Name","type":"text","value":"WebLoginPE","default":"WebLoginPE","desc":""}],"cookieLifetime":[{"label":"Cookie Lifetime, seconds","type":"text","value":"157680000","default":"157680000","desc":""}],"maxFails":[{"label":"Max failed logins","type":"text","value":"3","default":"3","desc":""}],"blockTime":[{"label":"Block for, seconds","type":"text","value":"3600","default":"3600","desc":""}]}', 1, '', 0, 0),
+(11, 'test', '', 0, 0, 0, '//echo $modx->pre($modx->getTreeCat(4));\r\n\r\n//echo $modx->pre($modx->getCatFromID(3));\r\n\r\n$id= $modx->documentIdentifier;\r\n\r\n//$ids = $modx->getTreeCat(4 , false);\r\n	\r\n$ids = $modx->getTreeCat(4);\r\n\r\n$idsF = $modx->getFields($ids);\r\n\r\n$idsF = $modx->sortGods ($idsF , ''menuindex'', ''ASC'');\r\n\r\n$idsF = $modx->sliceGods ($idsF , 0, 99);\r\n\r\n//echo $modx->pre($idsF);\r\n\r\n\r\n\r\n$idsGoods = $modx->getGoodsFromID (4 ,false, /*$modx->parseXparams()*/ false , true );\r\n\r\necho $modx->pre($idsGoods);\r\n\r\necho $modx->urlXParams;\r\n\r\n', 0, '{}', 0, ' ', 1515077424, 1515081521);
 
 -- --------------------------------------------------------
 
@@ -451,7 +488,7 @@ INSERT INTO `delta_site_plugins` (`id`, `name`, `description`, `editor_type`, `c
 
 CREATE TABLE IF NOT EXISTS `delta_site_plugin_events` (
   `pluginid` int(10) NOT NULL,
-  `evtid`    INT(10) NOT NULL DEFAULT '0',
+  `evtid` int(10) NOT NULL DEFAULT '0',
   `priority` int(10) NOT NULL DEFAULT '0' COMMENT 'determines plugin run order'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Links to system events';
 
@@ -516,7 +553,8 @@ INSERT INTO `delta_site_plugin_events` (`pluginid`, `evtid`, `priority`) VALUES
 (9, 1000, 0),
 (10, 4, 0),
 (10, 90, 0),
-(10, 1000, 0);
+(10, 1000, 0),
+(11, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -525,24 +563,19 @@ INSERT INTO `delta_site_plugin_events` (`pluginid`, `evtid`, `priority`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `delta_site_snippets` (
-  `id`          INT(10)      NOT NULL,
-  `name`        VARCHAR(50)  NOT NULL DEFAULT '',
+  `id` int(10) NOT NULL,
+  `name` varchar(50) NOT NULL DEFAULT '',
   `description` varchar(255) NOT NULL DEFAULT 'Snippet',
-  `editor_type` INT(11)      NOT NULL DEFAULT '0'
-  COMMENT '0-plain text,1-rich text,2-code editor',
-  `category`    INT(11)      NOT NULL DEFAULT '0'
-  COMMENT 'category id',
-  `cache_type`  TINYINT(1)   NOT NULL DEFAULT '0'
-  COMMENT 'Cache option',
-  `snippet`     MEDIUMTEXT,
-  `locked`      TINYINT(4)   NOT NULL DEFAULT '0',
-  `properties`  TEXT COMMENT 'Default Properties',
-  `moduleguid`  VARCHAR(32)  NOT NULL DEFAULT ''
-  COMMENT 'GUID of module from which to import shared parameters',
-  `createdon`   INT(11)      NOT NULL DEFAULT '0',
-  `editedon`    INT(11)      NOT NULL DEFAULT '0',
-  `disabled`    TINYINT(4)   NOT NULL DEFAULT '0'
-  COMMENT 'Disables the snippet'
+  `editor_type` int(11) NOT NULL DEFAULT '0' COMMENT '0-plain text,1-rich text,2-code editor',
+  `category` int(11) NOT NULL DEFAULT '0' COMMENT 'category id',
+  `cache_type` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Cache option',
+  `snippet` mediumtext,
+  `locked` tinyint(4) NOT NULL DEFAULT '0',
+  `properties` text COMMENT 'Default Properties',
+  `moduleguid` varchar(32) NOT NULL DEFAULT '' COMMENT 'GUID of module from which to import shared parameters',
+  `createdon` int(11) NOT NULL DEFAULT '0',
+  `editedon` int(11) NOT NULL DEFAULT '0',
+  `disabled` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'Disables the snippet'
 ) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='Contains the site snippets.';
 
 --
@@ -567,30 +600,27 @@ INSERT INTO `delta_site_snippets` (`id`, `name`, `description`, `editor_type`, `
 --
 
 CREATE TABLE IF NOT EXISTS `delta_site_templates` (
-  `id`            INT(10)      NOT NULL,
-  `templatename`  VARCHAR(100) NOT NULL DEFAULT '',
-  `description`   VARCHAR(255) NOT NULL DEFAULT 'Template',
-  `editor_type`   INT(11)      NOT NULL DEFAULT '0'
-  COMMENT '0-plain text,1-rich text,2-code editor',
-  `category`      INT(11)      NOT NULL DEFAULT '0'
-  COMMENT 'category id',
-  `icon`          VARCHAR(255) NOT NULL DEFAULT ''
-  COMMENT 'url to icon file',
-  `template_type` INT(11)      NOT NULL DEFAULT '0'
-  COMMENT '0-page,1-content',
-  `content`       MEDIUMTEXT,
-  `locked`        TINYINT(4)   NOT NULL DEFAULT '0',
-  `selectable`    TINYINT(4)   NOT NULL DEFAULT '1',
-  `createdon`     INT(11)      NOT NULL DEFAULT '0',
-  `editedon`      INT(11)      NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Contains the site templates.';
+  `id` int(10) NOT NULL,
+  `templatename` varchar(100) NOT NULL DEFAULT '',
+  `description` varchar(255) NOT NULL DEFAULT 'Template',
+  `editor_type` int(11) NOT NULL DEFAULT '0' COMMENT '0-plain text,1-rich text,2-code editor',
+  `category` int(11) NOT NULL DEFAULT '0' COMMENT 'category id',
+  `icon` varchar(255) NOT NULL DEFAULT '' COMMENT 'url to icon file',
+  `template_type` int(11) NOT NULL DEFAULT '0' COMMENT '0-page,1-content',
+  `content` mediumtext,
+  `locked` tinyint(4) NOT NULL DEFAULT '0',
+  `selectable` tinyint(4) NOT NULL DEFAULT '1',
+  `createdon` int(11) NOT NULL DEFAULT '0',
+  `editedon` int(11) NOT NULL DEFAULT '0'
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='Contains the site templates.';
 
 --
 -- Дамп данных таблицы `delta_site_templates`
 --
 
 INSERT INTO `delta_site_templates` (`id`, `templatename`, `description`, `editor_type`, `category`, `icon`, `template_type`, `content`, `locked`, `selectable`, `createdon`, `editedon`) VALUES
-(3, 'Minimal Template', 'Default minimal empty template (content returned only)', 0, 0, '', 0, '[*content*]', 0, 1, 0, 0);
+(3, 'Minimal Template', 'Default minimal empty template (content returned only)', 0, 0, '', 0, '[*content*]', 0, 1, 0, 0),
+(4, 'Каталог', '', 0, 0, '', 0, '', 0, 1, 1515080028, 1515080028);
 
 -- --------------------------------------------------------
 
@@ -599,24 +629,21 @@ INSERT INTO `delta_site_templates` (`id`, `templatename`, `description`, `editor
 --
 
 CREATE TABLE IF NOT EXISTS `delta_site_tmplvars` (
-  `id`             INT(11)      NOT NULL,
-  `type`           VARCHAR(50)  NOT NULL DEFAULT '',
-  `name`           VARCHAR(50)  NOT NULL DEFAULT '',
-  `caption`        VARCHAR(80)  NOT NULL DEFAULT '',
-  `description`    VARCHAR(255) NOT NULL DEFAULT '',
-  `editor_type`    INT(11)      NOT NULL DEFAULT '0'
-  COMMENT '0-plain text,1-rich text,2-code editor',
-  `category`       INT(11)      NOT NULL DEFAULT '0'
-  COMMENT 'category id',
-  `locked`         TINYINT(4)   NOT NULL DEFAULT '0',
-  `elements`       TEXT,
-  `rank`           INT(11)      NOT NULL DEFAULT '0',
-  `display`        VARCHAR(20)  NOT NULL DEFAULT ''
-  COMMENT 'Display Control',
+  `id` int(11) NOT NULL,
+  `type` varchar(50) NOT NULL DEFAULT '',
+  `name` varchar(50) NOT NULL DEFAULT '',
+  `caption` varchar(80) NOT NULL DEFAULT '',
+  `description` varchar(255) NOT NULL DEFAULT '',
+  `editor_type` int(11) NOT NULL DEFAULT '0' COMMENT '0-plain text,1-rich text,2-code editor',
+  `category` int(11) NOT NULL DEFAULT '0' COMMENT 'category id',
+  `locked` tinyint(4) NOT NULL DEFAULT '0',
+  `elements` text,
+  `rank` int(11) NOT NULL DEFAULT '0',
+  `display` varchar(20) NOT NULL DEFAULT '' COMMENT 'Display Control',
   `display_params` text COMMENT 'Display Control Properties',
-  `default_text`   TEXT,
-  `createdon`      INT(11)      NOT NULL DEFAULT '0',
-  `editedon`       INT(11)      NOT NULL DEFAULT '0'
+  `default_text` text,
+  `createdon` int(11) NOT NULL DEFAULT '0',
+  `editedon` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Site Template Variables';
 
 -- --------------------------------------------------------
@@ -626,8 +653,8 @@ CREATE TABLE IF NOT EXISTS `delta_site_tmplvars` (
 --
 
 CREATE TABLE IF NOT EXISTS `delta_site_tmplvar_access` (
-  `id`            INT(10) NOT NULL,
-  `tmplvarid`     INT(10) NOT NULL DEFAULT '0',
+  `id` int(10) NOT NULL,
+  `tmplvarid` int(10) NOT NULL DEFAULT '0',
   `documentgroup` int(10) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Contains data used for template variable access permissions.';
 
@@ -638,11 +665,22 @@ CREATE TABLE IF NOT EXISTS `delta_site_tmplvar_access` (
 --
 
 CREATE TABLE IF NOT EXISTS `delta_site_tmplvar_contentvalues` (
-  `id`        INT(11) NOT NULL,
+  `id` int(11) NOT NULL,
   `tmplvarid` int(10) NOT NULL DEFAULT '0' COMMENT 'Template Variable id',
   `contentid` int(10) NOT NULL DEFAULT '0' COMMENT 'Site Content Id',
-  `value`     MEDIUMTEXT
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Site Template Variables Content Values Link Table';
+  `value` mediumtext
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='Site Template Variables Content Values Link Table';
+
+--
+-- Дамп данных таблицы `delta_site_tmplvar_contentvalues`
+--
+
+INSERT INTO `delta_site_tmplvar_contentvalues` (`id`, `tmplvarid`, `contentid`, `value`) VALUES
+(1, 1, 4, 'assets/images/testcatalog/756a5a7cba73721607453c2c42b23ad8.jpg'),
+(2, 1, 7, 'assets/images/testcatalog/computer-cables-480.jpg'),
+(3, 1, 8, 'assets/images/testcatalog/1017452246.jpg'),
+(4, 1, 9, 'assets/images/testcatalog/2.jpg'),
+(5, 1, 5, 'assets/images/testcatalog/kakie-komplektuyushhie-nuzhny-dlya-sborki-igrovogo-kompyutera.jpg');
 
 -- --------------------------------------------------------
 
@@ -651,10 +689,9 @@ CREATE TABLE IF NOT EXISTS `delta_site_tmplvar_contentvalues` (
 --
 
 CREATE TABLE IF NOT EXISTS `delta_site_tmplvar_templates` (
-  `tmplvarid`  INT(10) NOT NULL DEFAULT '0'
-  COMMENT 'Template Variable id',
+  `tmplvarid` int(10) NOT NULL DEFAULT '0' COMMENT 'Template Variable id',
   `templateid` int(11) NOT NULL DEFAULT '0',
-  `rank`       INT(11) NOT NULL DEFAULT '0'
+  `rank` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Site Template Variables Templates Link Table';
 
 -- --------------------------------------------------------
@@ -664,10 +701,9 @@ CREATE TABLE IF NOT EXISTS `delta_site_tmplvar_templates` (
 --
 
 CREATE TABLE IF NOT EXISTS `delta_system_eventnames` (
-  `id`        INT(10)     NOT NULL,
-  `name`      VARCHAR(50) NOT NULL DEFAULT '',
-  `service`   TINYINT(4)  NOT NULL DEFAULT '0'
-  COMMENT 'System Service number',
+  `id` int(10) NOT NULL,
+  `name` varchar(50) NOT NULL DEFAULT '',
+  `service` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'System Service number',
   `groupname` varchar(20) NOT NULL DEFAULT ''
 ) ENGINE=MyISAM AUTO_INCREMENT=1036 DEFAULT CHARSET=utf8 COMMENT='System Event Names.';
 
@@ -815,7 +851,7 @@ INSERT INTO `delta_system_eventnames` (`id`, `name`, `service`, `groupname`) VAL
 --
 
 CREATE TABLE IF NOT EXISTS `delta_system_settings` (
-  `setting_name`  VARCHAR(50) NOT NULL DEFAULT '',
+  `setting_name` varchar(50) NOT NULL DEFAULT '',
   `setting_value` text
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Contains Content Manager settings.';
 
@@ -890,7 +926,7 @@ INSERT INTO `delta_system_settings` (`setting_name`, `setting_value`) VALUES
 ('top_howmany', '10'),
 ('friendly_url_prefix', ''),
 ('friendly_url_suffix', '.html'),
-('make_folders', '0'),
+('make_folders', '1'),
 ('aliaslistingfolder', '0'),
 ('allow_duplicate_alias', '0'),
 ('use_udperms', '1'),
@@ -971,7 +1007,7 @@ INSERT INTO `delta_system_settings` (`setting_name`, `setting_value`) VALUES
 ('denyExtensionRename', '0'),
 ('showHiddenFiles', '0'),
 ('lang_code', 'ru'),
-('sys_files_checksum', 'a:4:{s:52:"D:/OpenServer/OpenServer/domains/Evolution/index.php";s:32:"1a580fcd2fe7218b42b621ec00bfedfd";s:52:"D:/OpenServer/OpenServer/domains/Evolution/.htaccess";s:32:"b12739e14a9d18d7090427db01bd4021";s:60:"D:/OpenServer/OpenServer/domains/Evolution/manager/index.php";s:32:"863a96f261fe95da8b2a549002172c37";s:74:"D:/OpenServer/OpenServer/domains/Evolution/manager/includes/config.inc.php";s:32:"7d3a814ff176f634f39a78e6d12329b5";}');
+('sys_files_checksum', 'a:4:{s:52:"D:/OpenServer/OpenServer/domains/Evolution/index.php";s:32:"b8498934ec46e3c9826883940ef4eec4";s:52:"D:/OpenServer/OpenServer/domains/Evolution/.htaccess";s:32:"b12739e14a9d18d7090427db01bd4021";s:60:"D:/OpenServer/OpenServer/domains/Evolution/manager/index.php";s:32:"863a96f261fe95da8b2a549002172c37";s:74:"D:/OpenServer/OpenServer/domains/Evolution/manager/includes/config.inc.php";s:32:"7d3a814ff176f634f39a78e6d12329b5";}');
 
 -- --------------------------------------------------------
 
@@ -980,35 +1016,33 @@ INSERT INTO `delta_system_settings` (`setting_name`, `setting_value`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `delta_user_attributes` (
-  `id`               INT(10)      NOT NULL,
-  `internalKey`      INT(10)      NOT NULL DEFAULT '0',
-  `fullname`         VARCHAR(100) NOT NULL DEFAULT '',
-  `role`             INT(10)      NOT NULL DEFAULT '0',
-  `email`            VARCHAR(100) NOT NULL DEFAULT '',
-  `phone`            VARCHAR(100) NOT NULL DEFAULT '',
-  `mobilephone`      VARCHAR(100) NOT NULL DEFAULT '',
-  `blocked`          INT(1)       NOT NULL DEFAULT '0',
-  `blockeduntil`     INT(11)      NOT NULL DEFAULT '0',
-  `blockedafter`     INT(11)      NOT NULL DEFAULT '0',
-  `logincount`       INT(11)      NOT NULL DEFAULT '0',
-  `lastlogin`        INT(11)      NOT NULL DEFAULT '0',
-  `thislogin`        INT(11)      NOT NULL DEFAULT '0',
-  `failedlogincount` INT(10)      NOT NULL DEFAULT '0',
-  `sessionid`        VARCHAR(100) NOT NULL DEFAULT '',
-  `dob`              INT(10)      NOT NULL DEFAULT '0',
-  `gender`           INT(1)       NOT NULL DEFAULT '0'
-  COMMENT '0 - unknown, 1 - Male 2 - female',
-  `country`          VARCHAR(5)   NOT NULL DEFAULT '',
-  `street`           VARCHAR(255) NOT NULL DEFAULT '',
-  `city`             VARCHAR(255) NOT NULL DEFAULT '',
-  `state`            VARCHAR(25)  NOT NULL DEFAULT '',
-  `zip`              VARCHAR(25)  NOT NULL DEFAULT '',
-  `fax`              VARCHAR(100) NOT NULL DEFAULT '',
-  `photo`            VARCHAR(255) NOT NULL DEFAULT ''
-  COMMENT 'link to photo',
-  `comment`          TEXT,
-  `createdon`        INT(11)      NOT NULL DEFAULT '0',
-  `editedon`         INT(11)      NOT NULL DEFAULT '0'
+  `id` int(10) NOT NULL,
+  `internalKey` int(10) NOT NULL DEFAULT '0',
+  `fullname` varchar(100) NOT NULL DEFAULT '',
+  `role` int(10) NOT NULL DEFAULT '0',
+  `email` varchar(100) NOT NULL DEFAULT '',
+  `phone` varchar(100) NOT NULL DEFAULT '',
+  `mobilephone` varchar(100) NOT NULL DEFAULT '',
+  `blocked` int(1) NOT NULL DEFAULT '0',
+  `blockeduntil` int(11) NOT NULL DEFAULT '0',
+  `blockedafter` int(11) NOT NULL DEFAULT '0',
+  `logincount` int(11) NOT NULL DEFAULT '0',
+  `lastlogin` int(11) NOT NULL DEFAULT '0',
+  `thislogin` int(11) NOT NULL DEFAULT '0',
+  `failedlogincount` int(10) NOT NULL DEFAULT '0',
+  `sessionid` varchar(100) NOT NULL DEFAULT '',
+  `dob` int(10) NOT NULL DEFAULT '0',
+  `gender` int(1) NOT NULL DEFAULT '0' COMMENT '0 - unknown, 1 - Male 2 - female',
+  `country` varchar(5) NOT NULL DEFAULT '',
+  `street` varchar(255) NOT NULL DEFAULT '',
+  `city` varchar(255) NOT NULL DEFAULT '',
+  `state` varchar(25) NOT NULL DEFAULT '',
+  `zip` varchar(25) NOT NULL DEFAULT '',
+  `fax` varchar(100) NOT NULL DEFAULT '',
+  `photo` varchar(255) NOT NULL DEFAULT '' COMMENT 'link to photo',
+  `comment` text,
+  `createdon` int(11) NOT NULL DEFAULT '0',
+  `editedon` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Contains information about the backend users.';
 
 --
@@ -1025,15 +1059,15 @@ INSERT INTO `delta_user_attributes` (`id`, `internalKey`, `fullname`, `role`, `e
 --
 
 CREATE TABLE IF NOT EXISTS `delta_user_messages` (
-  `id`          INT(10)     NOT NULL,
-  `type`        VARCHAR(15) NOT NULL DEFAULT '',
-  `subject`     VARCHAR(60) NOT NULL DEFAULT '',
-  `message`     TEXT,
-  `sender`      INT(10)     NOT NULL DEFAULT '0',
-  `recipient`   INT(10)     NOT NULL DEFAULT '0',
-  `private`     TINYINT(4)  NOT NULL DEFAULT '0',
-  `postdate`    INT(20)     NOT NULL DEFAULT '0',
-  `messageread` TINYINT(1)  NOT NULL DEFAULT '0'
+  `id` int(10) NOT NULL,
+  `type` varchar(15) NOT NULL DEFAULT '',
+  `subject` varchar(60) NOT NULL DEFAULT '',
+  `message` text,
+  `sender` int(10) NOT NULL DEFAULT '0',
+  `recipient` int(10) NOT NULL DEFAULT '0',
+  `private` tinyint(4) NOT NULL DEFAULT '0',
+  `postdate` int(20) NOT NULL DEFAULT '0',
+  `messageread` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Contains messages for the Content Manager messaging system.';
 
 -- --------------------------------------------------------
@@ -1043,80 +1077,80 @@ CREATE TABLE IF NOT EXISTS `delta_user_messages` (
 --
 
 CREATE TABLE IF NOT EXISTS `delta_user_roles` (
-  `id`                     INT(10)      NOT NULL,
-  `name`                   VARCHAR(50)  NOT NULL DEFAULT '',
-  `description`            VARCHAR(255) NOT NULL DEFAULT '',
-  `frames`                 INT(1)       NOT NULL DEFAULT '0',
-  `home`                   INT(1)       NOT NULL DEFAULT '0',
-  `view_document`          INT(1)       NOT NULL DEFAULT '0',
-  `new_document`           INT(1)       NOT NULL DEFAULT '0',
-  `save_document`          INT(1)       NOT NULL DEFAULT '0',
-  `publish_document`       INT(1)       NOT NULL DEFAULT '0',
-  `delete_document`        INT(1)       NOT NULL DEFAULT '0',
-  `empty_trash`            INT(1)       NOT NULL DEFAULT '0',
-  `action_ok`              INT(1)       NOT NULL DEFAULT '0',
-  `logout`                 INT(1)       NOT NULL DEFAULT '0',
-  `help`                   INT(1)       NOT NULL DEFAULT '0',
-  `messages`               INT(1)       NOT NULL DEFAULT '0',
-  `new_user`               INT(1)       NOT NULL DEFAULT '0',
-  `edit_user`              INT(1)       NOT NULL DEFAULT '0',
-  `logs`                   INT(1)       NOT NULL DEFAULT '0',
-  `edit_parser`            INT(1)       NOT NULL DEFAULT '0',
-  `save_parser`            INT(1)       NOT NULL DEFAULT '0',
-  `edit_template`          INT(1)       NOT NULL DEFAULT '0',
-  `settings`               INT(1)       NOT NULL DEFAULT '0',
-  `credits`                INT(1)       NOT NULL DEFAULT '0',
-  `new_template`           INT(1)       NOT NULL DEFAULT '0',
-  `save_template`          INT(1)       NOT NULL DEFAULT '0',
-  `delete_template`        INT(1)       NOT NULL DEFAULT '0',
-  `edit_snippet`           INT(1)       NOT NULL DEFAULT '0',
-  `new_snippet`            INT(1)       NOT NULL DEFAULT '0',
-  `save_snippet`           INT(1)       NOT NULL DEFAULT '0',
-  `delete_snippet`         INT(1)       NOT NULL DEFAULT '0',
-  `edit_chunk`             INT(1)       NOT NULL DEFAULT '0',
-  `new_chunk`              INT(1)       NOT NULL DEFAULT '0',
-  `save_chunk`             INT(1)       NOT NULL DEFAULT '0',
-  `delete_chunk`           INT(1)       NOT NULL DEFAULT '0',
-  `empty_cache`            INT(1)       NOT NULL DEFAULT '0',
-  `edit_document`          INT(1)       NOT NULL DEFAULT '0',
-  `change_password`        INT(1)       NOT NULL DEFAULT '0',
-  `error_dialog`           INT(1)       NOT NULL DEFAULT '0',
-  `about`                  INT(1)       NOT NULL DEFAULT '0',
-  `category_manager`       INT(1)       NOT NULL DEFAULT '0',
-  `file_manager`           INT(1)       NOT NULL DEFAULT '0',
-  `assets_files`           INT(1)       NOT NULL DEFAULT '0',
-  `assets_images`          INT(1)       NOT NULL DEFAULT '0',
-  `save_user`              INT(1)       NOT NULL DEFAULT '0',
-  `delete_user`            INT(1)       NOT NULL DEFAULT '0',
-  `save_password`          INT(11)      NOT NULL DEFAULT '0',
-  `edit_role`              INT(1)       NOT NULL DEFAULT '0',
-  `save_role`              INT(1)       NOT NULL DEFAULT '0',
-  `delete_role`            INT(1)       NOT NULL DEFAULT '0',
-  `new_role`               INT(1)       NOT NULL DEFAULT '0',
-  `access_permissions`     INT(1)       NOT NULL DEFAULT '0',
-  `bk_manager`             INT(1)       NOT NULL DEFAULT '0',
-  `new_plugin`             INT(1)       NOT NULL DEFAULT '0',
-  `edit_plugin`            INT(1)       NOT NULL DEFAULT '0',
-  `save_plugin`            INT(1)       NOT NULL DEFAULT '0',
-  `delete_plugin`          INT(1)       NOT NULL DEFAULT '0',
-  `new_module`             INT(1)       NOT NULL DEFAULT '0',
-  `edit_module`            INT(1)       NOT NULL DEFAULT '0',
-  `save_module`            INT(1)       NOT NULL DEFAULT '0',
-  `delete_module`          INT(1)       NOT NULL DEFAULT '0',
-  `exec_module`            INT(1)       NOT NULL DEFAULT '0',
-  `view_eventlog`          INT(1)       NOT NULL DEFAULT '0',
-  `delete_eventlog`        INT(1)       NOT NULL DEFAULT '0',
-  `new_web_user`           INT(1)       NOT NULL DEFAULT '0',
-  `edit_web_user`          INT(1)       NOT NULL DEFAULT '0',
-  `save_web_user`          INT(1)       NOT NULL DEFAULT '0',
-  `delete_web_user`        INT(1)       NOT NULL DEFAULT '0',
-  `web_access_permissions` INT(1)       NOT NULL DEFAULT '0',
-  `view_unpublished`       INT(1)       NOT NULL DEFAULT '0',
-  `import_static`          INT(1)       NOT NULL DEFAULT '0',
-  `export_static`          INT(1)       NOT NULL DEFAULT '0',
-  `remove_locks`           INT(1)       NOT NULL DEFAULT '0',
-  `display_locks`          INT(1)       NOT NULL DEFAULT '0',
-  `change_resourcetype`    INT(1)       NOT NULL DEFAULT '0'
+  `id` int(10) NOT NULL,
+  `name` varchar(50) NOT NULL DEFAULT '',
+  `description` varchar(255) NOT NULL DEFAULT '',
+  `frames` int(1) NOT NULL DEFAULT '0',
+  `home` int(1) NOT NULL DEFAULT '0',
+  `view_document` int(1) NOT NULL DEFAULT '0',
+  `new_document` int(1) NOT NULL DEFAULT '0',
+  `save_document` int(1) NOT NULL DEFAULT '0',
+  `publish_document` int(1) NOT NULL DEFAULT '0',
+  `delete_document` int(1) NOT NULL DEFAULT '0',
+  `empty_trash` int(1) NOT NULL DEFAULT '0',
+  `action_ok` int(1) NOT NULL DEFAULT '0',
+  `logout` int(1) NOT NULL DEFAULT '0',
+  `help` int(1) NOT NULL DEFAULT '0',
+  `messages` int(1) NOT NULL DEFAULT '0',
+  `new_user` int(1) NOT NULL DEFAULT '0',
+  `edit_user` int(1) NOT NULL DEFAULT '0',
+  `logs` int(1) NOT NULL DEFAULT '0',
+  `edit_parser` int(1) NOT NULL DEFAULT '0',
+  `save_parser` int(1) NOT NULL DEFAULT '0',
+  `edit_template` int(1) NOT NULL DEFAULT '0',
+  `settings` int(1) NOT NULL DEFAULT '0',
+  `credits` int(1) NOT NULL DEFAULT '0',
+  `new_template` int(1) NOT NULL DEFAULT '0',
+  `save_template` int(1) NOT NULL DEFAULT '0',
+  `delete_template` int(1) NOT NULL DEFAULT '0',
+  `edit_snippet` int(1) NOT NULL DEFAULT '0',
+  `new_snippet` int(1) NOT NULL DEFAULT '0',
+  `save_snippet` int(1) NOT NULL DEFAULT '0',
+  `delete_snippet` int(1) NOT NULL DEFAULT '0',
+  `edit_chunk` int(1) NOT NULL DEFAULT '0',
+  `new_chunk` int(1) NOT NULL DEFAULT '0',
+  `save_chunk` int(1) NOT NULL DEFAULT '0',
+  `delete_chunk` int(1) NOT NULL DEFAULT '0',
+  `empty_cache` int(1) NOT NULL DEFAULT '0',
+  `edit_document` int(1) NOT NULL DEFAULT '0',
+  `change_password` int(1) NOT NULL DEFAULT '0',
+  `error_dialog` int(1) NOT NULL DEFAULT '0',
+  `about` int(1) NOT NULL DEFAULT '0',
+  `category_manager` int(1) NOT NULL DEFAULT '0',
+  `file_manager` int(1) NOT NULL DEFAULT '0',
+  `assets_files` int(1) NOT NULL DEFAULT '0',
+  `assets_images` int(1) NOT NULL DEFAULT '0',
+  `save_user` int(1) NOT NULL DEFAULT '0',
+  `delete_user` int(1) NOT NULL DEFAULT '0',
+  `save_password` int(11) NOT NULL DEFAULT '0',
+  `edit_role` int(1) NOT NULL DEFAULT '0',
+  `save_role` int(1) NOT NULL DEFAULT '0',
+  `delete_role` int(1) NOT NULL DEFAULT '0',
+  `new_role` int(1) NOT NULL DEFAULT '0',
+  `access_permissions` int(1) NOT NULL DEFAULT '0',
+  `bk_manager` int(1) NOT NULL DEFAULT '0',
+  `new_plugin` int(1) NOT NULL DEFAULT '0',
+  `edit_plugin` int(1) NOT NULL DEFAULT '0',
+  `save_plugin` int(1) NOT NULL DEFAULT '0',
+  `delete_plugin` int(1) NOT NULL DEFAULT '0',
+  `new_module` int(1) NOT NULL DEFAULT '0',
+  `edit_module` int(1) NOT NULL DEFAULT '0',
+  `save_module` int(1) NOT NULL DEFAULT '0',
+  `delete_module` int(1) NOT NULL DEFAULT '0',
+  `exec_module` int(1) NOT NULL DEFAULT '0',
+  `view_eventlog` int(1) NOT NULL DEFAULT '0',
+  `delete_eventlog` int(1) NOT NULL DEFAULT '0',
+  `new_web_user` int(1) NOT NULL DEFAULT '0',
+  `edit_web_user` int(1) NOT NULL DEFAULT '0',
+  `save_web_user` int(1) NOT NULL DEFAULT '0',
+  `delete_web_user` int(1) NOT NULL DEFAULT '0',
+  `web_access_permissions` int(1) NOT NULL DEFAULT '0',
+  `view_unpublished` int(1) NOT NULL DEFAULT '0',
+  `import_static` int(1) NOT NULL DEFAULT '0',
+  `export_static` int(1) NOT NULL DEFAULT '0',
+  `remove_locks` int(1) NOT NULL DEFAULT '0',
+  `display_locks` int(1) NOT NULL DEFAULT '0',
+  `change_resourcetype` int(1) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Contains information describing the user roles.';
 
 --
@@ -1135,8 +1169,8 @@ INSERT INTO `delta_user_roles` (`id`, `name`, `description`, `frames`, `home`, `
 --
 
 CREATE TABLE IF NOT EXISTS `delta_user_settings` (
-  `user`          INT(11)     NOT NULL,
-  `setting_name`  VARCHAR(50) NOT NULL DEFAULT '',
+  `user` int(11) NOT NULL,
+  `setting_name` varchar(50) NOT NULL DEFAULT '',
   `setting_value` text
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Contains backend user settings.';
 
@@ -1147,8 +1181,8 @@ CREATE TABLE IF NOT EXISTS `delta_user_settings` (
 --
 
 CREATE TABLE IF NOT EXISTS `delta_webgroup_access` (
-  `id`            INT(10) NOT NULL,
-  `webgroup`      INT(10) NOT NULL DEFAULT '0',
+  `id` int(10) NOT NULL,
+  `webgroup` int(10) NOT NULL DEFAULT '0',
   `documentgroup` int(10) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Contains data used for web access permissions.';
 
@@ -1159,7 +1193,7 @@ CREATE TABLE IF NOT EXISTS `delta_webgroup_access` (
 --
 
 CREATE TABLE IF NOT EXISTS `delta_webgroup_names` (
-  `id`   INT(10)      NOT NULL,
+  `id` int(10) NOT NULL,
   `name` varchar(245) NOT NULL DEFAULT ''
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Contains data used for web access permissions.';
 
@@ -1170,9 +1204,9 @@ CREATE TABLE IF NOT EXISTS `delta_webgroup_names` (
 --
 
 CREATE TABLE IF NOT EXISTS `delta_web_groups` (
-  `id`       INT(10) NOT NULL,
+  `id` int(10) NOT NULL,
   `webgroup` int(10) NOT NULL DEFAULT '0',
-  `webuser`  INT(10) NOT NULL DEFAULT '0'
+  `webuser` int(10) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Contains data used for web access permissions.';
 
 -- --------------------------------------------------------
@@ -1182,7 +1216,7 @@ CREATE TABLE IF NOT EXISTS `delta_web_groups` (
 --
 
 CREATE TABLE IF NOT EXISTS `delta_web_users` (
-  `id`       INT(10)      NOT NULL,
+  `id` int(10) NOT NULL,
   `username` varchar(100) NOT NULL DEFAULT '',
   `password` varchar(100) NOT NULL DEFAULT '',
   `cachepwd` varchar(100) NOT NULL DEFAULT '' COMMENT 'Store new unconfirmed password'
@@ -1195,35 +1229,33 @@ CREATE TABLE IF NOT EXISTS `delta_web_users` (
 --
 
 CREATE TABLE IF NOT EXISTS `delta_web_user_attributes` (
-  `id`               INT(10)      NOT NULL,
-  `internalKey`      INT(10)      NOT NULL DEFAULT '0',
-  `fullname`         VARCHAR(100) NOT NULL DEFAULT '',
-  `role`             INT(10)      NOT NULL DEFAULT '0',
-  `email`            VARCHAR(100) NOT NULL DEFAULT '',
-  `phone`            VARCHAR(100) NOT NULL DEFAULT '',
-  `mobilephone`      VARCHAR(100) NOT NULL DEFAULT '',
-  `blocked`          INT(1)       NOT NULL DEFAULT '0',
-  `blockeduntil`     INT(11)      NOT NULL DEFAULT '0',
-  `blockedafter`     INT(11)      NOT NULL DEFAULT '0',
-  `logincount`       INT(11)      NOT NULL DEFAULT '0',
-  `lastlogin`        INT(11)      NOT NULL DEFAULT '0',
-  `thislogin`        INT(11)      NOT NULL DEFAULT '0',
-  `failedlogincount` INT(10)      NOT NULL DEFAULT '0',
-  `sessionid`        VARCHAR(100) NOT NULL DEFAULT '',
-  `dob`              INT(10)      NOT NULL DEFAULT '0',
-  `gender`           INT(1)       NOT NULL DEFAULT '0'
-  COMMENT '0 - unknown, 1 - Male 2 - female',
-  `country`          VARCHAR(25)  NOT NULL DEFAULT '',
-  `street`           VARCHAR(255) NOT NULL DEFAULT '',
-  `city`             VARCHAR(255) NOT NULL DEFAULT '',
-  `state`            VARCHAR(25)  NOT NULL DEFAULT '',
-  `zip`              VARCHAR(25)  NOT NULL DEFAULT '',
-  `fax`              VARCHAR(100) NOT NULL DEFAULT '',
-  `photo`            VARCHAR(255) NOT NULL DEFAULT ''
-  COMMENT 'link to photo',
-  `comment`          TEXT,
-  `createdon`        INT(11)      NOT NULL DEFAULT '0',
-  `editedon`         INT(11)      NOT NULL DEFAULT '0'
+  `id` int(10) NOT NULL,
+  `internalKey` int(10) NOT NULL DEFAULT '0',
+  `fullname` varchar(100) NOT NULL DEFAULT '',
+  `role` int(10) NOT NULL DEFAULT '0',
+  `email` varchar(100) NOT NULL DEFAULT '',
+  `phone` varchar(100) NOT NULL DEFAULT '',
+  `mobilephone` varchar(100) NOT NULL DEFAULT '',
+  `blocked` int(1) NOT NULL DEFAULT '0',
+  `blockeduntil` int(11) NOT NULL DEFAULT '0',
+  `blockedafter` int(11) NOT NULL DEFAULT '0',
+  `logincount` int(11) NOT NULL DEFAULT '0',
+  `lastlogin` int(11) NOT NULL DEFAULT '0',
+  `thislogin` int(11) NOT NULL DEFAULT '0',
+  `failedlogincount` int(10) NOT NULL DEFAULT '0',
+  `sessionid` varchar(100) NOT NULL DEFAULT '',
+  `dob` int(10) NOT NULL DEFAULT '0',
+  `gender` int(1) NOT NULL DEFAULT '0' COMMENT '0 - unknown, 1 - Male 2 - female',
+  `country` varchar(25) NOT NULL DEFAULT '',
+  `street` varchar(255) NOT NULL DEFAULT '',
+  `city` varchar(255) NOT NULL DEFAULT '',
+  `state` varchar(25) NOT NULL DEFAULT '',
+  `zip` varchar(25) NOT NULL DEFAULT '',
+  `fax` varchar(100) NOT NULL DEFAULT '',
+  `photo` varchar(255) NOT NULL DEFAULT '' COMMENT 'link to photo',
+  `comment` text,
+  `createdon` int(11) NOT NULL DEFAULT '0',
+  `editedon` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Contains information for web users.';
 
 -- --------------------------------------------------------
@@ -1233,8 +1265,8 @@ CREATE TABLE IF NOT EXISTS `delta_web_user_attributes` (
 --
 
 CREATE TABLE IF NOT EXISTS `delta_web_user_settings` (
-  `webuser`       INT(11)     NOT NULL,
-  `setting_name`  VARCHAR(50) NOT NULL DEFAULT '',
+  `webuser` int(11) NOT NULL,
+  `setting_name` varchar(50) NOT NULL DEFAULT '',
   `setting_value` text
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Contains web user settings.';
 
@@ -1253,7 +1285,7 @@ ALTER TABLE `delta_active_users`
 --
 ALTER TABLE `delta_active_user_locks`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `ix_element_id` (`elementType`, `elementId`, `sid`);
+  ADD UNIQUE KEY `ix_element_id` (`elementType`,`elementId`,`sid`);
 
 --
 -- Индексы таблицы `delta_active_user_sessions`
@@ -1500,7 +1532,7 @@ ALTER TABLE `delta_web_user_settings`
 -- AUTO_INCREMENT для таблицы `delta_active_user_locks`
 --
 ALTER TABLE `delta_active_user_locks`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT для таблицы `delta_categories`
 --
@@ -1520,12 +1552,12 @@ ALTER TABLE `delta_document_groups`
 -- AUTO_INCREMENT для таблицы `delta_event_log`
 --
 ALTER TABLE `delta_event_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT для таблицы `delta_manager_log`
 --
 ALTER TABLE `delta_manager_log`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=56;
 --
 -- AUTO_INCREMENT для таблицы `delta_manager_users`
 --
@@ -1550,7 +1582,7 @@ ALTER TABLE `delta_member_groups`
 -- AUTO_INCREMENT для таблицы `delta_site_content`
 --
 ALTER TABLE `delta_site_content`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT для таблицы `delta_site_htmlsnippets`
 --
@@ -1575,7 +1607,7 @@ ALTER TABLE `delta_site_module_depobj`
 -- AUTO_INCREMENT для таблицы `delta_site_plugins`
 --
 ALTER TABLE `delta_site_plugins`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT для таблицы `delta_site_snippets`
 --
@@ -1585,7 +1617,7 @@ ALTER TABLE `delta_site_snippets`
 -- AUTO_INCREMENT для таблицы `delta_site_templates`
 --
 ALTER TABLE `delta_site_templates`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT для таблицы `delta_site_tmplvars`
 --
@@ -1600,7 +1632,7 @@ ALTER TABLE `delta_site_tmplvar_access`
 -- AUTO_INCREMENT для таблицы `delta_site_tmplvar_contentvalues`
 --
 ALTER TABLE `delta_site_tmplvar_contentvalues`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT для таблицы `delta_system_eventnames`
 --

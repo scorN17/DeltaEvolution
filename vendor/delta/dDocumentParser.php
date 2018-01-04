@@ -30,7 +30,8 @@ class dDocumentParser extends DocumentParser {
 	*/
 
 	public $urlXParams = false; //scorn
-	public $dAliasPath = false;
+
+	protected $rootCatalog = 3;
 
 
 
@@ -40,14 +41,24 @@ class dDocumentParser extends DocumentParser {
 	}
 
 
-	
-	public function urlXParams($url){
-		$url_without_params= $url;
-		preg_match("/(.*)\/(x\/(.*)\/)$/", $url_without_params, $matches);
-		$x_params= $matches[3];
-		$url_without_params= str_replace($matches[2], '', $url_without_params);
-		return array($url, $url_without_params, $x_params);
+
+
+	/**
+	 * Алиасы карточек товаров, доп параметры в урле
+	 * 
+	 *  evolution/catalog/_s_fghgfh.html
+	 *  evolution/catalog/_sort_priceUp/
+	 * @param string $url docIdentifier из getDocumentIdentifier()
+	 * @return void
+	 * @todo если есть /catalog/ и .html - это карточка товара, иначе искать _ и вычленять параметры
+	 */
+	public function urlXParams(&$url){
+		if (preg_match("/(.*\/)(_(.*))$/", $url , $matches)){
+			$url = $matches[1];
+		}
+		$this->urlXParams = $matches[3]; //затычка
 	}
+
 
 
 
@@ -59,6 +70,7 @@ class dDocumentParser extends DocumentParser {
 		}
 	}
 	
+
 
 
 
@@ -82,19 +94,18 @@ class dDocumentParser extends DocumentParser {
 					if(substr($_,0,1)==='/') $this->sendErrorPage();
 				}
 		}
-		$foo= $this->urlXParams($docIdentifier); //scorn
-		$docIdentifier= $foo[1]; //scorn
-		$this->urlXParams= $foo[2]; //scorn
+		$this->urlXParams($docIdentifier);
 		return $docIdentifier;
 	}
 
 
 
 
-	/*REDECLARE Для использования F в ссылках. [~1F~] - F - будет сгенерирован полный УРЛ*/
+
 	/** 
 	 * Convert URL tags [~...~] to URLs
 	 *
+	 * REDECLARE Для использования F в ссылках. [~1F~] - F - будет сгенерирован полный УРЛ
 	 * @param string $documentSource
 	 * @return string
 	 */
@@ -178,6 +189,19 @@ class dDocumentParser extends DocumentParser {
 		}
 		return $documentSource;
 	}
+
+
+
+
+
+
+	public function pre($arr){
+		echo '<pre>';
+		print_r($arr);
+		echo '</pre>';
+	}
+
+
 	
 
 
