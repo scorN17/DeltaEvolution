@@ -3,8 +3,8 @@
  * Каталог
  * 
  * добавление, удаление, редактирование.
- * @author delta <info@delta-ltd.ru>
- * @version 1.0
+ * @author delta <info@delta-ltd.ru>, <aleksandr.it@delta-ltd.ru>
+ * @version 1.1
  */
 
 
@@ -18,6 +18,32 @@
 trait catalog_c {
 
 
+	protected static $_VIEW_P_DIR_OPT;
+	protected static $_VIEW_P_ALL_FIELD;
+	protected static $_TABLE_P_IMAGES;
+
+	protected  $catsIDS = array();
+	protected  $goodsIDS = array();
+
+
+
+
+	/**
+	 * Инициализация
+	 * 
+	 * Необходимо вызвать в конструкторе dDocumentParser
+	 * @return void
+	 */
+	protected function init_catalog_c (){
+		self::$_VIEW_P_DIR_OPT = 'v_product_dir_and_option' ;
+		self::$_VIEW_P_ALL_FIELD = 'v_product_all_field' ;
+		self::$_TABLE_P_IMAGES =  $this->getFullTableName( '_product_images' );
+	}
+
+
+
+
+
 
 	/**
 	 * Возвращает список ид категорий
@@ -27,17 +53,19 @@ trait catalog_c {
 	 * @param integer $limiter количество возвращаемых элементов, если не указано - будут возвращены все
 	 * @return mixed
 	 */
-	public function getCatFromID ($id, $limiter = false){
-		$ids=false;
+	public function getCatFromID ($id, $limiter = false, $push = false){
+		$this->catsIDS = array();
 		if (is_numeric($limiter)) $limiter = ' LIMIT '.$limiter ;
 		$tableSC = $this->getFullTableName('site_content');
-		$result = $this->db->select("id", $tableSC,  "parent=" . $id ." AND published = '1' AND deleted = '0' AND isfolder = '1'  ".$limiter); 
+		$result = $this->db->select("id", $tableSC,  "parent=" . $id ." AND published = '1' AND deleted = '0' AND isfolder = '1' ".$limiter); 
 		if( $this->db->getRecordCount( $result ) >= 1 ) {
-	        while( $row = $this->db->getRow( $result ) ){  
-	            $ids[] = $row['id'] ; 
-	        }
-	    }
-	    return $ids;
+			while( $row = $this->db->getRow( $result ) ){  
+				$this->catsIDS[] = $row['id'] ; 
+			}
+		}
+		if ($push) return $this->catsIDS;
+		else return $this;
+		
 	}
 
 
@@ -50,7 +78,7 @@ trait catalog_c {
 	 * @param boolean $addParent включать или нет в цепочку родителя
 	 * @return array
 	 */
-	function getTreeCat($id = false , $addParent = true){
+	function getTreeCat($id = false , $addParent = true, $recursive = false){
 		$idsCats = array();
 		$tmp = array();
 
@@ -64,11 +92,11 @@ trait catalog_c {
 			}
 		}
 
-		if (count($ids = $this->getCatFromID ($id)) > 0 && is_array($ids)) {
+		if (count($ids = $this->getCatFromID ($id , false , true)) > 0 && is_array($ids)) {
 			foreach ($ids as $key => $value) {
 				if (!in_array($value , $idsCats))  {
 					array_push($idsCats , $value);
-					$tmp = $this->getTreeCat($value); 
+					$tmp = $this->getTreeCat($value, false , true); 
 					foreach ($tmp as $key2 => $value2) {
 						if (!in_array($value2 , $idsCats))  {
 							array_push($idsCats , $value2);
@@ -77,7 +105,11 @@ trait catalog_c {
 				}
 			}
 		}
-		return $idsCats;
+		if ($recursive) return $idsCats;
+		else {
+			$this->catsIDS = $idsCats;
+			return $this;
+		}	
 	}
 
 
@@ -86,35 +118,32 @@ trait catalog_c {
 	/**
 	 * Возвращает массив доп. поля и TV для массива c id категорий
 	 * 
-	 * @param array $arrID список ид категорий
 	 * @return mxied
 	 */
-	function getFields($arrID){
-		if (!is_array($arrID)) return false;
-
-		$table = $this->getFullTableName('site_content');
-		$tableTV = $this->getFullTableName('site_tmplvar_contentvalues');
-		$tableNAMES = $this->getFullTableName('site_tmplvars');
-
+	function getFields(){
+		if (!is_array($this->catsIDS)) return false;
 		$ids=false;
-		foreach ($arrID as $key => $value) {
-			$result = $this->db->query("SELECT pagetitle, parent, alias, id, isfolder, content, menuindex  FROM  ".$table." WHERE id =  ".$value.$limiter); 
+		foreach ($this->catsIDS as $key => $value) {
+			$result = $this->db->query("SELECT pagetitle, parent, alias, id, isfolder, content, menuindex  
+				FROM  ".self::$_TABLE_SC." WHERE id =  ".$value.$limiter); 
+
 			if( $this->db->getRecordCount( $result ) >= 1 ) {
 				while( $row = $this->db->getRow( $result ) ) { 
-		            $ids[$value]['fields'] = $row;  
-		        }
+					$ids[$value]['fields'] = $row;  
+				}
 			}
 
-			$result = $this->db->query("SELECT v.value, n.name FROM  ".$tableTV." AS v 
-										INNER JOIN ".$tableNAMES." AS n ON n.id = v.tmplvarid
+			$result = $this->db->query("SELECT v.value, n.name FROM  ".self::$_TABLE_TV." AS v 
+										INNER JOIN ".self::$_TABLE_TVNAMES." AS n ON n.id = v.tmplvarid
 										WHERE v.contentid =  ".$value); 
 			if( $this->db->getRecordCount( $result ) >= 1 ) {
 				while( $row = $this->db->getRow( $result ) ) {  
-		            $ids[$value]['tv'][$row['name']] = $row['value'];  
-		        }
+					$ids[$value]['tv'][$row['name']] = $row['value'];  
+				}
 			}
 		}
-	    return $ids;
+		$this->catsIDS = $ids;
+		return $this;
 	}
 
 
@@ -129,8 +158,8 @@ trait catalog_c {
 	 * @param string $type если хоть что то сюда передать - сортироваться будет по ТВ параметрам (необходимо указать в {@$field})
 	 * @return mxied
 	 */
-	function sortGods ($ids , $field, $order = 'ASC', $type = 'fields'){
-		if (!is_array($ids)) return false;
+	function sortIt ($what , $field, $order = 'ASC', $type = 'fields'){
+		if (($ids = $this->selectTarget($what , $typeField)) === false) return $this;
 		uasort($ids, function($a, $b) use ($field, $order, $type){
 			if ($order== 'DESC') {
 				$fn_compaire_a = 1;
@@ -142,15 +171,14 @@ trait catalog_c {
 			if ($type != 'fields') $type = 'tv';
 
 			if ($a[$type][$field] == $b[$type][$field]) {
-		        return 0;
-		    }
-		    return (strnatcmp( $a[$type][$field] , $b[$type][$field])) < 0 ? $fn_compaire_a : $fn_compaire_b;
-		    //return ($a[$type][$field] < $b[$type][$field]) ? $fn_compaire_a : $fn_compaire_b;
+				return 0;
+			}
+			return (strnatcmp( $a[$type][$field] , $b[$type][$field])) < 0 ? $fn_compaire_a : $fn_compaire_b;
 		});
-		return $ids;
+
+		$this->{$typeField} = $ids;
+		return $this;
 	}
-
-
 
 
 
@@ -161,12 +189,59 @@ trait catalog_c {
 	 * @param array $ids массив (с полями)
 	 * @param integer $from от (нумерация от нуля)
 	 * @param integer $limiter количество
+	 * @return mixed
+	 */
+	function sliceIt ($what, $from, $limiter){
+		if (($ids = $this->selectTarget($what , $typeField)) === false) return $this;
+		$ids = array_slice ($ids , $from, $limiter , true);
+		$this->{$typeField} = $ids;
+		return $this;
+	}
+
+
+
+
+
+	/**
+	 * 
+	 * 
+	 * 
+	 * 
+	 */
+	public function &selectTarget ($what , &$type = false){
+		switch ($what) {
+			case 'cats':
+				$ids =  &$this->catsIDS;
+				$type = 'catsIDS';
+				break;
+
+			case 'goods':
+				$ids =  &$this->goodsIDS;
+				$type = 'goodsIDS';
+				break;
+
+			default:
+				return false;
+		}
+		return $ids;
+	}
+
+
+
+
+
+
+	/**
+	 * 
+	 * 
+	 * 
 	 * @return array
 	 */
-	function sliceGods ($ids, $from, $limiter){
-		if (!is_array($ids)) return false;
-		return array_slice ($ids , $from, $limiter , true);
+	public function getArrayData ($what){
+		if (($ids = $this->selectTarget($what)) === false) return false;
+		return $ids;
 	}
+
 
 
 
@@ -182,13 +257,12 @@ trait catalog_c {
 	 * @param boolean $showInnerCats true - выборка товаров и из вложенных категорий
 	 * @return array
 	 */
-	function getGoodsFromID ($id = false, $limiter = false , $xParams= false , $showInnerCats =false){
+	function getGoodsFromCats ($id = false, $limiter = false , $xParams= false , $showInnerCats =false){
 		$ids=false;
 		if (!is_numeric($id)) {
 			$id=$this->documentIdentifier;
 		}
 		if (is_numeric($limiter)) $limiter = ' LIMIT '.$limiter ;
-		$tablePD = ('v_product_dir_and_option');
 		//$tableFTI = $modx->getFullTableName('_px_filter_values_toitm');
 		//$tableFVD = $modx->getFullTableName('_px_filter_values_descr');
 
@@ -211,7 +285,7 @@ trait catalog_c {
 			$showInnerCats = false;
 		}
 
-
+ 
 		/**
 		 * @todo выборка id товаров с учетом фильтров 
 		 */
@@ -253,15 +327,15 @@ trait catalog_c {
 				//echo mysql_error();
 				if( $modx->db->getRecordCount( $result ) >= 1 ) {
 					$k = 0;
-			        while( $row = $modx->db->getRow( $result ) ){
-			        	$ids[$key][$row['good_id']]['id'] = $row['good_id'];
-			            $ids[$key][$row['good_id']]['FG'] = $row['filter_group_id'];
-			            $ids[$key][$row['good_id']]['FD'] = $row['filter_value_id'];
-			            $idsSect[$key][] = $row['good_id']; // for intersect test
-			            $lastK = $key;
-			        }
-			        $iter++;
-			    }
+					while( $row = $modx->db->getRow( $result ) ){
+						$ids[$key][$row['good_id']]['id'] = $row['good_id'];
+						$ids[$key][$row['good_id']]['FG'] = $row['filter_group_id'];
+						$ids[$key][$row['good_id']]['FD'] = $row['filter_value_id'];
+						$idsSect[$key][] = $row['good_id']; // for intersect test
+						$lastK = $key;
+					}
+					$iter++;
+				}
 			}
 			
 			$collector = array();
@@ -281,18 +355,51 @@ trait catalog_c {
 			return $results;
 			*/
 		}else {
-			$sql = "SELECT * FROM ".$tablePD." `pd`
-				WHERE ".($showInnerCats ? $dopSqlPrnt :  " pd.id_sc=" . $id )." AND pd.visible > 0 ".$limiter; 
+			$sql = "SELECT * FROM ".self::$_VIEW_P_DIR_OPT." `pd`
+				WHERE ".($showInnerCats ? $dopSqlPrnt :  " pd.id_sc=" . $id )." AND pd.visible > 0 GROUP BY pd.id_product ".$limiter; 
 			$result = $this->db->query($sql);
 			if( $this->db->getRecordCount( $result ) >= 1 ) {
-				$k = 0;
-		        while( $row = $this->db->getRow( $result ) ){  
-		            $ids[$k++]['id'] = $row['id_product'];
-		        }
-		    }
-		    return $ids;
+				//$k = 0;
+				while( $row = $this->db->getRow( $result ) ){  
+					//$ids[$k++]['id'] = $row['id_product'];
+					$ids[] = $row['id_product'];
+				}
+			}
+			$this->goodsIDS = $ids;
+			return $this;
 		}
 	}
+
+
+
+
+
+ 
+
+	/**
+	 * Выборка всех полей для массива ид товаров
+	 * 
+	 * 
+	 * @return object
+	 * @todo Сделать выборку картинок и свойств фильтров (параметров)
+	 */
+	function getAllGoodFields (){
+		if (!is_array($this->goodsIDS)) return false;
+		$ids=false;
+		foreach ($this->goodsIDS as $key => $value) {
+			$result = $this->db->query("SELECT *
+				FROM  ".self::$_VIEW_P_ALL_FIELD." WHERE id_product =  ".$value." 
+				AND id_language = ".self::$_LANGUAGE_ID); 
+			if( $this->db->getRecordCount( $result ) >= 1 ) {
+				while( $row = $this->db->getRow( $result ) ) { 
+					$ids[$value]['fields'] = $row;  
+				}
+			}
+		}
+		$this->goodsIDS = $ids;
+		return $this;
+	}
+
 
 
 

@@ -47,12 +47,12 @@ function loadFromFile ($fileName = 'fullModel.sql'){
 	//echo $command;
 	exec($command,$output=array(),$worked);
 	switch($worked){
-	    case 0:
-	        $res = true;
-	        break;
-	    case 1:
-	        $res = false;
-	        break;
+		case 0:
+			$res = true;
+			break;
+		case 1:
+			$res = false;
+			break;
 	}
 	return $res;
 }
@@ -100,14 +100,14 @@ function dropTables(){
 	$rewind = false;
 	while($it->valid()){
 	   // echo $it->key() . "=" . $it->current() . "\n";
-	    if ( ! $modx->db->query("DROP TABLE IF EXISTS `".$baseName."`.`".$it->current()."` ")) {
-	    	$rewind = true;
-	    }else {
-	    	$modx->db->query("DROP VIEW IF EXISTS `".$baseName."`.`".$it->current()."` ");
-	    	$rewind = false;
-	    }
-	    $it->next();
-	    if  (! $it->valid() && $rewind ) $it->rewind(); 
+		if ( ! $modx->db->query("DROP TABLE IF EXISTS `".$baseName."`.`".$it->current()."` ")) {
+			$rewind = true;
+		}else {
+			$modx->db->query("DROP VIEW IF EXISTS `".$baseName."`.`".$it->current()."` ");
+			$rewind = false;
+		}
+		$it->next();
+		if  (! $it->valid() && $rewind ) $it->rewind(); 
 	}
 }
 

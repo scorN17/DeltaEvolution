@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `deltaevo`.`delta__language` (
   INDEX `idx_name` (`name` ASC)
 )
   ENGINE = InnoDB
-  AUTO_INCREMENT = 2
+  AUTO_INCREMENT = 1
   DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
@@ -78,8 +78,8 @@ CREATE TABLE IF NOT EXISTS `deltaevo`.`delta__users_address` (
   CONSTRAINT `user_address_to_user`
   FOREIGN KEY (`id_user`)
   REFERENCES `deltaevo`.`delta__users` (`id_user`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION
+	ON DELETE CASCADE
+	ON UPDATE NO ACTION
 )
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8;
@@ -92,18 +92,17 @@ CREATE TABLE IF NOT EXISTS `deltaevo`.`delta__product_description` (
   `name`        VARCHAR(150) NULL,
   `intro`       VARCHAR(300) NULL,
   `id_language` INT          NOT NULL DEFAULT 1,
-  PRIMARY KEY (`id_product`),
   INDEX `product_descr_to_language_idx` (`id_language` ASC),
   CONSTRAINT `product_descr_to_product`
   FOREIGN KEY (`id_product`)
   REFERENCES `deltaevo`.`delta__product` (`id_product`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION,
+	ON DELETE CASCADE
+	ON UPDATE NO ACTION,
   CONSTRAINT `product_descr_to_language`
   FOREIGN KEY (`id_language`)
   REFERENCES `deltaevo`.`delta__language` (`id_language`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION
+	ON DELETE NO ACTION
+	ON UPDATE NO ACTION
 )
   ENGINE = InnoDB;
 
@@ -118,8 +117,8 @@ CREATE TABLE IF NOT EXISTS `deltaevo`.`delta__product_images` (
   CONSTRAINT `images_to_product`
   FOREIGN KEY (`id_product`)
   REFERENCES `deltaevo`.`delta__product` (`id_product`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION
+	ON DELETE CASCADE
+	ON UPDATE NO ACTION
 )
   ENGINE = InnoDB;
 
@@ -139,8 +138,8 @@ CREATE TABLE IF NOT EXISTS `deltaevo`.`delta__product_options` (
   CONSTRAINT `product_props_to_product`
   FOREIGN KEY (`id_product`)
   REFERENCES `deltaevo`.`delta__product` (`id_product`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION
+	ON DELETE CASCADE
+	ON UPDATE NO ACTION
 )
   ENGINE = InnoDB;
 
@@ -165,13 +164,13 @@ CREATE TABLE IF NOT EXISTS `deltaevo`.`delta__vendor_to_product` (
   CONSTRAINT `to_vendor`
   FOREIGN KEY (`id_vendor`)
   REFERENCES `deltaevo`.`delta__vendors` (`id_vendor`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION,
+	ON DELETE CASCADE
+	ON UPDATE NO ACTION,
   CONSTRAINT `to_product`
   FOREIGN KEY (`id_product`)
   REFERENCES `deltaevo`.`delta__product` (`id_product`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION
+	ON DELETE CASCADE
+	ON UPDATE NO ACTION
 )
   ENGINE = InnoDB;
 
@@ -189,8 +188,8 @@ CREATE TABLE IF NOT EXISTS `deltaevo`.`delta__product_to_directory` (
   CONSTRAINT `to_product_prod_to_dir`
   FOREIGN KEY (`id_product`)
   REFERENCES `deltaevo`.`delta__product` (`id_product`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION
+	ON DELETE CASCADE
+	ON UPDATE NO ACTION
 )
   ENGINE = InnoDB;
 
@@ -218,13 +217,13 @@ CREATE TABLE IF NOT EXISTS `deltaevo`.`delta__props_group_descr` (
   CONSTRAINT `to_group`
   FOREIGN KEY (`id_props_group`)
   REFERENCES `deltaevo`.`delta__props_group` (`id_props_group`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION,
+	ON DELETE CASCADE
+	ON UPDATE NO ACTION,
   CONSTRAINT `to_lang`
   FOREIGN KEY (`id_language`)
   REFERENCES `deltaevo`.`delta__language` (`id_language`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION
+	ON DELETE NO ACTION
+	ON UPDATE NO ACTION
 )
   ENGINE = InnoDB;
 
@@ -239,8 +238,8 @@ CREATE TABLE IF NOT EXISTS `deltaevo`.`delta__props` (
   CONSTRAINT `to_group_from_props`
   FOREIGN KEY (`id_group`)
   REFERENCES `deltaevo`.`delta__props_group` (`id_props_group`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION
+	ON DELETE CASCADE
+	ON UPDATE NO ACTION
 )
   ENGINE = InnoDB;
 
@@ -257,13 +256,13 @@ CREATE TABLE IF NOT EXISTS `deltaevo`.`delta__props_descr` (
   CONSTRAINT `to_props_from_props_descr`
   FOREIGN KEY (`id_prop`)
   REFERENCES `deltaevo`.`delta__props` (`id_prop`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION,
+	ON DELETE CASCADE
+	ON UPDATE NO ACTION,
   CONSTRAINT `to_lang_from_props_descr`
   FOREIGN KEY (`id_language`)
   REFERENCES `deltaevo`.`delta__language` (`id_language`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION
+	ON DELETE NO ACTION
+	ON UPDATE NO ACTION
 )
   ENGINE = InnoDB;
 
@@ -279,13 +278,13 @@ CREATE TABLE IF NOT EXISTS `deltaevo`.`delta__props_to_product` (
   CONSTRAINT `to_prop_from_props_keys`
   FOREIGN KEY (`id_prop`)
   REFERENCES `deltaevo`.`delta__props` (`id_prop`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION,
+	ON DELETE CASCADE
+	ON UPDATE NO ACTION,
   CONSTRAINT `to_product_from_props_keys`
   FOREIGN KEY (`id_product`)
   REFERENCES `deltaevo`.`delta__product` (`id_product`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION
+	ON DELETE CASCADE
+	ON UPDATE NO ACTION
 )
   ENGINE = InnoDB;
 
@@ -301,13 +300,13 @@ CREATE TABLE IF NOT EXISTS `deltaevo`.`delta__props_to_category` (
   CONSTRAINT `to_prop0`
   FOREIGN KEY (`id_prop`)
   REFERENCES `deltaevo`.`delta__props` (`id_prop`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION,
+	ON DELETE CASCADE
+	ON UPDATE NO ACTION,
   CONSTRAINT `to_sc0`
   FOREIGN KEY (`id_sc`)
   REFERENCES `deltaevo`.`delta_site_content` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION
+	ON DELETE CASCADE
+	ON UPDATE NO ACTION
 )
   ENGINE = InnoDB;
 
@@ -340,20 +339,20 @@ CREATE OR REPLACE ALGORITHM = UNDEFINED
   DEFINER =`root`@`%`
   SQL SECURITY DEFINER VIEW `deltaevo`.`v_user_and_address` AS
   SELECT
-    `u`.`id_user`           AS `id_user`,
-    `ua`.`id_users_address` AS `id_users_address`,
-    `u`.`phone`             AS `phone`,
-    `u`.`email`             AS `email`,
-    `u`.`firstname`         AS `firstname`,
-    `u`.`lastname`          AS `lastname`,
-    `u`.`middlename`        AS `middlename`,
-    `ua`.`street`           AS `street`,
-    `ua`.`postcode`         AS `postcode`,
-    `ua`.`house`            AS `house`,
-    `ua`.`entrance`         AS `entrance`,
-    `ua`.`apartment`        AS `apartment`
+	`u`.`id_user`           AS `id_user`,
+	`ua`.`id_users_address` AS `id_users_address`,
+	`u`.`phone`             AS `phone`,
+	`u`.`email`             AS `email`,
+	`u`.`firstname`         AS `firstname`,
+	`u`.`lastname`          AS `lastname`,
+	`u`.`middlename`        AS `middlename`,
+	`ua`.`street`           AS `street`,
+	`ua`.`postcode`         AS `postcode`,
+	`ua`.`house`            AS `house`,
+	`ua`.`entrance`         AS `entrance`,
+	`ua`.`apartment`        AS `apartment`
   FROM (`deltaevo`.`delta__users` `u`
-    JOIN `deltaevo`.`delta__users_address` `ua` ON ((`u`.`id_user` = `ua`.`id_user`)));
+	JOIN `deltaevo`.`delta__users_address` `ua` ON ((`u`.`id_user` = `ua`.`id_user`)));
 
 
 
@@ -368,17 +367,46 @@ CREATE OR REPLACE ALGORITHM = UNDEFINED
   DEFINER =`root`@`%`
   SQL SECURITY DEFINER VIEW `deltaevo`.`v_product_dir_and_option` AS
   SELECT
-    `pd`.`id_product`       AS `id_product`,
-    `pd`.`id_sc`            AS `id_sc`,
-    `po`.`visible`          AS `visible`,
-    `po`.`searchable`       AS `searchable`,
-    `po`.`deleted`          AS `deleted`,
-    `po`.`state_stock`      AS `state_stock`,
-    `po`.`counter_visible`  AS `counter_visible`,
-    `po`.`create_date`      AS `create_date`,
-    `po`.`update_date`      AS `update_date`
+	`pd`.`id_product`       AS `id_product`,
+	`pd`.`id_sc`            AS `id_sc`,
+	`po`.`visible`          AS `visible`,
+	`po`.`searchable`       AS `searchable`,
+	`po`.`deleted`          AS `deleted`,
+	`po`.`state_stock`      AS `state_stock`,
+	`po`.`counter_visible`  AS `counter_visible`,
+	`po`.`create_date`      AS `create_date`,
+	`po`.`update_date`      AS `update_date`
   FROM (`deltaevo`.`delta__product_to_directory` `pd`
-    JOIN `deltaevo`.`delta__product_options` `po` ON ((`pd`.`id_product` = `po`.`id_product`)));
+	JOIN `deltaevo`.`delta__product_options` `po` ON ((`pd`.`id_product` = `po`.`id_product`)));
+
+
+
+
+DROP TABLE IF EXISTS `deltaevo`.`v_product_all_field`;
+USE `deltaevo`;
+CREATE OR REPLACE ALGORITHM = UNDEFINED
+  DEFINER =`root`@`%`
+  SQL SECURITY DEFINER VIEW `deltaevo`.`v_product_all_field` AS
+  SELECT
+  `p`.`id_product`        AS `id_product`,
+  `p`.`alias`             AS `alias`,
+  `pd`.`name`             AS `name`,
+  `pd`.`intro`            AS `intro`,
+  `pd`.`id_language`      AS `id_language`,
+  `po`.`visible`          AS `visible`,
+  `po`.`searchable`       AS `searchable`,
+  `po`.`deleted`          AS `deleted`,
+  `po`.`state_stock`      AS `state_stock`,
+  `po`.`counter_visible`  AS `counter_visible`,
+  `po`.`create_date`      AS `create_date`,
+  `po`.`update_date`      AS `update_date`
+  FROM (
+    `deltaevo`.`delta__product` `p`
+    JOIN `deltaevo`.`delta__product_description`    `pd` ON ((`p`.`id_product` = `pd`.`id_product`))
+    JOIN `deltaevo`.`delta__product_options`        `po` ON ((`p`.`id_product` = `po`.`id_product`))
+  );
+
+
 
 SET SQL_MODE = @OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS;
