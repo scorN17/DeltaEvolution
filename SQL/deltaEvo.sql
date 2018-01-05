@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Дек 14 2017 г., 16:26
+-- Время создания: Янв 05 2018 г., 19:03
 -- Версия сервера: 5.5.50-log
 -- Версия PHP: 7.0.8
 
@@ -40,7 +40,8 @@ CREATE TABLE IF NOT EXISTS `delta_active_users` (
 --
 
 INSERT INTO `delta_active_users` (`sid`, `internalKey`, `username`, `lasthit`, `action`, `id`) VALUES
-('5pnv2e0pjis7ek63fl28lg2ce3', 1, 'admin', 1513257383, '76', NULL);
+('5pnv2e0pjis7ek63fl28lg2ce3', 1, 'admin', 1513257383, '76', NULL),
+('2fvhk6eel8ueheppooidluvom3', 1, 'admin', 1515167871, '22', 10);
 
 -- --------------------------------------------------------
 
@@ -55,7 +56,16 @@ CREATE TABLE IF NOT EXISTS `delta_active_user_locks` (
   `elementType` int(1) NOT NULL DEFAULT '0',
   `elementId` int(10) NOT NULL DEFAULT '0',
   `lasthit` int(20) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Contains data about locked elements.';
+) ENGINE=MyISAM AUTO_INCREMENT=144 DEFAULT CHARSET=utf8 COMMENT='Contains data about locked elements.';
+
+--
+-- Дамп данных таблицы `delta_active_user_locks`
+--
+
+INSERT INTO `delta_active_user_locks` (`id`, `sid`, `internalKey`, `elementType`, `elementId`, `lasthit`) VALUES
+(138, '2fvhk6eel8ueheppooidluvom3', 1, 5, 11, 1515167228),
+(141, '2fvhk6eel8ueheppooidluvom3', 1, 3, 9, 1515167792),
+(143, '2fvhk6eel8ueheppooidluvom3', 1, 4, 10, 1515167871);
 
 -- --------------------------------------------------------
 
@@ -75,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `delta_active_user_sessions` (
 --
 
 INSERT INTO `delta_active_user_sessions` (`sid`, `internalKey`, `lasthit`, `ip`) VALUES
-('5pnv2e0pjis7ek63fl28lg2ce3', 1, 1513257985, '127.0.0.1');
+('2fvhk6eel8ueheppooidluvom3', 1, 1515168049, '127.0.0.1');
 
 -- --------------------------------------------------------
 
@@ -87,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `delta_categories` (
   `id` int(11) NOT NULL,
   `category` varchar(45) NOT NULL DEFAULT '',
   `rank` int(5) unsigned NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='Categories to be used snippets,tv,chunks, etc';
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='Categories to be used snippets,tv,chunks, etc';
 
 --
 -- Дамп данных таблицы `delta_categories`
@@ -97,7 +107,8 @@ INSERT INTO `delta_categories` (`id`, `category`, `rank`) VALUES
 (1, 'Js', 0),
 (2, 'Manager and Admin', 0),
 (3, 'Content', 0),
-(4, 'Navigation', 0);
+(4, 'Navigation', 0),
+(5, 'TEST', 0);
 
 -- --------------------------------------------------------
 
@@ -139,7 +150,21 @@ CREATE TABLE IF NOT EXISTS `delta_event_log` (
   `usertype` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0 - manager, 1 - web',
   `source` varchar(50) NOT NULL DEFAULT '',
   `description` text
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Stores event and error logs';
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='Stores event and error logs';
+
+--
+-- Дамп данных таблицы `delta_event_log`
+--
+
+INSERT INTO `delta_event_log` (`id`, `eventid`, `createdon`, `type`, `user`, `usertype`, `source`, `description`) VALUES
+(1, 0, 1515080010, 3, 0, 1, 'Parser / Incorrect number of templates returned fr', '<h2 style="color:red">&laquo; Evo Parse Error &raquo;</h2><h3 style="color:red">Incorrect number of templates returned from database</h3>\n<table class="grid">\n</table>\n<br />\n<table class="grid">\n	<thead>\n	<tr class="">\n		<th width="100px" >Basic info</th>\n		<th></th>\n	</tr>\n	</thead>\n	<tr class="gridItem">\n		<td>REQUEST_URI</td>\n		<td>http://evolution/catalog.html</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>Resource</td>\n		<td>[3] <a href="http://evolution/catalog.html" target="_blank">Каталог</a></td>\n	</tr>\n	<tr class="gridItem">\n		<td>Referer</td>\n		<td>http://evolution/manager/</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>User Agent</td>\n		<td>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36</td>\n	</tr>\n	<tr class="gridItem">\n		<td>IP</td>\n		<td>127.0.0.1</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>Current time</td>\n		<td>2018-01-04 18:33:30</td>\n	</tr>\n</table>\n<br />\n<table class="grid">\n	<thead>\n	<tr class="">\n		<th width="100px" >Benchmarks</th>\n		<th></th>\n	</tr>\n	</thead>\n	<tr class="gridItem">\n		<td>MySQL</td>\n		<td>0.0063 s (5 Requests)</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>PHP</td>\n		<td>0.0340 s</td>\n	</tr>\n	<tr class="gridItem">\n		<td>Total</td>\n		<td>0.0404 s</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>Memory</td>\n		<td>1.6412734985352 mb</td>\n	</tr>\n</table>\n<br />\n<table class="grid">\n	<thead>\n	<tr class="">\n		<th>Backtrace</th>\n	</tr>\n	</thead>\n	<tr class="gridItem">\n		<td><strong>DocumentParser->executeParser</strong>()<br />index.php on line 134</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td><strong>DocumentParser->prepareResponse</strong>()<br />manager/includes/document.parser.class.inc.php on line 2737</td>\n	</tr>\n	<tr class="gridItem">\n		<td><strong>DocumentParser->_getTemplateCodeFromDB</strong>(4)<br />manager/includes/document.parser.class.inc.php on line 2832</td>\n	</tr>\n</table>\n'),
+(2, 0, 1515149406, 3, 0, 1, 'Plugin - test / PHP Parse Error', '<b>Trying to get property of non-object</b><br />\n<h2 style="color:red">&laquo; Evo Parse Error &raquo;</h2><div style="font-weight:bold;border:1px solid #ccc;padding:8px;color:#333;background-color:#ffffcd;margin-bottom:15px;">Error : Illegal string offset ''fields''</div>\n<table class="grid">\n	<thead>\n	<tr class="">\n		<th width="100px" >Error information</th>\n		<th></th>\n	</tr>\n	</thead>\n	<tr class="gridItem">\n		<td>ErrorType[num]</td>\n		<td>WARNING[2]</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>File</td>\n		<td>D:\\OpenServer\\OpenServer\\domains\\Evolution\\vendor\\delta\\catalog\\c.php</td>\n	</tr>\n	<tr class="gridItem">\n		<td>Line</td>\n		<td>167</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>Source</td>\n		<td>			if ($a[$type][$field] == $b[$type][$field]) {\n</td>\n	</tr>\n	<tr class="gridItem">\n		<td>Current Plugin</td>\n		<td>test(OnWebPagePrerender)</td>\n	</tr>\n</table>\n<br />\n<table class="grid">\n	<thead>\n	<tr class="">\n		<th width="100px" >Basic info</th>\n		<th></th>\n	</tr>\n	</thead>\n	<tr class="gridItem">\n		<td>REQUEST_URI</td>\n		<td>http://evolution/catalog/_page_2_f3_v3_v5_f7_v8_v9__f9_v8-12_sort_price_asc_v9fgDg65f-hj.html</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>Resource</td>\n		<td>[3] <a href="http://evolution/catalog/" target="_blank">Каталог</a></td>\n	</tr>\n	<tr class="gridItem">\n		<td>Referer</td>\n		<td></td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>User Agent</td>\n		<td>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36</td>\n	</tr>\n	<tr class="gridItem">\n		<td>IP</td>\n		<td>127.0.0.1</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>Current time</td>\n		<td>2018-01-05 13:50:06</td>\n	</tr>\n</table>\n<br />\n<table class="grid">\n	<thead>\n	<tr class="">\n		<th width="100px" >Benchmarks</th>\n		<th></th>\n	</tr>\n	</thead>\n	<tr class="gridItem">\n		<td>MySQL</td>\n		<td>0.0168 s (44 Requests)</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>PHP</td>\n		<td>0.1626 s</td>\n	</tr>\n	<tr class="gridItem">\n		<td>Total</td>\n		<td>0.1794 s</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>Memory</td>\n		<td>1.6405258178711 mb</td>\n	</tr>\n</table>\n<br />\n<table class="grid">\n	<thead>\n	<tr class="">\n		<th>Backtrace</th>\n	</tr>\n	</thead>\n	<tr class="gridItem">\n		<td><strong>DocumentParser->executeParser</strong>()<br />index.php on line 134</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td><strong>DocumentParser->prepareResponse</strong>()<br />manager/includes/document.parser.class.inc.php on line 2737</td>\n	</tr>\n	<tr class="gridItem">\n		<td><strong>DocumentParser->outputContent</strong>()<br />manager/includes/document.parser.class.inc.php on line 2861</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td><strong>DocumentParser->invokeEvent</strong>(''OnWebPagePrerender'', array $var2)<br />manager/includes/document.parser.class.inc.php on line 866</td>\n	</tr>\n	<tr class="gridItem">\n		<td><strong>DocumentParser->evalPlugin</strong>(string $var1, array $var2)<br />manager/includes/document.parser.class.inc.php on line 5317</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td><strong>eval</strong>()<br />manager/includes/document.parser.class.inc.php on line 1787</td>\n	</tr>\n	<tr class="gridItem">\n		<td><strong>dDocumentParser->sortGoods</strong>(array $var1, ''menuindex'', ''ASC'')<br />manager/includes/document.parser.class.inc.php(1787) : eval()''d code on line 13</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td><strong>uasort</strong>(array $var1, Closure $var2)<br />vendor/delta/catalog/c.php on line 172</td>\n	</tr>\n	<tr class="gridItem">\n		<td><strong>dDocumentParser->{closure}</strong>(3, 4)<br /> on line </td>\n	</tr>\n</table>\n'),
+(3, 0, 1515150877, 3, 0, 1, 'Plugin - test / Execution of a query to the databa', '<h2 style="color:red">&laquo; Evo Parse Error &raquo;</h2><h3 style="color:red">Execution of a query to the database failed - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '''' at line 2</h3><div style="font-weight:bold;border:1px solid #ccc;padding:8px;color:#333;background-color:#ffffcd;margin-bottom:15px;">SQL &gt; <span id="sqlHolder">SELECT pagetitle, parent, alias, id, isfolder, content, menuindex  \n				FROM  `deltaEvo`.`delta_site_content` WHERE id =  </span></div>\n<table class="grid">\n	<thead>\n	<tr class="">\n		<th width="100px" >Error information</th>\n		<th></th>\n	</tr>\n	</thead>\n	<tr class="gridItem">\n		<td>Current Plugin</td>\n		<td>test(OnWebPagePrerender)</td>\n	</tr>\n</table>\n<br />\n<table class="grid">\n	<thead>\n	<tr class="">\n		<th width="100px" >Basic info</th>\n		<th></th>\n	</tr>\n	</thead>\n	<tr class="gridItem">\n		<td>REQUEST_URI</td>\n		<td>http://evolution/catalog/kompyutery-i-periferiya/</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>Resource</td>\n		<td>[4] <a href="http://evolution/catalog/kompyutery-i-periferiya/" target="_blank">Компьютеры и периферия</a></td>\n	</tr>\n	<tr class="gridItem">\n		<td>Referer</td>\n		<td></td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>User Agent</td>\n		<td>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36</td>\n	</tr>\n	<tr class="gridItem">\n		<td>IP</td>\n		<td>127.0.0.1</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>Current time</td>\n		<td>2018-01-05 14:14:37</td>\n	</tr>\n</table>\n<br />\n<table class="grid">\n	<thead>\n	<tr class="">\n		<th width="100px" >Benchmarks</th>\n		<th></th>\n	</tr>\n	</thead>\n	<tr class="gridItem">\n		<td>MySQL</td>\n		<td>0.0049 s (15 Requests)</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>PHP</td>\n		<td>0.0453 s</td>\n	</tr>\n	<tr class="gridItem">\n		<td>Total</td>\n		<td>0.0503 s</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>Memory</td>\n		<td>1.6410293579102 mb</td>\n	</tr>\n</table>\n<br />\n<table class="grid">\n	<thead>\n	<tr class="">\n		<th>Backtrace</th>\n	</tr>\n	</thead>\n	<tr class="gridItem">\n		<td><strong>DocumentParser->executeParser</strong>()<br />index.php on line 134</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td><strong>DocumentParser->prepareResponse</strong>()<br />manager/includes/document.parser.class.inc.php on line 2737</td>\n	</tr>\n	<tr class="gridItem">\n		<td><strong>DocumentParser->outputContent</strong>()<br />manager/includes/document.parser.class.inc.php on line 2861</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td><strong>DocumentParser->invokeEvent</strong>(''OnWebPagePrerender'', array $var2)<br />manager/includes/document.parser.class.inc.php on line 866</td>\n	</tr>\n	<tr class="gridItem">\n		<td><strong>DocumentParser->evalPlugin</strong>(string $var1, array $var2)<br />manager/includes/document.parser.class.inc.php on line 5317</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td><strong>eval</strong>()<br />manager/includes/document.parser.class.inc.php on line 1787</td>\n	</tr>\n	<tr class="gridItem">\n		<td><strong>dDocumentParser->getFields</strong>()<br />manager/includes/document.parser.class.inc.php(1787) : eval()''d code on line 9</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td><strong>DBAPI->query</strong>(string $var1)<br />vendor/delta/catalog/c.php on line 123</td>\n	</tr>\n</table>\n'),
+(4, 0, 1515150965, 3, 0, 1, 'Plugin - test / PHP Parse Error', '<b>Trying to get property of non-object</b><br />\n<h2 style="color:red">&laquo; Evo Parse Error &raquo;</h2><div style="font-weight:bold;border:1px solid #ccc;padding:8px;color:#333;background-color:#ffffcd;margin-bottom:15px;">Error : Missing argument 1 for dDocumentParser::getArrayData(), called in D:\\OpenServer\\OpenServer\\domains\\Evolution\\manager\\includes\\document.parser.class.inc.php(1787) : eval()''d code on line 11 and defined</div>\n<table class="grid">\n	<thead>\n	<tr class="">\n		<th width="100px" >Error information</th>\n		<th></th>\n	</tr>\n	</thead>\n	<tr class="gridItem">\n		<td>ErrorType[num]</td>\n		<td>WARNING[2]</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>File</td>\n		<td>D:\\OpenServer\\OpenServer\\domains\\Evolution\\vendor\\delta\\catalog\\c.php</td>\n	</tr>\n	<tr class="gridItem">\n		<td>Line</td>\n		<td>230</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>Source</td>\n		<td>	function getArrayData ($what){\n</td>\n	</tr>\n	<tr class="gridItem">\n		<td>Current Plugin</td>\n		<td>test(OnWebPagePrerender)</td>\n	</tr>\n</table>\n<br />\n<table class="grid">\n	<thead>\n	<tr class="">\n		<th width="100px" >Basic info</th>\n		<th></th>\n	</tr>\n	</thead>\n	<tr class="gridItem">\n		<td>REQUEST_URI</td>\n		<td>http://evolution/catalog/kompyutery-i-periferiya/</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>Resource</td>\n		<td>[4] <a href="http://evolution/catalog/kompyutery-i-periferiya/" target="_blank">Компьютеры и периферия</a></td>\n	</tr>\n	<tr class="gridItem">\n		<td>Referer</td>\n		<td></td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>User Agent</td>\n		<td>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36</td>\n	</tr>\n	<tr class="gridItem">\n		<td>IP</td>\n		<td>127.0.0.1</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>Current time</td>\n		<td>2018-01-05 14:16:05</td>\n	</tr>\n</table>\n<br />\n<table class="grid">\n	<thead>\n	<tr class="">\n		<th width="100px" >Benchmarks</th>\n		<th></th>\n	</tr>\n	</thead>\n	<tr class="gridItem">\n		<td>MySQL</td>\n		<td>0.0050 s (9 Requests)</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>PHP</td>\n		<td>0.0650 s</td>\n	</tr>\n	<tr class="gridItem">\n		<td>Total</td>\n		<td>0.0701 s</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>Memory</td>\n		<td>1.6410293579102 mb</td>\n	</tr>\n</table>\n<br />\n<table class="grid">\n	<thead>\n	<tr class="">\n		<th>Backtrace</th>\n	</tr>\n	</thead>\n	<tr class="gridItem">\n		<td><strong>DocumentParser->executeParser</strong>()<br />index.php on line 134</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td><strong>DocumentParser->prepareResponse</strong>()<br />manager/includes/document.parser.class.inc.php on line 2737</td>\n	</tr>\n	<tr class="gridItem">\n		<td><strong>DocumentParser->outputContent</strong>()<br />manager/includes/document.parser.class.inc.php on line 2861</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td><strong>DocumentParser->invokeEvent</strong>(''OnWebPagePrerender'', array $var2)<br />manager/includes/document.parser.class.inc.php on line 866</td>\n	</tr>\n	<tr class="gridItem">\n		<td><strong>DocumentParser->evalPlugin</strong>(string $var1, array $var2)<br />manager/includes/document.parser.class.inc.php on line 5317</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td><strong>eval</strong>()<br />manager/includes/document.parser.class.inc.php on line 1787</td>\n	</tr>\n	<tr class="gridItem">\n		<td><strong>dDocumentParser->getArrayData</strong>()<br />manager/includes/document.parser.class.inc.php(1787) : eval()''d code on line 11</td>\n	</tr>\n</table>\n'),
+(5, 0, 1515151671, 3, 0, 1, 'Plugin - test / Execution of a query to the databa', '<h2 style="color:red">&laquo; Evo Parse Error &raquo;</h2><h3 style="color:red">Execution of a query to the database failed - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '''' at line 2</h3><div style="font-weight:bold;border:1px solid #ccc;padding:8px;color:#333;background-color:#ffffcd;margin-bottom:15px;">SQL &gt; <span id="sqlHolder">SELECT pagetitle, parent, alias, id, isfolder, content, menuindex  \n				FROM  `deltaEvo`.`delta_site_content` WHERE id =  </span></div>\n<table class="grid">\n	<thead>\n	<tr class="">\n		<th width="100px" >Error information</th>\n		<th></th>\n	</tr>\n	</thead>\n	<tr class="gridItem">\n		<td>Current Plugin</td>\n		<td>test(OnWebPagePrerender)</td>\n	</tr>\n</table>\n<br />\n<table class="grid">\n	<thead>\n	<tr class="">\n		<th width="100px" >Basic info</th>\n		<th></th>\n	</tr>\n	</thead>\n	<tr class="gridItem">\n		<td>REQUEST_URI</td>\n		<td>http://evolution/catalog/kompyutery-i-periferiya/</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>Resource</td>\n		<td>[4] <a href="http://evolution/catalog/kompyutery-i-periferiya/" target="_blank">Компьютеры и периферия</a></td>\n	</tr>\n	<tr class="gridItem">\n		<td>Referer</td>\n		<td></td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>User Agent</td>\n		<td>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36</td>\n	</tr>\n	<tr class="gridItem">\n		<td>IP</td>\n		<td>127.0.0.1</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>Current time</td>\n		<td>2018-01-05 14:27:51</td>\n	</tr>\n</table>\n<br />\n<table class="grid">\n	<thead>\n	<tr class="">\n		<th width="100px" >Benchmarks</th>\n		<th></th>\n	</tr>\n	</thead>\n	<tr class="gridItem">\n		<td>MySQL</td>\n		<td>0.0042 s (15 Requests)</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>PHP</td>\n		<td>0.0512 s</td>\n	</tr>\n	<tr class="gridItem">\n		<td>Total</td>\n		<td>0.0554 s</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>Memory</td>\n		<td>3.6410293579102 mb</td>\n	</tr>\n</table>\n<br />\n<table class="grid">\n	<thead>\n	<tr class="">\n		<th>Backtrace</th>\n	</tr>\n	</thead>\n	<tr class="gridItem">\n		<td><strong>DocumentParser->executeParser</strong>()<br />index.php on line 134</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td><strong>DocumentParser->prepareResponse</strong>()<br />manager/includes/document.parser.class.inc.php on line 2737</td>\n	</tr>\n	<tr class="gridItem">\n		<td><strong>DocumentParser->outputContent</strong>()<br />manager/includes/document.parser.class.inc.php on line 2861</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td><strong>DocumentParser->invokeEvent</strong>(''OnWebPagePrerender'', array $var2)<br />manager/includes/document.parser.class.inc.php on line 866</td>\n	</tr>\n	<tr class="gridItem">\n		<td><strong>DocumentParser->evalPlugin</strong>(string $var1, array $var2)<br />manager/includes/document.parser.class.inc.php on line 5317</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td><strong>eval</strong>()<br />manager/includes/document.parser.class.inc.php on line 1787</td>\n	</tr>\n	<tr class="gridItem">\n		<td><strong>dDocumentParser->getFields</strong>()<br />manager/includes/document.parser.class.inc.php(1787) : eval()''d code on line 9</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td><strong>DBAPI->query</strong>(string $var1)<br />vendor/delta/catalog/c.php on line 124</td>\n	</tr>\n</table>\n'),
+(6, 0, 1515152230, 3, 0, 1, 'Plugin - test / PHP Parse Error', '<b>Trying to get property of non-object</b><br />\n<h2 style="color:red">&laquo; Evo Parse Error &raquo;</h2><div style="font-weight:bold;border:1px solid #ccc;padding:8px;color:#333;background-color:#ffffcd;margin-bottom:15px;">Error : Object of class dDocumentParser could not be converted to string</div>\n<table class="grid">\n	<thead>\n	<tr class="">\n		<th width="100px" >Error information</th>\n		<th></th>\n	</tr>\n	</thead>\n	<tr class="gridItem">\n		<td>ErrorType[num]</td>\n		<td>RECOVERABLE ERROR[4096]</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>File</td>\n		<td>D:\\OpenServer\\OpenServer\\domains\\Evolution\\vendor\\delta\\catalog\\c.php</td>\n	</tr>\n	<tr class="gridItem">\n		<td>Line</td>\n		<td>217</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>Source</td>\n		<td>				return ($$this-&gt;catsIDS);\n</td>\n	</tr>\n	<tr class="gridItem">\n		<td>Current Plugin</td>\n		<td>test(OnWebPagePrerender)</td>\n	</tr>\n</table>\n<br />\n<table class="grid">\n	<thead>\n	<tr class="">\n		<th width="100px" >Basic info</th>\n		<th></th>\n	</tr>\n	</thead>\n	<tr class="gridItem">\n		<td>REQUEST_URI</td>\n		<td>http://evolution/catalog/kompyutery-i-periferiya/</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>Resource</td>\n		<td>[4] <a href="http://evolution/catalog/kompyutery-i-periferiya/" target="_blank">Компьютеры и периферия</a></td>\n	</tr>\n	<tr class="gridItem">\n		<td>Referer</td>\n		<td></td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>User Agent</td>\n		<td>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36</td>\n	</tr>\n	<tr class="gridItem">\n		<td>IP</td>\n		<td>127.0.0.1</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>Current time</td>\n		<td>2018-01-05 14:37:10</td>\n	</tr>\n</table>\n<br />\n<table class="grid">\n	<thead>\n	<tr class="">\n		<th width="100px" >Benchmarks</th>\n		<th></th>\n	</tr>\n	</thead>\n	<tr class="gridItem">\n		<td>MySQL</td>\n		<td>0.0040 s (12 Requests)</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>PHP</td>\n		<td>0.0593 s</td>\n	</tr>\n	<tr class="gridItem">\n		<td>Total</td>\n		<td>0.0633 s</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>Memory</td>\n		<td>1.6410293579102 mb</td>\n	</tr>\n</table>\n<br />\n<table class="grid">\n	<thead>\n	<tr class="">\n		<th>Backtrace</th>\n	</tr>\n	</thead>\n	<tr class="gridItem">\n		<td><strong>DocumentParser->executeParser</strong>()<br />index.php on line 134</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td><strong>DocumentParser->prepareResponse</strong>()<br />manager/includes/document.parser.class.inc.php on line 2737</td>\n	</tr>\n	<tr class="gridItem">\n		<td><strong>DocumentParser->outputContent</strong>()<br />manager/includes/document.parser.class.inc.php on line 2861</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td><strong>DocumentParser->invokeEvent</strong>(''OnWebPagePrerender'', array $var2)<br />manager/includes/document.parser.class.inc.php on line 866</td>\n	</tr>\n	<tr class="gridItem">\n		<td><strong>DocumentParser->evalPlugin</strong>(string $var1, array $var2)<br />manager/includes/document.parser.class.inc.php on line 5317</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td><strong>eval</strong>()<br />manager/includes/document.parser.class.inc.php on line 1787</td>\n	</tr>\n	<tr class="gridItem">\n		<td><strong>dDocumentParser->sortIt</strong>(''cats'', ''menuindex'', ''DESC'')<br />manager/includes/document.parser.class.inc.php(1787) : eval()''d code on line 11</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td><strong>dDocumentParser->selectTarget</strong>(''cats'')<br />vendor/delta/catalog/c.php on line 158</td>\n	</tr>\n</table>\n'),
+(7, 0, 1515152676, 3, 0, 1, 'Plugin - test / PHP Parse Error', '<b>Trying to get property of non-object</b><br />\n<h2 style="color:red">&laquo; Evo Parse Error &raquo;</h2><div style="font-weight:bold;border:1px solid #ccc;padding:8px;color:#333;background-color:#ffffcd;margin-bottom:15px;">Error : Missing argument 2 for dDocumentParser::selectTarget(), called in D:\\OpenServer\\OpenServer\\domains\\Evolution\\vendor\\delta\\catalog\\c.php on line 245 and defined</div>\n<table class="grid">\n	<thead>\n	<tr class="">\n		<th width="100px" >Error information</th>\n		<th></th>\n	</tr>\n	</thead>\n	<tr class="gridItem">\n		<td>ErrorType[num]</td>\n		<td>WARNING[2]</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>File</td>\n		<td>D:\\OpenServer\\OpenServer\\domains\\Evolution\\vendor\\delta\\catalog\\c.php</td>\n	</tr>\n	<tr class="gridItem">\n		<td>Line</td>\n		<td>217</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>Source</td>\n		<td>	public function selectTarget ($what , &amp;$ids){\n</td>\n	</tr>\n	<tr class="gridItem">\n		<td>Current Plugin</td>\n		<td>test(OnWebPagePrerender)</td>\n	</tr>\n</table>\n<br />\n<table class="grid">\n	<thead>\n	<tr class="">\n		<th width="100px" >Basic info</th>\n		<th></th>\n	</tr>\n	</thead>\n	<tr class="gridItem">\n		<td>REQUEST_URI</td>\n		<td>http://evolution/catalog/kompyutery-i-periferiya/</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>Resource</td>\n		<td>[4] <a href="http://evolution/catalog/kompyutery-i-periferiya/" target="_blank">Компьютеры и периферия</a></td>\n	</tr>\n	<tr class="gridItem">\n		<td>Referer</td>\n		<td></td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>User Agent</td>\n		<td>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36</td>\n	</tr>\n	<tr class="gridItem">\n		<td>IP</td>\n		<td>127.0.0.1</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>Current time</td>\n		<td>2018-01-05 14:44:36</td>\n	</tr>\n</table>\n<br />\n<table class="grid">\n	<thead>\n	<tr class="">\n		<th width="100px" >Benchmarks</th>\n		<th></th>\n	</tr>\n	</thead>\n	<tr class="gridItem">\n		<td>MySQL</td>\n		<td>0.0041 s (12 Requests)</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>PHP</td>\n		<td>0.0545 s</td>\n	</tr>\n	<tr class="gridItem">\n		<td>Total</td>\n		<td>0.0586 s</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>Memory</td>\n		<td>1.6410293579102 mb</td>\n	</tr>\n</table>\n<br />\n<table class="grid">\n	<thead>\n	<tr class="">\n		<th>Backtrace</th>\n	</tr>\n	</thead>\n	<tr class="gridItem">\n		<td><strong>DocumentParser->executeParser</strong>()<br />index.php on line 134</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td><strong>DocumentParser->prepareResponse</strong>()<br />manager/includes/document.parser.class.inc.php on line 2737</td>\n	</tr>\n	<tr class="gridItem">\n		<td><strong>DocumentParser->outputContent</strong>()<br />manager/includes/document.parser.class.inc.php on line 2861</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td><strong>DocumentParser->invokeEvent</strong>(''OnWebPagePrerender'', array $var2)<br />manager/includes/document.parser.class.inc.php on line 866</td>\n	</tr>\n	<tr class="gridItem">\n		<td><strong>DocumentParser->evalPlugin</strong>(string $var1, array $var2)<br />manager/includes/document.parser.class.inc.php on line 5317</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td><strong>eval</strong>()<br />manager/includes/document.parser.class.inc.php on line 1787</td>\n	</tr>\n	<tr class="gridItem">\n		<td><strong>dDocumentParser->getArrayData</strong>(''cats'')<br />manager/includes/document.parser.class.inc.php(1787) : eval()''d code on line 14</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td><strong>dDocumentParser->selectTarget</strong>(''cats'')<br />vendor/delta/catalog/c.php on line 245</td>\n	</tr>\n</table>\n'),
+(8, 0, 1515163331, 3, 0, 1, 'Snippet - DLT_CATALOG / Execution of a query to th', '<h2 style="color:red">&laquo; Evo Parse Error &raquo;</h2><h3 style="color:red">Execution of a query to the database failed - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''AND published = ''1'' AND deleted = ''0'' AND isfolder = ''1'''' at line 1</h3><div style="font-weight:bold;border:1px solid #ccc;padding:8px;color:#333;background-color:#ffffcd;margin-bottom:15px;">SQL &gt; <span id="sqlHolder">SELECT id FROM `deltaEvo`.`delta_site_content` WHERE parent= AND published = ''1'' AND deleted = ''0'' AND isfolder = ''1''  </span></div>\n<table class="grid">\n	<thead>\n	<tr class="">\n		<th width="100px" >Error information</th>\n		<th></th>\n	</tr>\n	</thead>\n	<tr class="gridItem">\n		<td>Current Snippet</td>\n		<td>DLT_CATALOG</td>\n	</tr>\n</table>\n<br />\n<table class="grid">\n	<thead>\n	<tr class="">\n		<th width="100px" >Basic info</th>\n		<th></th>\n	</tr>\n	</thead>\n	<tr class="gridItem">\n		<td>REQUEST_URI</td>\n		<td>http://evolution/catalog/kompyutery-i-periferiya/_jgkfdgh.html</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>Resource</td>\n		<td>[4] <a href="http://evolution/catalog/kompyutery-i-periferiya/" target="_blank">Компьютеры и периферия</a></td>\n	</tr>\n	<tr class="gridItem">\n		<td>Referer</td>\n		<td></td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>User Agent</td>\n		<td>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36</td>\n	</tr>\n	<tr class="gridItem">\n		<td>IP</td>\n		<td>127.0.0.1</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>Current time</td>\n		<td>2018-01-05 17:42:11</td>\n	</tr>\n</table>\n<br />\n<table class="grid">\n	<thead>\n	<tr class="">\n		<th width="100px" >Benchmarks</th>\n		<th></th>\n	</tr>\n	</thead>\n	<tr class="gridItem">\n		<td>MySQL</td>\n		<td>0.0034 s (5 Requests)</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>PHP</td>\n		<td>0.1186 s</td>\n	</tr>\n	<tr class="gridItem">\n		<td>Total</td>\n		<td>0.1220 s</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td>Memory</td>\n		<td>1.6408615112305 mb</td>\n	</tr>\n</table>\n<br />\n<table class="grid">\n	<thead>\n	<tr class="">\n		<th>Backtrace</th>\n	</tr>\n	</thead>\n	<tr class="gridItem">\n		<td><strong>DocumentParser->executeParser</strong>()<br />index.php on line 134</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td><strong>DocumentParser->prepareResponse</strong>()<br />manager/includes/document.parser.class.inc.php on line 2737</td>\n	</tr>\n	<tr class="gridItem">\n		<td><strong>DocumentParser->outputContent</strong>()<br />manager/includes/document.parser.class.inc.php on line 2861</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td><strong>DocumentParser->parseDocumentSource</strong>(string $var1)<br />manager/includes/document.parser.class.inc.php on line 805</td>\n	</tr>\n	<tr class="gridItem">\n		<td><strong>DocumentParser->evalSnippets</strong>(string $var1)<br />manager/includes/document.parser.class.inc.php on line 2587</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td><strong>DocumentParser->_get_snip_result</strong>(''DLT_CATALOG'')<br />manager/includes/document.parser.class.inc.php on line 1895</td>\n	</tr>\n	<tr class="gridItem">\n		<td><strong>DocumentParser->evalSnippet</strong>(string $var1, array $var2)<br />manager/includes/document.parser.class.inc.php on line 1984</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td><strong>eval</strong>()<br />manager/includes/document.parser.class.inc.php on line 1832</td>\n	</tr>\n	<tr class="gridItem">\n		<td><strong>dDocumentParser->getCatFromID</strong>(NULL)<br />manager/includes/document.parser.class.inc.php(1832) : eval()''d code on line 5</td>\n	</tr>\n	<tr class="gridAltItem">\n		<td><strong>DBAPI->select</strong>(''id'', string $var2, string $var3)<br />vendor/delta/catalog/c.php on line 60</td>\n	</tr>\n	<tr class="gridItem">\n		<td><strong>DBAPI->query</strong>(string $var1)<br />manager/includes/extenders/dbapi.mysqli.class.inc.php on line 173</td>\n	</tr>\n</table>\n');
 
 -- --------------------------------------------------------
 
@@ -156,29 +181,142 @@ CREATE TABLE IF NOT EXISTS `delta_manager_log` (
   `itemid` varchar(10) DEFAULT '0',
   `itemname` varchar(255) DEFAULT NULL,
   `message` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COMMENT='Contains a record of user interaction.';
+) ENGINE=MyISAM AUTO_INCREMENT=130 DEFAULT CHARSET=utf8 COMMENT='Contains a record of user interaction.';
 
 --
 -- Дамп данных таблицы `delta_manager_log`
 --
 
 INSERT INTO `delta_manager_log` (`id`, `timestamp`, `internalKey`, `username`, `action`, `itemid`, `itemname`, `message`) VALUES
-(1, 1513257268, 1, 'admin', 58, '-', 'MODX', 'Logged in'),
-(2, 1513257269, 1, 'admin', 17, '-', '-', 'Editing settings'),
-(3, 1513257307, 1, 'admin', 30, '-', '-', 'Saving settings'),
-(4, 1513257324, 1, 'admin', 4, '-', 'Новый ресурс', 'Creating a resource'),
-(5, 1513257326, 1, 'admin', 4, '-', 'Новый ресурс', 'Creating a resource'),
-(6, 1513257337, 1, 'admin', 5, '-', 'test', 'Saving resource'),
-(7, 1513257337, 1, 'admin', 3, '2', 'test', 'Viewing data for resource'),
-(8, 1513257338, 1, 'admin', 27, '2', 'test', 'Editing resource'),
-(9, 1513257346, 1, 'admin', 5, '2', 'тест', 'Saving resource'),
-(10, 1513257346, 1, 'admin', 3, '2', 'тест', 'Viewing data for resource'),
-(11, 1513257347, 1, 'admin', 27, '2', 'тест', 'Editing resource'),
-(12, 1513257365, 1, 'admin', 76, '-', '-', 'Element management'),
-(13, 1513257368, 1, 'admin', 102, '2', 'ElementsInTree', 'Edit plugin'),
-(14, 1513257371, 1, 'admin', 103, '2', 'ElementsInTree', 'Saving plugin'),
-(15, 1513257371, 1, 'admin', 76, '-', '-', 'Element management'),
-(16, 1513257383, 1, 'admin', 76, '-', '-', 'Element management');
+(1, 1515157080, 1, 'admin', 103, '11', 'test', 'Saving plugin'),
+(2, 1515157081, 1, 'admin', 102, '11', 'test', 'Edit plugin'),
+(3, 1515158845, 1, 'admin', 16, '4', 'Каталог', 'Editing template'),
+(4, 1515159010, 1, 'admin', 20, '4', 'Каталог', 'Saving template'),
+(5, 1515159011, 1, 'admin', 16, '4', 'Каталог', 'Editing template'),
+(6, 1515159029, 1, 'admin', 16, '4', 'Каталог', 'Editing template'),
+(7, 1515159033, 1, 'admin', 77, '-', 'Новый чанк', 'Creating a new Chunk (HTML Snippet)'),
+(8, 1515159221, 1, 'admin', 79, '-', 'head', 'Saving Chunk (HTML Snippet)'),
+(9, 1515159221, 1, 'admin', 78, '2', 'head', 'Editing Chunk (HTML Snippet)'),
+(10, 1515159313, 1, 'admin', 20, '4', 'Каталог', 'Saving template'),
+(11, 1515159313, 1, 'admin', 16, '4', 'Каталог', 'Editing template'),
+(12, 1515159323, 1, 'admin', 77, '-', 'Новый чанк', 'Creating a new Chunk (HTML Snippet)'),
+(13, 1515159504, 1, 'admin', 79, '-', 'header', 'Saving Chunk (HTML Snippet)'),
+(14, 1515159504, 1, 'admin', 78, '3', 'header', 'Editing Chunk (HTML Snippet)'),
+(15, 1515159507, 1, 'admin', 97, '3', 'header Копия', 'Duplicate Chunk (HTML Snippet)'),
+(16, 1515159507, 1, 'admin', 78, '4', 'header Копия', 'Editing Chunk (HTML Snippet)'),
+(17, 1515159648, 1, 'admin', 79, '4', 'header Копия', 'Saving Chunk (HTML Snippet)'),
+(18, 1515159648, 1, 'admin', 78, '4', 'header Копия', 'Editing Chunk (HTML Snippet)'),
+(19, 1515159657, 1, 'admin', 79, '4', 'header Копия', 'Saving Chunk (HTML Snippet)'),
+(20, 1515159657, 1, 'admin', 78, '4', 'header Копия', 'Editing Chunk (HTML Snippet)'),
+(21, 1515159684, 1, 'admin', 79, '4', 'topmenu', 'Saving Chunk (HTML Snippet)'),
+(22, 1515159684, 1, 'admin', 78, '4', 'topmenu', 'Editing Chunk (HTML Snippet)'),
+(23, 1515159705, 1, 'admin', 79, '4', 'topmenu', 'Saving Chunk (HTML Snippet)'),
+(24, 1515159705, 1, 'admin', 78, '4', 'topmenu', 'Editing Chunk (HTML Snippet)'),
+(25, 1515159728, 1, 'admin', 97, '4', 'topmenu Копия', 'Duplicate Chunk (HTML Snippet)'),
+(26, 1515159728, 1, 'admin', 78, '5', 'topmenu Копия', 'Editing Chunk (HTML Snippet)'),
+(27, 1515159858, 1, 'admin', 20, '4', 'Каталог', 'Saving template'),
+(28, 1515159858, 1, 'admin', 16, '4', 'Каталог', 'Editing template'),
+(29, 1515159889, 1, 'admin', 79, '5', 'slider', 'Saving Chunk (HTML Snippet)'),
+(30, 1515159889, 1, 'admin', 78, '5', 'slider', 'Editing Chunk (HTML Snippet)'),
+(31, 1515159894, 1, 'admin', 97, '5', 'slider Копия', 'Duplicate Chunk (HTML Snippet)'),
+(32, 1515159894, 1, 'admin', 78, '6', 'slider Копия', 'Editing Chunk (HTML Snippet)'),
+(33, 1515160127, 1, 'admin', 79, '6', 'scripts', 'Saving Chunk (HTML Snippet)'),
+(34, 1515160127, 1, 'admin', 78, '6', 'scripts', 'Editing Chunk (HTML Snippet)'),
+(35, 1515160133, 1, 'admin', 78, '3', 'header', 'Editing Chunk (HTML Snippet)'),
+(36, 1515160136, 1, 'admin', 78, '2', 'head', 'Editing Chunk (HTML Snippet)'),
+(37, 1515160510, 1, 'admin', 78, '5', 'slider', 'Editing Chunk (HTML Snippet)'),
+(38, 1515160644, 1, 'admin', 79, '5', 'slider', 'Saving Chunk (HTML Snippet)'),
+(39, 1515160644, 1, 'admin', 78, '5', 'slider', 'Editing Chunk (HTML Snippet)'),
+(40, 1515161401, 1, 'admin', 78, '3', 'header', 'Editing Chunk (HTML Snippet)'),
+(41, 1515161404, 1, 'admin', 79, '3', 'header', 'Saving Chunk (HTML Snippet)'),
+(42, 1515161404, 1, 'admin', 78, '3', 'header', 'Editing Chunk (HTML Snippet)'),
+(43, 1515161426, 1, 'admin', 78, '4', 'topmenu', 'Editing Chunk (HTML Snippet)'),
+(44, 1515161690, 1, 'admin', 79, '4', 'topmenu', 'Saving Chunk (HTML Snippet)'),
+(45, 1515161690, 1, 'admin', 78, '4', 'topmenu', 'Editing Chunk (HTML Snippet)'),
+(46, 1515161692, 1, 'admin', 78, '2', 'head', 'Editing Chunk (HTML Snippet)'),
+(47, 1515161692, 1, 'admin', 78, '3', 'header', 'Editing Chunk (HTML Snippet)'),
+(48, 1515161702, 1, 'admin', 79, '3', 'header', 'Saving Chunk (HTML Snippet)'),
+(49, 1515161702, 1, 'admin', 78, '3', 'header', 'Editing Chunk (HTML Snippet)'),
+(50, 1515161748, 1, 'admin', 79, '3', 'header', 'Saving Chunk (HTML Snippet)'),
+(51, 1515161748, 1, 'admin', 78, '3', 'header', 'Editing Chunk (HTML Snippet)'),
+(52, 1515161834, 1, 'admin', 79, '3', 'header', 'Saving Chunk (HTML Snippet)'),
+(53, 1515161834, 1, 'admin', 78, '3', 'header', 'Editing Chunk (HTML Snippet)'),
+(54, 1515162164, 1, 'admin', 78, '4', 'topmenu', 'Editing Chunk (HTML Snippet)'),
+(55, 1515162174, 1, 'admin', 79, '4', 'topmenu', 'Saving Chunk (HTML Snippet)'),
+(56, 1515162174, 1, 'admin', 78, '4', 'topmenu', 'Editing Chunk (HTML Snippet)'),
+(57, 1515162466, 1, 'admin', 97, '4', 'topmenu Копия', 'Duplicate Chunk (HTML Snippet)'),
+(58, 1515162466, 1, 'admin', 78, '7', 'topmenu Копия', 'Editing Chunk (HTML Snippet)'),
+(59, 1515162478, 1, 'admin', 79, '7', 'footer', 'Saving Chunk (HTML Snippet)'),
+(60, 1515162478, 1, 'admin', 78, '7', 'footer', 'Editing Chunk (HTML Snippet)'),
+(61, 1515162579, 1, 'admin', 20, '4', 'Каталог', 'Saving template'),
+(62, 1515162579, 1, 'admin', 16, '4', 'Каталог', 'Editing template'),
+(63, 1515162593, 1, 'admin', 20, '4', 'Каталог', 'Saving template'),
+(64, 1515162593, 1, 'admin', 16, '4', 'Каталог', 'Editing template'),
+(65, 1515162711, 1, 'admin', 78, '2', 'head', 'Editing Chunk (HTML Snippet)'),
+(66, 1515163110, 1, 'admin', 23, '-', 'Новый сниппет', 'Creating a new Snippet'),
+(67, 1515163244, 1, 'admin', 103, '11', 'test', 'Saving plugin'),
+(68, 1515163244, 1, 'admin', 102, '11', 'test', 'Edit plugin'),
+(69, 1515163324, 1, 'admin', 24, '-', 'DLT_CATALOG', 'Saving Snippet'),
+(70, 1515163324, 1, 'admin', 22, '10', 'DLT_CATALOG', 'Editing Snippet'),
+(71, 1515163357, 1, 'admin', 24, '10', 'DLT_CATALOG', 'Saving Snippet'),
+(72, 1515163358, 1, 'admin', 22, '10', 'DLT_CATALOG', 'Editing Snippet'),
+(73, 1515164106, 1, 'admin', 24, '10', 'DLT_CATALOG', 'Saving Snippet'),
+(74, 1515164106, 1, 'admin', 22, '10', 'DLT_CATALOG', 'Editing Snippet'),
+(75, 1515164249, 1, 'admin', 77, '-', 'Новый чанк', 'Creating a new Chunk (HTML Snippet)'),
+(76, 1515164382, 1, 'admin', 79, '-', 'test_cat', 'Saving Chunk (HTML Snippet)'),
+(77, 1515164382, 1, 'admin', 78, '8', 'test_cat', 'Editing Chunk (HTML Snippet)'),
+(78, 1515164394, 1, 'admin', 16, '4', 'Каталог', 'Editing template'),
+(79, 1515164432, 1, 'admin', 20, '4', 'Каталог', 'Saving template'),
+(80, 1515164432, 1, 'admin', 16, '4', 'Каталог', 'Editing template'),
+(81, 1515164444, 1, 'admin', 24, '10', 'DLT_CATALOG', 'Saving Snippet'),
+(82, 1515164444, 1, 'admin', 22, '10', 'DLT_CATALOG', 'Editing Snippet'),
+(83, 1515164468, 1, 'admin', 24, '10', 'DLT_CATALOG', 'Saving Snippet'),
+(84, 1515164468, 1, 'admin', 22, '10', 'DLT_CATALOG', 'Editing Snippet'),
+(85, 1515164908, 1, 'admin', 20, '4', 'Каталог', 'Saving template'),
+(86, 1515164908, 1, 'admin', 16, '4', 'Каталог', 'Editing template'),
+(87, 1515164913, 1, 'admin', 79, '8', 'test_cat', 'Saving Chunk (HTML Snippet)'),
+(88, 1515164913, 1, 'admin', 78, '8', 'test_cat', 'Editing Chunk (HTML Snippet)'),
+(89, 1515164926, 1, 'admin', 24, '10', 'DLT_CATALOG', 'Saving Snippet'),
+(90, 1515164926, 1, 'admin', 22, '10', 'DLT_CATALOG', 'Editing Snippet'),
+(91, 1515165020, 1, 'admin', 79, '8', 'test_cat', 'Saving Chunk (HTML Snippet)'),
+(92, 1515165021, 1, 'admin', 78, '8', 'test_cat', 'Editing Chunk (HTML Snippet)'),
+(93, 1515165101, 1, 'admin', 79, '8', 'test_cat', 'Saving Chunk (HTML Snippet)'),
+(94, 1515165101, 1, 'admin', 78, '8', 'test_cat', 'Editing Chunk (HTML Snippet)'),
+(95, 1515165315, 1, 'admin', 79, '8', 'test_cat', 'Saving Chunk (HTML Snippet)'),
+(96, 1515165315, 1, 'admin', 78, '8', 'test_cat', 'Editing Chunk (HTML Snippet)'),
+(97, 1515166058, 1, 'admin', 24, '10', 'DLT_CATALOG', 'Saving Snippet'),
+(98, 1515166058, 1, 'admin', 22, '10', 'DLT_CATALOG', 'Editing Snippet'),
+(99, 1515166117, 1, 'admin', 79, '8', 'test_cat', 'Saving Chunk (HTML Snippet)'),
+(100, 1515166117, 1, 'admin', 78, '8', 'test_cat', 'Editing Chunk (HTML Snippet)'),
+(101, 1515166445, 1, 'admin', 24, '10', 'DLT_CATALOG', 'Saving Snippet'),
+(102, 1515166445, 1, 'admin', 22, '10', 'DLT_CATALOG', 'Editing Snippet'),
+(103, 1515166465, 1, 'admin', 24, '10', 'DLT_CATALOG', 'Saving Snippet'),
+(104, 1515166465, 1, 'admin', 22, '10', 'DLT_CATALOG', 'Editing Snippet'),
+(105, 1515166814, 1, 'admin', 24, '10', 'DLT_CATALOG', 'Saving Snippet'),
+(106, 1515166814, 1, 'admin', 22, '10', 'DLT_CATALOG', 'Editing Snippet'),
+(107, 1515166958, 1, 'admin', 24, '10', 'DLT_CATALOG', 'Saving Snippet'),
+(108, 1515166958, 1, 'admin', 22, '10', 'DLT_CATALOG', 'Editing Snippet'),
+(109, 1515167041, 1, 'admin', 24, '10', 'DLT_CATALOG', 'Saving Snippet'),
+(110, 1515167041, 1, 'admin', 22, '10', 'DLT_CATALOG', 'Editing Snippet'),
+(111, 1515167161, 1, 'admin', 20, '4', 'Каталог', 'Saving template'),
+(112, 1515167161, 1, 'admin', 16, '4', 'Каталог', 'Editing template'),
+(113, 1515167174, 1, 'admin', 97, '8', 'test_cat Копия', 'Duplicate Chunk (HTML Snippet)'),
+(114, 1515167174, 1, 'admin', 78, '9', 'test_cat Копия', 'Editing Chunk (HTML Snippet)'),
+(115, 1515167177, 1, 'admin', 79, '9', 'test_good', 'Saving Chunk (HTML Snippet)'),
+(116, 1515167177, 1, 'admin', 78, '9', 'test_good', 'Editing Chunk (HTML Snippet)'),
+(117, 1515167226, 1, 'admin', 20, '4', 'Каталог', 'Saving template'),
+(118, 1515167226, 1, 'admin', 16, '4', 'Каталог', 'Editing template'),
+(119, 1515167228, 1, 'admin', 102, '11', 'test', 'Edit plugin'),
+(120, 1515167311, 1, 'admin', 24, '10', 'DLT_CATALOG', 'Saving Snippet'),
+(121, 1515167311, 1, 'admin', 22, '10', 'DLT_CATALOG', 'Editing Snippet'),
+(122, 1515167749, 1, 'admin', 24, '10', 'DLT_CATALOG', 'Saving Snippet'),
+(123, 1515167749, 1, 'admin', 22, '10', 'DLT_CATALOG', 'Editing Snippet'),
+(124, 1515167792, 1, 'admin', 79, '9', 'test_good', 'Saving Chunk (HTML Snippet)'),
+(125, 1515167792, 1, 'admin', 78, '9', 'test_good', 'Editing Chunk (HTML Snippet)'),
+(126, 1515167822, 1, 'admin', 24, '10', 'DLT_CATALOG', 'Saving Snippet'),
+(127, 1515167822, 1, 'admin', 22, '10', 'DLT_CATALOG', 'Editing Snippet'),
+(128, 1515167871, 1, 'admin', 24, '10', 'DLT_CATALOG', 'Saving Snippet'),
+(129, 1515167871, 1, 'admin', 22, '10', 'DLT_CATALOG', 'Editing Snippet');
 
 -- --------------------------------------------------------
 
@@ -277,7 +415,7 @@ CREATE TABLE IF NOT EXISTS `delta_site_content` (
   `content_dispo` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0-inline, 1-attachment',
   `hidemenu` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Hide document from menu',
   `alias_visible` int(2) NOT NULL DEFAULT '1'
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Contains the site document tree.';
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='Contains the site document tree.';
 
 --
 -- Дамп данных таблицы `delta_site_content`
@@ -285,7 +423,20 @@ CREATE TABLE IF NOT EXISTS `delta_site_content` (
 
 INSERT INTO `delta_site_content` (`id`, `type`, `contentType`, `pagetitle`, `longtitle`, `description`, `alias`, `link_attributes`, `published`, `pub_date`, `unpub_date`, `parent`, `isfolder`, `introtext`, `content`, `richtext`, `template`, `menuindex`, `searchable`, `cacheable`, `createdby`, `createdon`, `editedby`, `editedon`, `deleted`, `deletedon`, `deletedby`, `publishedon`, `publishedby`, `menutitle`, `donthit`, `privateweb`, `privatemgr`, `content_dispo`, `hidemenu`, `alias_visible`) VALUES
 (1, 'document', 'text/html', 'Evolution CMS Install Success', 'Welcome to the EVO Content Management System', '', 'minimal-base', '', 1, 0, 0, 0, 0, '', '<h3>Install Successful!</h3>\r\n<p>You have successfully installed Evolution CMS.</p>\r\n\r\n<h3>Getting Help</h3>\r\n<p>The <a href="http://evo.im/" target="_blank">EVO Community</a> provides a great starting point to learn all things Evolution CMS, or you can also <a href="http://evo.im/">see some great learning resources</a> (books, tutorials, blogs and screencasts).</p>\r\n<p>Welcome to EVO!</p>\r\n', 1, 3, 0, 1, 1, 1, 1130304721, 1, 1130304927, 0, 0, 0, 1130304721, 1, 'Base Install', 0, 0, 0, 0, 0, 1),
-(2, 'document', 'text/html', 'тест', '', '', 'test', '', 1, 0, 0, 0, 0, '', '', 1, 3, 1, 1, 1, 1, 1513257336, 1, 1513257345, 0, 0, 0, 1513257336, 1, '', 0, 0, 0, 0, 0, 1);
+(2, 'document', 'text/html', 'тест', '', '', 'test', '', 1, 0, 0, 0, 0, '', '', 1, 3, 1, 1, 1, 1, 1513257336, 1, 1513257345, 0, 0, 0, 1513257336, 1, '', 0, 0, 0, 0, 0, 1),
+(3, 'document', 'text/html', 'Каталог', '', '', 'catalog', '', 1, 0, 0, 0, 1, '', '', 1, 4, 2, 1, 1, 1, 1515066843, 1, 1515080044, 0, 0, 0, 1515066843, 1, '', 0, 0, 0, 0, 0, 1),
+(4, 'document', 'text/html', 'Компьютеры и периферия', '', '', 'kompyutery-i-periferiya', '', 1, 0, 0, 3, 1, '', '', 1, 4, 0, 1, 1, 1, 1515066852, 1, 1515080049, 0, 0, 0, 1515066852, 1, '', 0, 0, 0, 0, 0, 1),
+(5, 'document', 'text/html', 'Комплектующие для ПК', '', '', 'komplektuyushhie-dlya-pk', '', 1, 0, 0, 3, 1, '', '', 1, 4, 1, 1, 1, 1, 1515066875, 1, 1515069413, 0, 0, 0, 1515066875, 1, '', 0, 0, 0, 0, 0, 1),
+(6, 'document', 'text/html', 'Телевизоры и медиа', '', '', 'televizory-i-media', '', 1, 0, 0, 3, 1, '', '', 1, 4, 2, 1, 1, 1, 1515066901, 1, 1515066901, 0, 0, 0, 1515066901, 1, '', 0, 0, 0, 0, 0, 1),
+(7, 'document', 'text/html', 'Кабели', '', '', 'kabeli', '', 1, 0, 0, 4, 1, '', '', 1, 4, 0, 1, 1, 1, 1515066919, 1, 1515069236, 0, 0, 0, 1515066919, 1, '', 0, 0, 0, 0, 0, 1),
+(8, 'document', 'text/html', 'Компьютеры', '', '', 'kompyutery', '', 1, 0, 0, 4, 1, '', '', 1, 4, 1, 1, 1, 1, 1515066934, 1, 1515069336, 0, 0, 0, 1515066934, 1, '', 0, 0, 0, 0, 0, 1),
+(9, 'document', 'text/html', 'Мониторы', '', '', 'monitory', '', 1, 0, 0, 4, 1, '', '', 1, 4, 2, 1, 1, 1, 1515066945, 1, 1515069344, 0, 0, 0, 1515066945, 1, '', 0, 0, 0, 0, 0, 1),
+(10, 'document', 'text/html', 'Процессоры', '', '', 'processory', '', 1, 0, 0, 5, 1, '', '', 1, 4, 0, 1, 1, 1, 1515066969, 1, 1515067000, 0, 0, 0, 1515066969, 1, '', 0, 0, 0, 0, 0, 1),
+(11, 'document', 'text/html', 'Материнские платы', '', '', 'materinskie-platy', '', 1, 0, 0, 5, 1, '', '', 1, 4, 1, 1, 1, 1, 1515066981, 1, 1515066981, 0, 0, 0, 1515066981, 1, '', 0, 0, 0, 0, 0, 1),
+(12, 'document', 'text/html', 'Видеокарты', '', '', 'videokarty', '', 1, 0, 0, 5, 1, '', '', 1, 4, 2, 1, 1, 1, 1515066993, 1, 1515066993, 0, 0, 0, 1515066993, 1, '', 0, 0, 0, 0, 0, 1),
+(13, 'document', 'text/html', 'Телевизоры', '', '', 'televizory', '', 1, 0, 0, 6, 1, '', '', 1, 4, 0, 1, 1, 1, 1515067018, 1, 1515067018, 0, 0, 0, 1515067018, 1, '', 0, 0, 0, 0, 0, 1),
+(14, 'document', 'text/html', 'Проекторы', '', '', 'proektory', '', 1, 0, 0, 6, 1, '', '', 1, 4, 1, 1, 1, 1, 1515067030, 1, 1515067030, 0, 0, 0, 1515067030, 1, '', 0, 0, 0, 0, 0, 1),
+(15, 'document', 'text/html', 'Спутниковое оборудование', '', '', 'sputnikovoe-oborudovanie', '', 1, 0, 0, 6, 1, '', '', 1, 4, 2, 1, 1, 1, 1515067049, 1, 1515067049, 0, 0, 0, 1515067049, 1, '', 0, 0, 0, 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -306,14 +457,22 @@ CREATE TABLE IF NOT EXISTS `delta_site_htmlsnippets` (
   `createdon` int(11) NOT NULL DEFAULT '0',
   `editedon` int(11) NOT NULL DEFAULT '0',
   `disabled` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'Disables the snippet'
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Contains the site chunks.';
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='Contains the site chunks.';
 
 --
 -- Дамп данных таблицы `delta_site_htmlsnippets`
 --
 
 INSERT INTO `delta_site_htmlsnippets` (`id`, `name`, `description`, `editor_type`, `editor_name`, `category`, `cache_type`, `snippet`, `locked`, `createdon`, `editedon`, `disabled`) VALUES
-(1, 'mm_rules', 'Default ManagerManager rules.', 0, 'none', 1, 0, '// more example rules are in assets/plugins/managermanager/example_mm_rules.inc.php\r\n// example of how PHP is allowed - check that a TV named documentTags exists before creating rule\r\n\r\nif ($modx->db->getValue($modx->db->select(''count(id)'', $modx->getFullTableName(''site_tmplvars''), "name=''documentTags''"))) {\r\n	mm_widget_tags(''documentTags'', '' ''); // Give blog tag editing capabilities to the ''documentTags (3)'' TV\r\n}\r\nmm_widget_showimagetvs(); // Always give a preview of Image TVs\r\n\r\nmm_createTab(''SEO'', ''seo'', '''', '''', '''', '''');\r\nmm_moveFieldsToTab(''titl,keyw,desc,seoOverride,noIndex,sitemap_changefreq,sitemap_priority,sitemap_exclude'', ''seo'', '''', '''');\r\nmm_widget_tags(''keyw'','',''); // Give blog tag editing capabilities to the ''documentTags (3)'' TV\r\n\r\n\r\n//mm_createTab(''Images'', ''photos'', '''', '''', '''', ''850'');\r\n//mm_moveFieldsToTab(''images,photos'', ''photos'', '''', '''');\r\n\r\n//mm_hideFields(''longtitle,description,link_attributes,menutitle,content'', '''', ''6,7'');\r\n\r\n//mm_hideTemplates(''0,5,8,9,11,12'', ''2,3'');\r\n\r\n//mm_hideTabs(''settings, access'', ''2'');\r\n', 0, 0, 0, 0);
+(1, 'mm_rules', 'Default ManagerManager rules.', 0, 'none', 1, 0, '// more example rules are in assets/plugins/managermanager/example_mm_rules.inc.php\r\n// example of how PHP is allowed - check that a TV named documentTags exists before creating rule\r\n\r\nif ($modx->db->getValue($modx->db->select(''count(id)'', $modx->getFullTableName(''site_tmplvars''), "name=''documentTags''"))) {\r\n	mm_widget_tags(''documentTags'', '' ''); // Give blog tag editing capabilities to the ''documentTags (3)'' TV\r\n}\r\nmm_widget_showimagetvs(); // Always give a preview of Image TVs\r\n\r\nmm_createTab(''SEO'', ''seo'', '''', '''', '''', '''');\r\nmm_moveFieldsToTab(''titl,keyw,desc,seoOverride,noIndex,sitemap_changefreq,sitemap_priority,sitemap_exclude'', ''seo'', '''', '''');\r\nmm_widget_tags(''keyw'','',''); // Give blog tag editing capabilities to the ''documentTags (3)'' TV\r\n\r\n\r\n//mm_createTab(''Images'', ''photos'', '''', '''', '''', ''850'');\r\n//mm_moveFieldsToTab(''images,photos'', ''photos'', '''', '''');\r\n\r\n//mm_hideFields(''longtitle,description,link_attributes,menutitle,content'', '''', ''6,7'');\r\n\r\n//mm_hideTemplates(''0,5,8,9,11,12'', ''2,3'');\r\n\r\n//mm_hideTabs(''settings, access'', ''2'');\r\n', 0, 0, 0, 0),
+(2, 'head', '', 2, 'none', 0, 0, '<head>\r\n    <!--[if lt IE 9]!><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->\r\n    <!--[if lt IE 9]>\r\n        <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>\r\n    <![endif]-->\r\n    <base href="[(site_url)]" />\r\n	<link rel="canonical" href="[(site_url)][!if? &is=`[*id*]:eq:1` &then=`` &else=`[~[*id*]~]` !]" />\r\n	\r\n    <title>[*pagetitle*]</title>\r\n    <meta name="description" lang="ru" content="[*descr*]" />\r\n    <meta name="keywords" lang="ru" content="[*keywords*]" />\r\n    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />\r\n    <meta http-equiv="X-UA-Compatible" content="IE=edge">\r\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\r\n    <link rel="icon" href="favicon.ico" type="image/x-icon" />\r\n    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />\r\n	\r\n	<!-- Стили, скрипты и шрифты пока пусть будут тут -->\r\n	<link href="https://fonts.googleapis.com/css?family=Oswald:200,300,400,500,600,700&amp;subset=cyrillic" rel="stylesheet">\r\n    <link rel="stylesheet" type="text/css" href="template/css/style.css" />\r\n    <!-- <link rel="stylesheet" type="text/css" href="template/css/responsive.css" /> -->\r\n	<!-- <link rel="stylesheet" type="text/css" href="template/css/catalogfilter.css" /> -->\r\n	<!-- <link rel="stylesheet" type="text/css" href="template/css/jquery.fancybox.min.css" /> -->\r\n	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>\r\n</head>', 0, 1515159221, 1515159221, 0),
+(3, 'header', '', 2, 'none', 0, 0, ' <header>\r\n 	<div class="wrapper">\r\n 		<img src="" alt="" class="logo" alt="LOGO" title="LOGO">\r\n		<div class="contacts">CONTACTS</div>\r\n		<div class="clr"></div>\r\n 	</div>\r\n </header>', 0, 1515159504, 1515161834, 0),
+(4, 'topmenu', '', 2, 'none', 0, 0, '<div class="topmenu">\r\n	<div class="wrapper">\r\n		<nav>\r\n			<ul>\r\n				<li><a href="#">LINK</a></li>\r\n				<li><a href="#">LINK</a></li>\r\n				<li><a href="#">LINK</a></li>\r\n				<li><a href="#">LINK</a></li>\r\n				<li><a href="#">LINK</a></li>\r\n			</ul>\r\n		</nav>\r\n		<div class="search">SEARCH</div>\r\n		<div class="clr"></div>\r\n	</div>\r\n</div>', 0, 0, 1515162174, 0),
+(5, 'slider', '', 2, 'none', 0, 0, '<section class="slider">\r\n    <ul class="bxslider">\r\n      	<li style="background-image: url(template/image/pic1.jpg)">\r\n      	    <div class="sliderTit">Lorem ipsum\r\n				<span class="sliderSubT">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem voluptatum fugit quod consectetur voluptate dolores.</span>\r\n			</div>\r\n      	</li>\r\n		\r\n		<li style="background-image: url(template/image/pic2.jpg)">\r\n      	    <div class="sliderTit">Lorem ipsum\r\n				<span class="sliderSubT">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem voluptatum fugit quod consectetur voluptate dolores.</span>\r\n			</div>\r\n      	</li>\r\n\r\n		<li style="background-image: url(template/image/pic3.jpg)">\r\n      	    <div class="sliderTit">Lorem ipsum\r\n				<span class="sliderSubT">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem voluptatum fugit quod consectetur voluptate dolores.</span>\r\n			</div>\r\n      	</li>\r\n		\r\n		<li style="background-image: url(template/image/pic4.jpg)">\r\n      	    <div class="sliderTit">Lorem ipsum\r\n				<span class="sliderSubT">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem voluptatum fugit quod consectetur voluptate dolores.</span>\r\n			</div>\r\n      	</li>\r\n		\r\n    </ul>\r\n</section>', 0, 0, 1515160644, 0),
+(6, 'scripts', '', 2, 'none', 0, 0, '<script src="template/js/common.js"></script>\r\n<script src="template/js/jquery.bxslider.js"></script>', 0, 0, 1515160127, 0),
+(7, 'footer', '', 2, 'none', 0, 0, '<footer>\r\n	FOOTER\r\n</footer>', 0, 0, 1515162478, 0),
+(8, 'test_cat', '', 2, 'none', 5, 0, '<div class="item">\r\n	<div class="image">[+px.image+]</div>\r\n	<div class="title">[+px.pagetitle+]</div>\r\n	<!-- <div class="link">[~[+px.id+]F~]</div> -->\r\n	<div class="link"><a href="[~[+px.id+]~]">[~[+px.id+]~]</a></div>\r\n</div>\r\n', 0, 1515164382, 1515166117, 0),
+(9, 'test_good', '', 2, 'none', 5, 0, '<div class="item">\r\n	<div class="image">[+px.id_product+]</div>\r\n	<div class="title">[+px.name+]</div>\r\n	<!-- <div class="link">[~[+px.id+]F~]</div> -->\r\n	<div class="link"><a href="[~[+px.id+]~]">[~[+px.id+]~]</a></div>\r\n</div>\r\n', 0, 0, 1515167792, 0);
 
 -- --------------------------------------------------------
 
@@ -394,7 +553,7 @@ CREATE TABLE IF NOT EXISTS `delta_site_plugins` (
   `moduleguid` varchar(32) NOT NULL DEFAULT '' COMMENT 'GUID of module from which to import shared parameters',
   `createdon` int(11) NOT NULL DEFAULT '0',
   `editedon` int(11) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='Contains the site plugins.';
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='Contains the site plugins.';
 
 --
 -- Дамп данных таблицы `delta_site_plugins`
@@ -410,7 +569,8 @@ INSERT INTO `delta_site_plugins` (`id`, `name`, `description`, `editor_type`, `c
 (7, 'TinyMCE4', '<strong>4.6.3</strong> Javascript WYSIWYG editor', 0, 2, 0, 'require MODX_BASE_PATH.''assets/plugins/tinymce4/plugin.tinymce.php'';', 0, '{"styleFormats":[{"label":"Custom Style Formats <b>RAW<\\/b><br\\/><br\\/><ul><li>leave empty to use below block\\/inline formats<\\/li><li>allows simple-format: <i>Title,cssClass|Title2,cssClass2<\\/i><\\/li><li>Also accepts full JSON-config as per TinyMCE4 docs \\/ configure \\/ content-formating \\/ style_formats<\\/li><\\/ul>","type":"textarea","value":"","default":"","desc":""}],"styleFormats_inline":[{"label":"Custom Style Formats <b>INLINE<\\/b><br\\/><br\\/><ul><li>will wrap selected text with span-tag + css-class<\\/li><li>simple-format only<\\/li><\\/ul>","type":"textarea","value":"InlineTitle,cssClass1|InlineTitle2,cssClass2","default":"InlineTitle,cssClass1|InlineTitle2,cssClass2","desc":""}],"styleFormats_block":[{"label":"Custom Style Formats <b>BLOCK<\\/b><br\\/><br\\/><ul><li>will add css-class to selected block-element<\\/li><li>simple-format only<\\/li><\\/ul>","type":"textarea","value":"BlockTitle,cssClass3|BlockTitle2,cssClass4","default":"BlockTitle,cssClass3|BlockTitle2,cssClass4","desc":""}],"customParams":[{"label":"Custom Parameters<br\\/><b>(Be careful or leave empty!)<\\/b>","type":"textarea","value":"","default":"","desc":""}],"entityEncoding":[{"label":"Entity Encoding","type":"list","value":"named","options":"named,numeric,raw","default":"named","desc":""}],"entities":[{"label":"Entities","type":"text","value":"","default":"","desc":""}],"pathOptions":[{"label":"Path Options","type":"list","value":"Site config","options":"Site config,Absolute path,Root relative,URL,No convert","default":"Site config","desc":""}],"resizing":[{"label":"Advanced Resizing","type":"list","value":"false","options":"true,false","default":"false","desc":""}],"disabledButtons":[{"label":"Disabled Buttons","type":"text","value":"","default":"","desc":""}],"webTheme":[{"label":"Web Theme","type":"test","value":"webuser","default":"webuser","desc":""}],"webPlugins":[{"label":"Web Plugins","type":"text","value":"","default":"","desc":""}],"webButtons1":[{"label":"Web Buttons 1","type":"text","value":"bold italic underline strikethrough removeformat alignleft aligncenter alignright","default":"bold italic underline strikethrough removeformat alignleft aligncenter alignright","desc":""}],"webButtons2":[{"label":"Web Buttons 2","type":"text","value":"link unlink image undo redo","default":"link unlink image undo redo","desc":""}],"webButtons3":[{"label":"Web Buttons 3","type":"text","value":"","default":"","desc":""}],"webButtons4":[{"label":"Web Buttons 4","type":"text","value":"","default":"","desc":""}],"webAlign":[{"label":"Web Toolbar Alignment","type":"list","value":"ltr","options":"ltr,rtl","default":"ltr","desc":""}],"width":[{"label":"Width","type":"text","value":"100%","default":"100%","desc":""}],"height":[{"label":"Height","type":"text","value":"400px","default":"400px","desc":""}],"introtextRte":[{"label":"<b>Introtext RTE<\\/b><br\\/>add richtext-features to \\"introtext\\"","type":"list","value":"disabled","options":"enabled,disabled","default":"disabled","desc":""}],"inlineMode":[{"label":"<b>Inline-Mode<\\/b>","type":"list","value":"disabled","options":"enabled,disabled","default":"disabled","desc":""}],"inlineTheme":[{"label":"<b>Inline-Mode<\\/b><br\\/>Theme","type":"text","value":"inline","default":"inline","desc":""}],"browser_spellcheck":[{"label":"<b>Browser Spellcheck<\\/b><br\\/>At least one dictionary must be installed inside your browser","type":"list","value":"disabled","options":"enabled,disabled","default":"disabled","desc":""}],"paste_as_text":[{"label":"<b>Force Paste as Text<\\/b>","type":"list","value":"disabled","options":"enabled,disabled","default":"disabled","desc":""}]}', 0, '', 0, 0),
 (8, 'TransAlias', '<strong>1.0.4</strong> Human readible URL translation supporting multiple languages and overrides', 0, 2, 0, 'require MODX_BASE_PATH.''assets/plugins/transalias/plugin.transalias.php'';', 0, '{"table_name":[{"label":"Trans table","type":"list","value":"russian","options":"common,russian,dutch,german,czech,utf8,utf8lowercase","default":"russian","desc":""}],"char_restrict":[{"label":"Restrict alias to","type":"list","value":"lowercase alphanumeric","options":"lowercase alphanumeric,alphanumeric,legal characters","default":"lowercase alphanumeric","desc":""}],"remove_periods":[{"label":"Remove Periods","type":"list","value":"No","options":"Yes,No","default":"No","desc":""}],"word_separator":[{"label":"Word Separator","type":"list","value":"dash","options":"dash,underscore,none","default":"dash","desc":""}],"override_tv":[{"label":"Override TV name","type":"string","value":"","default":"","desc":""}]}', 0, '', 0, 0),
 (9, 'Updater', '<strong>0.8.2</strong> show message about outdated CMS version', 0, 2, 0, 'require MODX_BASE_PATH.''assets/plugins/updater/plugin.updater.php'';\r\n\r\n\r\n', 0, '{"version":[{"label":"Version:","type":"text","value":"evolution-cms\\/evolution","default":"evolution-cms\\/evolution","desc":""}],"wdgVisibility":[{"label":"Show widget for:","type":"menu","value":"All","options":"All,AdminOnly,AdminExcluded,ThisRoleOnly,ThisUserOnly","default":"All","desc":""}],"ThisRole":[{"label":"Show only to this role id:","type":"string","value":"","default":"","desc":""}],"ThisUser":[{"label":"Show only to this username:","type":"string","value":"","default":"","desc":""}],"showButton":[{"label":"Show Update Button:","type":"menu","value":"AdminOnly","options":"show,hide,AdminOnly","default":"AdminOnly","desc":""}],"type":[{"label":"Type:","type":"menu","value":"tags","options":"tags,releases,commits","default":"tags","desc":""}]}', 0, '', 0, 0),
-(10, 'userHelper', '<strong>1.7.11</strong> addition to FormLister', 0, 3, 0, '\n/**\n * userHelper\n * \n * addition to FormLister\n * \n * @category    plugin\n * @version     1.7.11\n * @internal    @properties &logoutKey=Request key;text;logout &cookieName=Cookie Name;text;WebLoginPE &cookieLifetime=Cookie Lifetime, seconds;text;157680000 &maxFails=Max failed logins;text;3 &blockTime=Block for, seconds;text;3600\n * @internal    @events OnWebPageInit,OnPageNotFound,OnWebLogin\n * @internal    @modx_category Content\n * @internal    @disabled 1\n**/\n\nrequire MODX_BASE_PATH.''assets/snippets/FormLister/plugin.userHelper.php'';', 0, '{"logoutKey":[{"label":"Request key","type":"text","value":"logout","default":"logout","desc":""}],"cookieName":[{"label":"Cookie Name","type":"text","value":"WebLoginPE","default":"WebLoginPE","desc":""}],"cookieLifetime":[{"label":"Cookie Lifetime, seconds","type":"text","value":"157680000","default":"157680000","desc":""}],"maxFails":[{"label":"Max failed logins","type":"text","value":"3","default":"3","desc":""}],"blockTime":[{"label":"Block for, seconds","type":"text","value":"3600","default":"3600","desc":""}]}', 1, '', 0, 0);
+(10, 'userHelper', '<strong>1.7.11</strong> addition to FormLister', 0, 3, 0, '\n/**\n * userHelper\n * \n * addition to FormLister\n * \n * @category    plugin\n * @version     1.7.11\n * @internal    @properties &logoutKey=Request key;text;logout &cookieName=Cookie Name;text;WebLoginPE &cookieLifetime=Cookie Lifetime, seconds;text;157680000 &maxFails=Max failed logins;text;3 &blockTime=Block for, seconds;text;3600\n * @internal    @events OnWebPageInit,OnPageNotFound,OnWebLogin\n * @internal    @modx_category Content\n * @internal    @disabled 1\n**/\n\nrequire MODX_BASE_PATH.''assets/snippets/FormLister/plugin.userHelper.php'';', 0, '{"logoutKey":[{"label":"Request key","type":"text","value":"logout","default":"logout","desc":""}],"cookieName":[{"label":"Cookie Name","type":"text","value":"WebLoginPE","default":"WebLoginPE","desc":""}],"cookieLifetime":[{"label":"Cookie Lifetime, seconds","type":"text","value":"157680000","default":"157680000","desc":""}],"maxFails":[{"label":"Max failed logins","type":"text","value":"3","default":"3","desc":""}],"blockTime":[{"label":"Block for, seconds","type":"text","value":"3600","default":"3600","desc":""}]}', 1, '', 0, 0),
+(11, 'test', '', 0, 0, 0, '//echo $modx->pre($modx->getTreeCat(4));\r\n\r\n//echo $modx->pre($modx->getCatFromID(3));\r\n\r\n$id= $modx->documentIdentifier;\r\n\r\n//$ids = $modx->getTreeCat(4 , false);\r\n	\r\n$modx->getTreeCat(3);\r\n\r\n//$modx->getCatFromID(4)->getFields()->sortIt(''cats'', ''menuindex'', ''DESC'')->sliceIt(''cats'' , 1, 2);\r\n\r\n\r\n$idsF = $modx->getArrayData(''cats'');\r\n\r\n\r\n//$idsF = $modx->getFields();\r\n\r\n\r\n//$modx->sortGoods (''menuindex'', ''ASC'');\r\n\r\n//$idsF = $modx->sliceGoods ($idsF , 0, 99);\r\n\r\n//echo $modx->pre($idsF);\r\n\r\n\r\n\r\n$modx->getGoodsFromCats (4 ,false, /*$modx->parseXparams()*/ false , true );\r\n\r\n//$modx->getAllGoodFields();\r\n\r\n\r\n//$idsGoods = $modx->getGoodsFromCats ();\r\n\r\n$modx->getAllGoodFields();\r\n	\r\n\r\necho $modx->pre($modx->getArrayData(''goods''));\r\n\r\necho $modx->pre($modx->urlXParams);\r\n\r\n', 0, '{}', 1, ' ', 1515077424, 1515163243);
 
 -- --------------------------------------------------------
 
@@ -485,7 +645,8 @@ INSERT INTO `delta_site_plugin_events` (`pluginid`, `evtid`, `priority`) VALUES
 (9, 1000, 0),
 (10, 4, 0),
 (10, 90, 0),
-(10, 1000, 0);
+(10, 1000, 0),
+(11, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -507,7 +668,7 @@ CREATE TABLE IF NOT EXISTS `delta_site_snippets` (
   `createdon` int(11) NOT NULL DEFAULT '0',
   `editedon` int(11) NOT NULL DEFAULT '0',
   `disabled` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'Disables the snippet'
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='Contains the site snippets.';
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='Contains the site snippets.';
 
 --
 -- Дамп данных таблицы `delta_site_snippets`
@@ -522,7 +683,8 @@ INSERT INTO `delta_site_snippets` (`id`, `name`, `description`, `editor_type`, `
 (6, 'FormLister', '<strong>1.7.11</strong> Form processor', 0, 3, 0, 'return require MODX_BASE_PATH.''assets/snippets/FormLister/snippet.FormLister.php'';\n', 0, '', '', 0, 0, 0),
 (7, 'if', '<strong>1.3</strong> A simple conditional snippet. Allows for eq/neq/lt/gt/etc logic within templates, resources, chunks, etc.', 0, 4, 0, 'return require MODX_BASE_PATH.''assets/snippets/if/snippet.if.php'';', 0, '', '', 0, 0, 0),
 (8, 'phpthumb', '<strong>1.3</strong> PHPThumb creates thumbnails and altered images on the fly and caches them', 0, 3, 0, 'return require MODX_BASE_PATH.''assets/snippets/phpthumb/snippet.phpthumb.php'';\r\n', 0, '', '', 0, 0, 0),
-(9, 'summary', '<strong>2.0.2</strong> Truncates the string to the specified length', 0, 3, 0, 'return require MODX_BASE_PATH.''assets/snippets/summary/snippet.summary.php'';', 0, '', '', 0, 0, 0);
+(9, 'summary', '<strong>2.0.2</strong> Truncates the string to the specified length', 0, 3, 0, 'return require MODX_BASE_PATH.''assets/snippets/summary/snippet.summary.php'';', 0, '', '', 0, 0, 0),
+(10, 'DLT_CATALOG', '', 0, 0, 0, '\r\nif (!is_numeric($root)){\r\n	$root= $modx->documentIdentifier;\r\n}\r\n\r\n//$modx->getCatFromID($root)->getFields()->sortIt(''cats'', ''menuindex'', ''DESC'')->sliceIt(''cats'' , 0, 2);\r\n\r\n$modx->getCatFromID($root)->getFields()->sortIt(''cats'', ''menuindex'', ''DESC'');\r\n\r\n//$modx->renderAll($chunkCats , ''cats'' , ''print'');\r\n\r\n\r\n$modx->getGoodsFromCats ($root ,false, /*$modx->parseXparams()*/ false , true );\r\n$modx->getAllGoodFields();\r\n\r\n$modx->renderAll($chunkGoods , ''goods'' , ''print'');\r\n\r\necho $modx->pre($modx->getArrayData(''goods''));\r\n\r\n\r\n/*\r\n$idsF = $modx->getArrayData(''cats'');\r\necho $modx->pre($idsF);\r\n*/', 0, '{}', ' ', 1515163324, 1515167871, 0);
 
 -- --------------------------------------------------------
 
@@ -543,14 +705,15 @@ CREATE TABLE IF NOT EXISTS `delta_site_templates` (
   `selectable` tinyint(4) NOT NULL DEFAULT '1',
   `createdon` int(11) NOT NULL DEFAULT '0',
   `editedon` int(11) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Contains the site templates.';
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='Contains the site templates.';
 
 --
 -- Дамп данных таблицы `delta_site_templates`
 --
 
 INSERT INTO `delta_site_templates` (`id`, `templatename`, `description`, `editor_type`, `category`, `icon`, `template_type`, `content`, `locked`, `selectable`, `createdon`, `editedon`) VALUES
-(3, 'Minimal Template', 'Default minimal empty template (content returned only)', 0, 0, '', 0, '[*content*]', 0, 1, 0, 0);
+(3, 'Minimal Template', 'Default minimal empty template (content returned only)', 0, 0, '', 0, '[*content*]', 0, 1, 0, 0),
+(4, 'Каталог', '', 0, 0, '', 0, '<!DOCTYPE html>\r\n<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">\r\n{{head}}\r\n\r\n\r\n<body>\r\n	\r\n	[+px.islogged+]\r\n\r\n	{{header}}\r\n	\r\n	{{topmenu}}\r\n\r\n	{{slider}}\r\n	\r\n	<section class="content">\r\n		<div class="wrapper">\r\n			<h1 class="hTitle">[*pagetitle*]</h1>\r\n			[!DLT_CATALOG?\r\n				&chunkCats=`test_cat`\r\n				&chunkGoods=`test_good`	\r\n			!]\r\n		</div>\r\n	</section>\r\n\r\n\r\n\r\n\r\n	{{footer}}\r\n	\r\n	{{scripts}}\r\n \r\n</body>\r\n</html>', 0, 1, 1515080028, 1515167226);
 
 -- --------------------------------------------------------
 
@@ -574,7 +737,14 @@ CREATE TABLE IF NOT EXISTS `delta_site_tmplvars` (
   `default_text` text,
   `createdon` int(11) NOT NULL DEFAULT '0',
   `editedon` int(11) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Site Template Variables';
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Site Template Variables';
+
+--
+-- Дамп данных таблицы `delta_site_tmplvars`
+--
+
+INSERT INTO `delta_site_tmplvars` (`id`, `type`, `name`, `caption`, `description`, `editor_type`, `category`, `locked`, `elements`, `rank`, `display`, `display_params`, `default_text`, `createdon`, `editedon`) VALUES
+(1, 'image', 'image', 'Изображение', '', 0, 0, 0, '', 0, '', '', '', 1515149538, 1515149538);
 
 -- --------------------------------------------------------
 
@@ -599,7 +769,18 @@ CREATE TABLE IF NOT EXISTS `delta_site_tmplvar_contentvalues` (
   `tmplvarid` int(10) NOT NULL DEFAULT '0' COMMENT 'Template Variable id',
   `contentid` int(10) NOT NULL DEFAULT '0' COMMENT 'Site Content Id',
   `value` mediumtext
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Site Template Variables Content Values Link Table';
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='Site Template Variables Content Values Link Table';
+
+--
+-- Дамп данных таблицы `delta_site_tmplvar_contentvalues`
+--
+
+INSERT INTO `delta_site_tmplvar_contentvalues` (`id`, `tmplvarid`, `contentid`, `value`) VALUES
+(1, 1, 4, 'assets/images/testcatalog/756a5a7cba73721607453c2c42b23ad8.jpg'),
+(2, 1, 7, 'assets/images/testcatalog/computer-cables-480.jpg'),
+(3, 1, 8, 'assets/images/testcatalog/1017452246.jpg'),
+(4, 1, 9, 'assets/images/testcatalog/2.jpg'),
+(5, 1, 5, 'assets/images/testcatalog/kakie-komplektuyushhie-nuzhny-dlya-sborki-igrovogo-kompyutera.jpg');
 
 -- --------------------------------------------------------
 
@@ -612,6 +793,13 @@ CREATE TABLE IF NOT EXISTS `delta_site_tmplvar_templates` (
   `templateid` int(11) NOT NULL DEFAULT '0',
   `rank` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Site Template Variables Templates Link Table';
+
+--
+-- Дамп данных таблицы `delta_site_tmplvar_templates`
+--
+
+INSERT INTO `delta_site_tmplvar_templates` (`tmplvarid`, `templateid`, `rank`) VALUES
+(1, 4, 0);
 
 -- --------------------------------------------------------
 
@@ -845,7 +1033,7 @@ INSERT INTO `delta_system_settings` (`setting_name`, `setting_value`) VALUES
 ('top_howmany', '10'),
 ('friendly_url_prefix', ''),
 ('friendly_url_suffix', '.html'),
-('make_folders', '0'),
+('make_folders', '1'),
 ('aliaslistingfolder', '0'),
 ('allow_duplicate_alias', '0'),
 ('use_udperms', '1'),
@@ -926,7 +1114,7 @@ INSERT INTO `delta_system_settings` (`setting_name`, `setting_value`) VALUES
 ('denyExtensionRename', '0'),
 ('showHiddenFiles', '0'),
 ('lang_code', 'ru'),
-('sys_files_checksum', 'a:4:{s:52:"D:/OpenServer/OpenServer/domains/Evolution/index.php";s:32:"1a580fcd2fe7218b42b621ec00bfedfd";s:52:"D:/OpenServer/OpenServer/domains/Evolution/.htaccess";s:32:"b12739e14a9d18d7090427db01bd4021";s:60:"D:/OpenServer/OpenServer/domains/Evolution/manager/index.php";s:32:"863a96f261fe95da8b2a549002172c37";s:74:"D:/OpenServer/OpenServer/domains/Evolution/manager/includes/config.inc.php";s:32:"7d3a814ff176f634f39a78e6d12329b5";}');
+('sys_files_checksum', 'a:4:{s:52:"D:/OpenServer/OpenServer/domains/Evolution/index.php";s:32:"b8498934ec46e3c9826883940ef4eec4";s:52:"D:/OpenServer/OpenServer/domains/Evolution/.htaccess";s:32:"b12739e14a9d18d7090427db01bd4021";s:60:"D:/OpenServer/OpenServer/domains/Evolution/manager/index.php";s:32:"863a96f261fe95da8b2a549002172c37";s:74:"D:/OpenServer/OpenServer/domains/Evolution/manager/includes/config.inc.php";s:32:"7d3a814ff176f634f39a78e6d12329b5";}');
 
 -- --------------------------------------------------------
 
@@ -1451,12 +1639,12 @@ ALTER TABLE `delta_web_user_settings`
 -- AUTO_INCREMENT для таблицы `delta_active_user_locks`
 --
 ALTER TABLE `delta_active_user_locks`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=144;
 --
 -- AUTO_INCREMENT для таблицы `delta_categories`
 --
 ALTER TABLE `delta_categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT для таблицы `delta_documentgroup_names`
 --
@@ -1471,12 +1659,12 @@ ALTER TABLE `delta_document_groups`
 -- AUTO_INCREMENT для таблицы `delta_event_log`
 --
 ALTER TABLE `delta_event_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT для таблицы `delta_manager_log`
 --
 ALTER TABLE `delta_manager_log`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=130;
 --
 -- AUTO_INCREMENT для таблицы `delta_manager_users`
 --
@@ -1501,12 +1689,12 @@ ALTER TABLE `delta_member_groups`
 -- AUTO_INCREMENT для таблицы `delta_site_content`
 --
 ALTER TABLE `delta_site_content`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT для таблицы `delta_site_htmlsnippets`
 --
 ALTER TABLE `delta_site_htmlsnippets`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT для таблицы `delta_site_modules`
 --
@@ -1526,22 +1714,22 @@ ALTER TABLE `delta_site_module_depobj`
 -- AUTO_INCREMENT для таблицы `delta_site_plugins`
 --
 ALTER TABLE `delta_site_plugins`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT для таблицы `delta_site_snippets`
 --
 ALTER TABLE `delta_site_snippets`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT для таблицы `delta_site_templates`
 --
 ALTER TABLE `delta_site_templates`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT для таблицы `delta_site_tmplvars`
 --
 ALTER TABLE `delta_site_tmplvars`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT для таблицы `delta_site_tmplvar_access`
 --
@@ -1551,7 +1739,7 @@ ALTER TABLE `delta_site_tmplvar_access`
 -- AUTO_INCREMENT для таблицы `delta_site_tmplvar_contentvalues`
 --
 ALTER TABLE `delta_site_tmplvar_contentvalues`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT для таблицы `delta_system_eventnames`
 --

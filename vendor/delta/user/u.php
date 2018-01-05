@@ -143,16 +143,13 @@ protected function generateConfirmKey(){
 
 
 
-
 /**
  *
  *
- *
- * 
+ * @TODO запилить метод для проверки полей
  */
 protected function addUser($usr = array() , $mailChunk = false){
 	$result = [];
-	//TODO: Запилить метод для проверки валидности полей
 	if (! $mailChunk ) {
 		$result['state'] = false;
 		$result['err'] = 'Не определен шаблон письма';
