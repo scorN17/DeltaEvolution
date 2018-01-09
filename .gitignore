@@ -1,0 +1,12 @@
+# and any files in the cache directory
+/assets/*
+/manager/*
+/.idea/*
+
+# except do not ignore .gitignore
+!.gitignore
+!/assets/images/*
+!/assets/images/testcatalog/*
+!/assets/modules/*
+!/assets/files/*
+!/assets/plugins/*
