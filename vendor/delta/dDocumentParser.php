@@ -9,16 +9,16 @@
 class dDocumentParser extends DocumentParser {
 	use user_u; 
 	use user_uOrders;
-	use catalog_c;
-	use catalog_cRender;
-
-
+	//use catalog_c;
+	
 	protected $rootCatalog = 3;
 	protected static $_LANGUAGE_ID = 1;
 	public $urlXParams = false;
-	protected static $_TABLE_SC;
-	protected static $_TABLE_TV;
-	protected static $_TABLE_TVNAMES;
+	public static $_TABLE_SC;
+	public static $_TABLE_TV;
+	public static $_TABLE_TVNAMES;
+
+	public $c;
 
 	
 
@@ -31,7 +31,7 @@ class dDocumentParser extends DocumentParser {
 		self::$_TABLE_TV = $this->getFullTableName('site_tmplvar_contentvalues');
 		self::$_TABLE_TVNAMES = $this->getFullTableName('site_tmplvars');
 
-		$this->init_catalog_c();
+		$this->c = new catalog_c($this);
 	}
 
 

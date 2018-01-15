@@ -15,7 +15,9 @@
  * 
  * 
  */
-trait catalog_c {
+class catalog_c {
+
+	//use catalog_cRender;
 
 
 	protected static $_VIEW_P_DIR_OPT;
@@ -25,20 +27,26 @@ trait catalog_c {
 	protected  $catsIDS = array();
 	protected  $goodsIDS = array();
 
+	protected $modx;
 
 
 
-	/**
-	 * Инициализация
-	 * 
-	 * Необходимо вызвать в конструкторе dDocumentParser
-	 * @return void
-	 */
-	protected function init_catalog_c (){
+
+
+	public function __construct($modx) {
+		$this->modx = $modx;
+
 		self::$_VIEW_P_DIR_OPT = 'v_product_dir_and_option' ;
 		self::$_VIEW_P_ALL_FIELD = 'v_product_all_field' ;
-		self::$_TABLE_P_IMAGES =  $this->getFullTableName( '_product_images' );
+		self::$_TABLE_P_IMAGES =  $this->modx->getFullTableName( '_product_images' );
+
+		//echo $modx::$_TABLE_TVNAMES;
 	}
+
+
+
+
+
 
 
 
@@ -56,10 +64,10 @@ trait catalog_c {
 	public function getCatFromID ($id, $limiter = false, $push = false){
 		$this->catsIDS = array();
 		if (is_numeric($limiter)) $limiter = ' LIMIT '.$limiter ;
-		$tableSC = $this->getFullTableName('site_content');
-		$result = $this->db->select("id", $tableSC,  "parent=" . $id ." AND published = '1' AND deleted = '0' AND isfolder = '1' ".$limiter); 
-		if( $this->db->getRecordCount( $result ) >= 1 ) {
-			while( $row = $this->db->getRow( $result ) ){  
+		$tableSC = $this->modx->getFullTableName('site_content');
+		$result = $this->modx->db->select("id", $tableSC,  "parent=" . $id ." AND published = '1' AND deleted = '0' AND isfolder = '1' ".$limiter); 
+		if( $this->modx->db->getRecordCount( $result ) >= 1 ) {
+			while( $row = $this->modx->db->getRow( $result ) ){  
 				$this->catsIDS[] = $row['id'] ; 
 			}
 		}
